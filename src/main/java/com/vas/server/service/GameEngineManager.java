@@ -834,8 +834,8 @@ public class GameEngineManager implements Runnable, GameEngineIF
         logger.info("entered into unRegisterCustomer");
         String message;
 
-        PlayerState currentPlayerState = _gameStatisticManager.getPlayerState(incomingMessage.getSourceAddr(), relatedGame.getGameCode());
-        _gameStatisticManager.unRegisterUserWithState(currentPlayerState);
+//        PlayerState currentPlayerState = _gameStatisticManager.getPlayerState(incomingMessage.getSourceAddr(), relatedGame.getGameCode());
+//        _gameStatisticManager.unRegisterUserWithState(currentPlayerState);
 
         Player player = _playerService.findLastActivePlayByMobileAndGameSeries(incomingMessage.getSourceAddr(), relatedGame.getGameCode());
 
@@ -849,6 +849,8 @@ public class GameEngineManager implements Runnable, GameEngineIF
                 player.setGameState(_playerService.GAME_OFF_STATE);
                 player.setLastRequestDate(new Date());
                 _playerService.updatePlayer(player);
+
+                _messageSender.sendProfiler(relatedGame.getServiceID(), incomingMessage.getSourceAddr(), "inactive");
             }
             else
                 message = ConfigLoader.getValue("game.message.unregisterBefore");
@@ -917,6 +919,8 @@ public class GameEngineManager implements Runnable, GameEngineIF
             _playerService.savePlayer(player);
 
             savePlayerStateLog(incomingMessage, player);
+
+            _messageSender.sendProfiler(gameDefinition.getServiceID(), incomingMessage.getSourceAddr(), "active");
 
             message = startStage.getWelcomeMessage() != null ? startStage.getWelcomeMessage() + "\n" : "";
 
@@ -1216,7 +1220,7 @@ public class GameEngineManager implements Runnable, GameEngineIF
 
         setGameList(returnList);
 
-        loadPreviousPlayState();
+//        loadPreviousPlayState();
 
         scheduleTaskManager = new ScheduleTaskManager(_gameService.findAllGames(), gameListMap, _playerService, _messageSender, _gameService);
         scheduleTaskManager.initTaskManager();

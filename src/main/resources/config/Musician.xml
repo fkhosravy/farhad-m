@@ -22,7 +22,8 @@
         <action>reminder</action> <!-- deactivation , invite , reminder -->
     </reminder>
     <reminder>
-        <hour>16</hour> <!-- 0 - 23 -->
+        <hour>11</hour> <!-- 0 - 23 -->
+        <header>Hi</header>
         <message></message>
         <period>ONCE_PER_2WEEK</period> <!-- ONCE_PER_DAY , ONCE_PER_WEEK , ONCE_PER_2WEEK , ONCE_PER_MONTH -->
         <action>deactivation</action> <!-- deactivation , invite , reminder -->

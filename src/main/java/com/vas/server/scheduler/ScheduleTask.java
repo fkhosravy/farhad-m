@@ -120,20 +120,28 @@ public class ScheduleTask extends TimerTask {
                 playerList = _playerService.findActivePlayerByGameId(game.getId());
                 if (playerList != null)
                 {
+                    String message = reminder.getMessage();
+                    if (reminder.getHeader() != null && !reminder.getHeader().isEmpty())
+                        message = reminder.getHeader() + " " + message;
+
                     for (Player player : playerList)
                     {
-                        _messageSender.sendMessage(player.getMobile(), reminder.getMessage(), game.getServiceID());
-                        logger.info("Send DeActivation Message " + reminder.getMessage() + " To Receiver " + player.getMobile());
+                        _messageSender.sendMessage(player.getMobile(), message, game.getServiceID());
+                        logger.info("Send DeActivation Message " + message + " To Receiver " + player.getMobile());
                     }
                 }
             }
             else if (reminder.getAction().compareToIgnoreCase("invite") == 0)
             {
+                String message = reminder.getMessage();
+                if (reminder.getHeader() != null && !reminder.getHeader().isEmpty())
+                    message = reminder.getHeader() + " " + message;
+
                 playerList = _playerService.findInActivePlayerByGameId(game.getId());
                 for (Player player : playerList)
                 {
-                    _messageSender.sendMessage(player.getMobile(), reminder.getMessage(), game.getServiceID());
-                    logger.info("Send Invite Message " + reminder.getMessage() + " To Receiver " + player.getMobile());
+                    _messageSender.sendMessage(player.getMobile(), message, game.getServiceID());
+                    logger.info("Send Invite Message " + message + " To Receiver " + player.getMobile());
                 }
             }
         }
@@ -175,7 +183,12 @@ public class ScheduleTask extends TimerTask {
                 }
             }
             else
+            {
                 message = reminder.getMessage();
+
+                if (reminder.getHeader() != null || !reminder.getHeader().isEmpty())
+                    message = reminder.getHeader() + " " + message;
+            }
 
             if (!message.isEmpty())
             {

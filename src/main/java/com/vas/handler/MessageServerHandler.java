@@ -152,4 +152,10 @@ public class MessageServerHandler extends IoHandlerAdapter implements MessageRec
         ioSession.write(message);
         logger.info("send message is => " + message + " with price [" + price + "]");
     }
+
+    @Override
+    public void sendProfiler(String serviceID, String phone, String status)
+    {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
 }

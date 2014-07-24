@@ -54,6 +54,7 @@
     <bean id="pardisMsgSender" class="com.vas.server.sender.PardisMessageSender">
         <property name="pardisFields" ref="pardisFields"/>
         <property name="pardisConfig" ref="pardisConfig"/>
+        <property name="profilerConfig" ref="profilerConfig"/>
     </bean>
 
     <bean id="pardisConfig" class="com.vas.engine.entity.PardisConfig">
@@ -62,6 +63,15 @@
         <property name="password" value="${game.pardis.password}"/>
         <property name="service" value="${game.pardis.service}"/>
         <property name="from" value="${game.pardis.from}"/>
+    </bean>
+
+    <bean id="profilerConfig" class="com.vas.engine.entity.ProfilerConfig">
+        <property name="url" value="${game.profiler.url}"/>
+        <property name="userName" value="${game.profiler.username}"/>
+        <property name="password" value="${game.profiler.password}"/>
+        <property name="phone" value="${game.profiler.phone}"/>
+        <property name="status" value="${game.profiler.status}"/>
+        <property name="serviceName" value="${game.profiler.service}"/>
     </bean>
 
     <bean id="pardisFields" class="com.vas.entity.PardisFields">

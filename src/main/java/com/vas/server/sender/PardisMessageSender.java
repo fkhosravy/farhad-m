@@ -2,11 +2,16 @@ package com.vas.server.sender;
 
 import com.vas.entity.PardisFields;
 import com.vas.engine.entity.PardisConfig;
+import com.vas.engine.entity.ProfilerConfig;
 import com.vas.util.SSLUtils;
+import org.apache.commons.codec.binary.Base64;
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.impl.auth.BasicScheme;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
@@ -14,8 +19,10 @@ import org.apache.http.params.HttpParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.net.URI;
-import java.net.URLEncoder;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.*;
 
 /**
  * Author: M.Mohseni Email:mohseni.mehdi@gmail.com
@@ -26,7 +33,9 @@ public class PardisMessageSender implements MessageSender {
     private static Logger logger = LoggerFactory.getLogger(PardisMessageSender.class);
 
     PardisConfig _pardisConfig;
+    ProfilerConfig _profilerConfig;
     PardisFields _pardisFields;
+    private ProfilerConfig profilerConfig;
 
 
     public void setPardisConfig(PardisConfig pardisConfig) {
@@ -35,6 +44,88 @@ public class PardisMessageSender implements MessageSender {
 
     public void setPardisFields(PardisFields pardisFields) {
         _pardisFields = pardisFields;
+    }
+
+    public void setProfilerConfig(ProfilerConfig profilerConfig) {
+        _profilerConfig = profilerConfig;
+    }
+
+    public ProfilerConfig getProfilerConfig() {
+        return _profilerConfig;
+    }
+
+    @Override
+    public void sendProfiler(String serviceID, String phone, String status)
+    {
+        logger.info("entered into send to profiler");
+
+        final HttpParams httpParams = new BasicHttpParams();
+        HttpConnectionParams.setConnectionTimeout(httpParams, 2000);
+        HttpConnectionParams.setSoTimeout(httpParams, 2000);
+
+        HttpClient httpClient = new DefaultHttpClient(httpParams);
+
+        if (_profilerConfig.getUrl().contains("https"))
+            httpClient = SSLUtils.wrapClient(httpClient);
+
+        URIBuilder builder = null;
+        try
+        {
+            builder = new URIBuilder(_profilerConfig.getUrl());
+
+            if (!_profilerConfig.getPhone().isEmpty())
+                builder = builder.addParameter(_profilerConfig.getPhone(), phone);
+
+            if (!_profilerConfig.getStatus().isEmpty())
+                builder = builder.addParameter(_profilerConfig.getStatus(), status);
+
+            if (!_profilerConfig.getServiceName().isEmpty())
+            {
+                if (serviceID != null)
+                    builder = builder.addParameter(_profilerConfig.getServiceName(), serviceID);
+            }
+
+            URI uri = builder.build();
+            logger.info("uri = " + uri);
+
+            for (int i = 0; i < 2; i++)
+            {
+                HttpResponse response = null;
+                HttpGet httpGet = new HttpGet(uri);
+
+                httpGet.addHeader(BasicScheme.authenticate(
+                        new UsernamePasswordCredentials(_profilerConfig.getUserName(), _profilerConfig.getPassword()),
+                        "UTF-8", false));
+                try {
+                    logger.info(httpGet.getURI().toString());
+
+                    response = httpClient.execute(httpGet);
+                    logger.warn("Profiler, sent request: " + httpGet.toString());
+
+                    int code = response.getStatusLine().getStatusCode();
+                    logger.warn("Profiler, response: " + code);
+
+                    if (code <= 300) {
+                        if (response != null)
+                            httpGet.abort();
+                        return;
+                    }
+
+                    if (response != null)
+                        httpGet.abort();
+
+                    //todo check why sleep
+//                    Thread.sleep(4000);
+                }
+                catch (Exception e) {
+                    logger.error("Unable to send message to url: " + uri.toString(), e);
+                }
+            }
+
+        } catch (URISyntaxException e)
+        {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
     }
 
     @Override
@@ -140,4 +231,5 @@ public class PardisMessageSender implements MessageSender {
         sendMessage(receiver, message, serviceID, 0);
         logger.info("Send Message {}, to Receiver {} , With ServiceId {} ", new Object[]{message, receiver, serviceID});
     }
+
 }
