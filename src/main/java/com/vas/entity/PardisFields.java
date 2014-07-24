@@ -14,6 +14,7 @@ public class PardisFields {
     private String contentField;
     private String serviceField;
     private String receiverField;
+    private String senderField;
     private String priceField;
 
 
@@ -55,6 +56,14 @@ public class PardisFields {
 
     public void setReceiverField(String receiverField) {
         this.receiverField = receiverField;
+    }
+
+    public String getSenderField() {
+        return senderField;
+    }
+
+    public void setSenderField(String senderField) {
+        this.senderField = senderField;
     }
 
     public void setPriceField(String priceField) {

@@ -13,7 +13,7 @@ public class PardisConfig {
     String username;
     String password;
     String service;
-
+    String from;
 
     public String getBaseUrl() {
         return baseUrl;
@@ -45,5 +45,13 @@ public class PardisConfig {
 
     public void setService(String service) {
         this.service = service;
+    }
+
+    public String getFrom() {
+        return from;
+    }
+
+    public void setFrom(String from) {
+        this.from = from;
     }
 }
