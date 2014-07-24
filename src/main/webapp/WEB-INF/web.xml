@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+		  http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+         version="2.5">
+
+    <display-name></display-name>
+
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>classpath:/META-INF/spring/applicationContext*.xml,classpath:appContext-Server.xml</param-value>
+    </context-param>
+
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+
+    <listener>
+        <listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
+    </listener>
+
+    <servlet>
+        <description>Receive sms from pardis...</description>
+        <display-name>Receiver Message</display-name>
+        <servlet-name>receiverServlet</servlet-name>
+        <servlet-class>com.vas.server.servlet.ReceiverServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>receiverServlet</servlet-name>
+        <url-pattern>/receiver</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>receiverServlet</servlet-name>
+        <url-pattern>/receiver/UserState</url-pattern>
+    </servlet-mapping>
+
+</web-app>

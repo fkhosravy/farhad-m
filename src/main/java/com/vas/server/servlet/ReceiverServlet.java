@@ -1,0 +1,100 @@
+package com.vas.server.servlet;
+
+import com.vas.game.model.Player;
+import com.vas.game.service.PlayerService;
+import com.vas.server.receiver.MessageReceiver;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
+import org.springframework.web.context.support.WebApplicationContextUtils;
+
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.net.URLDecoder;
+import java.util.List;
+
+/**
+ * Author: M.Mohseni Email:mohseni.mehdi@gmail.com
+ * Date: 1/16/13 1:43 AM
+ */
+@Component("receiverServlet")
+public class ReceiverServlet extends HttpServlet {
+
+    private static Logger logger = Logger.getLogger(ReceiverServlet.class);
+
+    public static final String FROM_FIELD = "phone";
+    public static final String MESSAGE_FIELD = "message";
+
+    @Autowired
+    private MessageReceiver messageProcessor;
+
+    @Autowired
+    private PlayerService _playerService;
+
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+
+        SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
+//        WebApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(getServletContext());
+
+//        messageProcessor = (MessageReceiver) context.getBean("pardisMsgReceiver");
+//        _playerService = (PlayerService) context.getBean("PlayerService");
+
+        logger.info("messageProcessor = " + messageProcessor);
+    }
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        logger.info("doPost called.... ");
+        doGet(request, response);
+    }
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        logger.info("doGet called.... ");
+        String fromAddress = request.getParameter(FROM_FIELD);
+        logger.info("fromAddress = " + fromAddress);
+
+        if (request.getRequestURL().toString().endsWith("UserState"))
+        {
+            List<Player> playerList = _playerService.findPlayer(fromAddress);
+
+            if (playerList != null)
+            {
+                String state = (playerList.get(0).getGameState().longValue() != _playerService.GAME_OFF_STATE) ? "OK " : "NO ";
+                state += (playerList.get(0).getRegisterDate() != null) ? playerList.get(0).getRegisterDate().getTime() : "empty";
+                state += " ";
+
+                if (playerList.get(0).getLastRequestDate() != null && playerList.get(0).getGameState().longValue() == _playerService.GAME_OFF_STATE)
+                    state += playerList.get(0).getLastRequestDate().getTime();
+                else
+                    state += "empty";
+
+                response.getOutputStream().print(state);
+            }
+            else
+                response.getOutputStream().print("NO empty empty");
+        }
+        else
+        {
+            String msgBody = request.getParameter(MESSAGE_FIELD);
+            logger.info("msgBody = " + msgBody);
+
+            String message = URLDecoder.decode(msgBody, "UTF-8");
+
+            // String message= msgBody;
+            logger.info("decoded message = " + message);
+
+            logger.fatal("Received Message:" + message + " FromAddress:" + fromAddress);
+
+            messageProcessor.processMessage(fromAddress, "", message);
+        }
+    }
+}

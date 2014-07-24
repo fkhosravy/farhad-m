@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+  http://www.springframework.org/schema/beans/spring-beans.xsd
+  http://www.springframework.org/schema/context
+  http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <context:property-placeholder location="classpath:application-config.properties,classpath:database.properties"/>
+    <import resource="appContext-Castor.xml"/>
+
+    <bean id="gameUtil" class="com.vas.server.service.GameUtil"/>
+
+    <bean id="gameEngineManager" class="com.vas.server.service.GameEngineManager"
+          init-method="initGamesFromXmlDir">
+        <property name="gameStartCode" value="${game.start.code}"/>
+        <property name="gameEndCode" value="${game.finish.code}"/>
+        <property name="gameHelpCode" value="${game.help.code}"/>
+        <property name="gameTableCode" value="${game.table.code}"/>
+        <property name="gameScoreCode" value="${game.score.code}"/>
+        <property name="gameNextCode" value="${game.next.code}"/>
+        <property name="gameCancelCode" value="${game.cancel.code}"/>
+        <property name="gameServiceOff" value="${game.serviceOff.code}"/>
+
+        <property name="gameXmlFilePath" value="${game.xml.definition.path}"/>
+        <property name="converter" ref="XMLConverter"/>
+
+        <property name="messageParser" ref="messageParser"/>
+
+        <property name="eventManager" ref="eventManager"/>
+        <property name="gameStatisticManager" ref="gameStatisticManager"/>
+
+        <property name="messageSender" ref="pardisMsgSender"/>
+    </bean>
+
+    <bean id="scheduleTask" class="com.vas.server.scheduler.ScheduleTask">
+        <property name="messageSender" ref="pardisMsgSender"/>
+    </bean>
+
+    <bean id="messageParser" class="com.vas.entity.MessageParser">
+        <property name="separator" value="${game.parser.token}"/>
+        <property name="prefix" value="${game.prefix.token}"/>
+    </bean>
+
+    <bean id="eventManager" class="com.vas.server.service.CentralEventManager"/>
+    <bean id="gameStatisticManager" class="com.vas.server.service.GameStatisticManager"/>
+
+    <bean id="pardisMsgReceiver" class="com.vas.server.receiver.PardisMessageReceiver">
+        <property name="gameEngine" ref="gameEngineManager"/>
+    </bean>
+
+    <bean id="pardisMsgSender" class="com.vas.server.sender.PardisMessageSender">
+        <property name="pardisFields" ref="pardisFields"/>
+        <property name="pardisConfig" ref="pardisConfig"/>
+    </bean>
+
+    <bean id="pardisConfig" class="com.vas.engine.entity.PardisConfig">
+        <property name="baseUrl" value="${game.pardis.base.url}"/>
+        <property name="username" value="${game.pardis.username}"/>
+        <property name="password" value="${game.pardis.password}"/>
+        <property name="service" value="${game.pardis.service}"/>
+        <property name="from" value="${game.pardis.from}"/>
+    </bean>
+
+    <bean id="pardisFields" class="com.vas.entity.PardisFields">
+        <property name="usernameField" value="user"/>
+        <property name="passwordField" value="pass"/>
+        <property name="serviceField" value="service"/>
+        <property name="contentField" value="content"/>
+        <property name="receiverField" value="to"/>
+        <property name="senderField" value="from"/>
+        <property name="priceField" value="price"/>
+    </bean>
+
+</beans>

@@ -1,0 +1,6 @@
+Release 1.0.5		
+--------------------------------------------------------------------------------
+Release Date: 2014/05/04
+Change log:
+- remove encoding from sending message
+- handle missing parameter in requested url

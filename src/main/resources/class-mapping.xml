@@ -1,0 +1,113 @@
+<?xml version="1.0"?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Object Mapping DTD Version 1.0//EN" "http://castor.exolab.org/mapping.dtd">
+
+<mapping>
+    <description>A mapping file for our Game Engine application</description>
+    <class name="com.vas.engine.xml.model.WinCondition">
+        <field name="desc" type="string"/>
+        <field name="userNotification" type="string">
+            <bind-xml name="winNotification" node="element"/>
+        </field>
+        <field name="functionList" type="string" collection="arraylist">
+            <bind-xml name="condition"/>
+        </field>
+    </class>
+
+    <class name="com.vas.engine.xml.model.LoosCondition">
+        <field name="desc" type="string"/>
+        <field name="userNotification" type="string">
+            <bind-xml name="loosNotification" node="element"/>
+        </field>
+        <field name="functionList" type="string" collection="arraylist">
+            <bind-xml name="condition"/>
+        </field>
+    </class>
+
+    <class name="com.vas.engine.xml.model.StageCondition">
+        <field name="inputCode" type="string">
+            <bind-xml name="inputCode" node="element"/>
+        </field>
+        <field name="targetStageId" type="string">
+            <bind-xml name="targetStage" node="element"/>
+        </field>
+        <field name="desc" type="string"/>
+        <field name="functionList" type="string" collection="arraylist">
+            <bind-xml name="function"/>
+        </field>
+    </class>
+
+    <class name="com.vas.engine.xml.model.Reminder">
+        <field name="hour" type="int">
+            <bind-xml name="hour" node="element"/>
+        </field>
+        <field name="message" type="string"/>
+        <field name="period" type="string"/>
+        <field name="action" type="string"/>
+    </class>
+
+    <class name="com.vas.engine.xml.model.GameStage">
+        <field name="id" type="string">
+            <bind-xml name="id" node="attribute"/>
+        </field>
+        <field name="name" type="string"/>
+        <field name="desc" type="string"/>
+        <field name="header" type="string"/>
+        <field name="footer" type="string"/>
+        <field name="startStage" type="boolean"/>
+        <field name="welcomeMessage" type="string"/>
+        <field name="finalStage" type="boolean"/>
+        <field name="goodByMessage" type="string"/>
+        <field name="nextStageCode" type="string"/>
+        <field name="question" type="boolean"/>
+        <field name="price" type="int">
+            <bind-xml name="price" node="element"/>
+        </field>
+        <field name="score" type="int">
+            <bind-xml name="score" node="element"/>
+        </field>
+        <field name="conditionList" type="com.vas.engine.xml.model.StageCondition" collection="arraylist">
+            <bind-xml name="condition"/>
+        </field>
+    </class>
+
+    <class name="com.vas.engine.xml.model.GameParameter">
+        <field name="code" type="string">
+            <bind-xml name="code" node="attribute"/>
+        </field>
+        <field name="name" type="string"/>
+        <field name="desc" type="string">
+            <bind-xml name="desc" node="element"/>
+        </field>
+        <field name="detailDesc" type="string"/>
+        <field name="value" type="long">
+            <bind-xml name="initial-value" node="element"/>
+        </field>
+    </class>
+
+    <class name="com.vas.engine.xml.model.GameDefinition">
+        <field name="name" type="string"/>
+        <field name="series" type="string"/>
+        <field name="code" type="string"/>
+        <field name="desc" type="string"/>
+        <field name="serviceID" type="string"/>
+        <field name="pricePerDay" type="int"/>
+        <field name="startRange" type="int"/>
+        <field name="endRange" type="int"/>
+        <field name="replaceable" type="boolean"/>
+        <field name="parameters" type="com.vas.engine.xml.model.GameParameter" collection="arraylist">
+            <bind-xml name="parameter"/>
+        </field>
+        <field name="winCondition" type="com.vas.engine.xml.model.WinCondition">
+            <bind-xml name="winCondition"/>
+        </field>
+        <field name="loosCondition" type="com.vas.engine.xml.model.LoosCondition">
+            <bind-xml name="loosCondition"/>
+        </field>
+        <field name="stages" type="com.vas.engine.xml.model.GameStage" collection="arraylist">
+            <bind-xml name="stage"/>
+        </field>
+        <field name="reminderList" type="com.vas.engine.xml.model.Reminder" collection="arraylist">
+            <bind-xml name="stage"/>
+        </field>
+    </class>
+</mapping>
