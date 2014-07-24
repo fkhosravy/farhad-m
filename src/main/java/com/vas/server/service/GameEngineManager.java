@@ -25,11 +25,6 @@ import java.util.*;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
-/**
- * Author: M.Mohseni Email:mohseni.mehdi@gmail.com
- * Date: 1/16/13 1:18 AM
- */
-
 public class GameEngineManager implements Runnable, GameEngineIF
 {
 

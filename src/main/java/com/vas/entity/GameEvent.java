@@ -4,10 +4,6 @@ import org.apache.log4j.Logger;
 
 import java.util.List;
 
-/**
- * Author: M.Mohseni Email:mohseni.mehdi@gmail.com
- * Date: 1/16/13 1:23 AM
- */
 public class GameEvent {
 
     public static final int MILLISEC_IN_MINUTES = 60 * 1000;

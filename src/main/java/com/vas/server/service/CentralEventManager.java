@@ -13,10 +13,6 @@ import java.util.*;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
-/**
- * Author: M.Mohseni Email:mohseni.mehdi@gmail.com
- * Date: 1/18/13 1:20 AM
- */
 public class CentralEventManager implements Runnable {
     private static Logger logger = Logger.getLogger(CentralEventManager.class);
 

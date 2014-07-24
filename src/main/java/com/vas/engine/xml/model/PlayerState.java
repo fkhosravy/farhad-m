@@ -6,10 +6,6 @@ import org.apache.log4j.Logger;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Author: M.Mohseni Email:mohseni.mehdi@gmail.com
- * Date: 1/16/13 1:17 AM
- */
 public class PlayerState implements Cloneable {
 
     private static Logger logger = Logger.getLogger(PlayerState.class);

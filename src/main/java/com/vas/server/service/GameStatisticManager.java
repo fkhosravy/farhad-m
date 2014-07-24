@@ -7,10 +7,6 @@ import org.apache.log4j.Logger;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-/**
- * Author: M.Mohseni Email:mohseni.mehdi@gmail.com
- * Date: 1/16/13 1:05 AM
- */
 public class GameStatisticManager {
 
     private static Logger logger = Logger.getLogger(GameStatisticManager.class);

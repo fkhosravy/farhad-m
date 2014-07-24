@@ -3,10 +3,6 @@ package com.vas.engine.xml.model;
 
 import org.apache.log4j.Logger;
 
-/**
- * Author: M.Mohseni Email:mohseni.mehdi@gmail.com
- * Date: 1/26/13 12:41 AM
- */
 public class GameParameter implements Cloneable {
 
     private static Logger logger = Logger.getLogger(GameParameter.class);

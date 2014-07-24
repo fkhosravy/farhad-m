@@ -4,10 +4,6 @@ import com.vas.engine.entity.IncomingMessage;
 import com.vas.server.service.GameEngineIF;
 import org.apache.log4j.Logger;
 
-/**
- * Author: M.Mohseni Email:mohseni.mehdi@gmail.com
- * Date: 1/16/13 12:01 AM
- */
 public class PardisMessageReceiver implements MessageReceiver {
 
     private static Logger logger = Logger.getLogger(PardisMessageReceiver.class);
