@@ -1,0 +1,4 @@
+http://localhost:9090/receiver?from=09125677555&message=m%205&user=note&pass=note&service=note
+http://127.0.0.1:7810/note/receiver 
+http://127.0.0.1:7810/mania/webresources/msg 
+ 
