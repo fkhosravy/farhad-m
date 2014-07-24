@@ -34,7 +34,7 @@
 
     <servlet-mapping>
         <servlet-name>receiverServlet</servlet-name>
-        <url-pattern>/receiver/UserState</url-pattern>
+        <url-pattern>/UserState</url-pattern>
     </servlet-mapping>
 
 </web-app>

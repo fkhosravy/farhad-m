@@ -36,6 +36,7 @@ public class ReceiverServlet extends HttpServlet {
     @Autowired
     private MessageReceiver messageProcessor;
 
+    @Qualifier("playerServiceImpl")
     @Autowired
     private PlayerService _playerService;
 
@@ -57,44 +58,52 @@ public class ReceiverServlet extends HttpServlet {
         doGet(request, response);
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+    {
         logger.info("doGet called.... ");
         String fromAddress = request.getParameter(FROM_FIELD);
         logger.info("fromAddress = " + fromAddress);
 
-        if (request.getRequestURL().toString().endsWith("UserState"))
-        {
-            List<Player> playerList = _playerService.findPlayer(fromAddress);
-
-            if (playerList != null)
-            {
-                String state = (playerList.get(0).getGameState().longValue() != _playerService.GAME_OFF_STATE) ? "OK " : "NO ";
-                state += (playerList.get(0).getRegisterDate() != null) ? playerList.get(0).getRegisterDate().getTime() : "empty";
-                state += " ";
-
-                if (playerList.get(0).getLastRequestDate() != null && playerList.get(0).getGameState().longValue() == _playerService.GAME_OFF_STATE)
-                    state += playerList.get(0).getLastRequestDate().getTime();
-                else
-                    state += "empty";
-
-                response.getOutputStream().print(state);
-            }
-            else
-                response.getOutputStream().print("NO empty empty");
-        }
+        if (fromAddress == null || fromAddress.isEmpty())
+            logger.warn("The Requested URL has not 'phone' field : " + request.getRequestURL()+"?"+request.getQueryString());
         else
         {
-            String msgBody = request.getParameter(MESSAGE_FIELD);
-            logger.info("msgBody = " + msgBody);
+            if (request.getRequestURL().toString().endsWith("UserState"))
+            {
+                List<Player> playerList = _playerService.findPlayer(fromAddress);
 
-            String message = URLDecoder.decode(msgBody, "UTF-8");
+                if (playerList != null && !playerList.isEmpty())
+                {
+                    String state = (playerList.get(0).getGameState().longValue() != _playerService.GAME_OFF_STATE) ? "OK " : "NO ";
+                    state += (playerList.get(0).getRegisterDate() != null) ? playerList.get(0).getRegisterDate().getTime() : "empty";
+                    state += " ";
 
-            // String message= msgBody;
-            logger.info("decoded message = " + message);
+                    if (playerList.get(0).getLastRequestDate() != null && playerList.get(0).getGameState().longValue() == _playerService.GAME_OFF_STATE)
+                        state += playerList.get(0).getLastRequestDate().getTime();
+                    else
+                        state += "empty";
 
-            logger.fatal("Received Message:" + message + " FromAddress:" + fromAddress);
+                    response.getOutputStream().print(state);
+                }
+                else
+                    response.getOutputStream().print("NO empty empty");
+            }
+            else
+            {
+                String msgBody = request.getParameter(MESSAGE_FIELD);
+                logger.info("msgBody = " + msgBody);
 
-            messageProcessor.processMessage(fromAddress, "", message);
+                if (msgBody == null || msgBody.isEmpty())
+                    logger.warn("The Requested URL has not 'message' field : " + request.getRequestURL()+"?"+request.getQueryString());
+                else
+                {
+                    String message = URLDecoder.decode(msgBody, "UTF-8");
+                    logger.info("decoded message = " + message);
+                    logger.fatal("Received Message:" + message + " From Phone:" + fromAddress);
+
+                    messageProcessor.processMessage(fromAddress, "", message);
+                }
+            }
         }
     }
 }

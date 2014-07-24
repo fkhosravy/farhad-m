@@ -90,7 +90,8 @@ public class PardisMessageSender implements MessageSender {
 
             if (!_pardisFields.getContentField().isEmpty()) {
                 logger.debug("message = " + message);
-                builder = builder.addParameter(_pardisFields.getContentField(), URLEncoder.encode(message, "UTF-8"));
+                builder = builder.addParameter(_pardisFields.getContentField(), message);
+//                builder = builder.addParameter(_pardisFields.getContentField(), URLEncoder.encode(message, "UTF-8"));
             }
 
             URI uri = builder.build();

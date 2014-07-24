@@ -12,6 +12,7 @@ public class Reminder {
     public String message;
     public String period;
     public String action;
+    public String header;
 
     public int getHour() {
         return hour;
@@ -45,11 +46,20 @@ public class Reminder {
         this.action = action;
     }
 
-    public Reminder(int hour, String message, String period, String action) {
+    public String getHeader() {
+        return header;
+    }
+
+    public void setHeader(String header) {
+        this.header = header;
+    }
+
+    public Reminder(int hour, String message, String period, String action, String header) {
         this.hour = hour;
         this.message = message;
         this.period = period;
         this.action = action;
+        this.header = header;
     }
 
     public Reminder() {

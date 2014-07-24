@@ -161,8 +161,13 @@ public class ScheduleTask extends TimerTask {
                     {
                         message = gameStage.getDesc();
 
-                        if (gameStage.getHeader() != null)
-                            message = gameStage.getHeader() + " " + message;
+                        if (reminder.getHeader() == null || reminder.getHeader().isEmpty())
+                        {
+                            if (gameStage.getHeader() != null)
+                                message = gameStage.getHeader() + " " + message;
+                        }
+                        else
+                            message = reminder.getHeader() + " " + message;
 
                         if (gameStage.getFooter() != null)
                             message = message + " " + gameStage.getFooter();
