@@ -1,0 +1,537 @@
+﻿<game-definition>
+
+    <name>موزيسين</name>
+    <code>musician</code>
+    <desc></desc>
+	<serviceID>musician</serviceID>
+	<!--<listCode>موزيسين بعدي (دريافت سوال بعدي)، موزيسين راهنما (دريافت راهنمايي در مورد بازي جاري مشترک)، موزيسين امتياز (دريافت اطلاعات امتيازي مشترک)، موزيسين جدول (جدول 3 بازيکن برتر از نظر امتيازي در کتگوري جاري مشترک) و موزيسين انصراف (انصراف از کتگوري موجود و بازگشت به منوي اصلي)</listCode>-->
+
+    <series>musician</series>
+    <replaceable>true</replaceable>
+    <price-per-day>50</price-per-day>
+    <start-range>40</start-range>
+    <end-range>60</end-range>
+    <!--<reminder>-->
+        <!--<hour>10</hour> &lt;!&ndash; 0 - 23 &ndash;&gt;-->
+        <!--<message>پیام یادآوری</message>-->
+        <!--<period>ONCE_PER_DAY</period> &lt;!&ndash; ONCE_PER_DAY , ONCE_PER_WEEK , ONCE_PER_2WEEK , ONCE_PER_MONTH &ndash;&gt;-->
+        <!--<action>reminder</action> &lt;!&ndash; deactivation , invite , reminder &ndash;&gt;-->
+        <!--<header>سلام</header>-->
+    <!--</reminder>-->
+    <!--<reminder>-->
+        <!--<hour>18</hour> &lt;!&ndash; 0 - 23 &ndash;&gt;-->
+        <!--<message></message>-->
+        <!--<period>ONCE_PER_2WEEK</period> &lt;!&ndash; ONCE_PER_DAY , ONCE_PER_WEEK , ONCE_PER_2WEEK , ONCE_PER_MONTH &ndash;&gt;-->
+        <!--<action>deactivation</action> &lt;!&ndash; deactivation , invite , reminder &ndash;&gt;-->
+    <!--<header></header>-->
+    <!--</reminder>-->
+	<!--<errorMsg>-->
+		<!--<message>msg1</message>-->
+		<!--<message>msg2</message>-->
+		<!--<message>msg3</message>-->
+	<!--</errorMsg>-->
+
+    <!--===========================================================-->
+    <!--	 			game parameter defenitions  			   -->
+    <!--===========================================================-->
+    <!--         	 			game stages          			   -->
+   <stage id="1">
+      <start-stage>TRUE</start-stage>
+      <welcomeMessage>بازی موزیسین
+مشترک گرامی خوش آمدی</welcomeMessage>
+      <header>
+از بین دسته های زیر یکی رو انتخاب کن</header>
+      <footer>غیر فعال سازی با ارسال کد موزیسین خاموش</footer>
+      <name>ولکام</name>
+      <price>0</price>
+      <score>0</score>
+      <question>FALSE</question>
+      <nextStageCode />
+      <desc>دسته های موجود در بازی
+41 سنتی
+42 پاپ</desc>
+      <condition>
+         <inputCode>41</inputCode>
+         <targetStage>11</targetStage>
+      </condition>
+      <condition>
+         <inputCode>42</inputCode>
+         <targetStage>12</targetStage>
+      </condition>
+      <finalStage>FALSE</finalStage>
+   </stage>
+   <stage id="11">
+      <start-stage>FALSE</start-stage>
+      <welcomeMessage />
+      <header>بازی موزیسین
+خب پس دسته سنتی رو انتخاب کردی
+اگه راست میگی سوال اول رو جواب بده</header>
+      <footer>در این بازی ما همیشه همراه شما هستیم</footer>
+      <name>سوال اول ناظری</name>
+      <price>0</price>
+      <score>0</score>
+      <question>TRUE</question>
+      <nextStageCode />
+      <desc>اون خواننده خوبه که پسرش هم خوبه و چند سال پیش خودش نشان شوالیه گرفت از فرانسه کی بود؟
+51 شهرام ناظری
+52 ایرج بسطامی
+53 راهنما
+54 سوال بعد</desc>
+      <condition>
+         <inputCode>51</inputCode>
+         <targetStage>21</targetStage>
+      </condition>
+      <condition>
+         <inputCode>52</inputCode>
+         <targetStage>22</targetStage>
+      </condition>
+      <condition>
+         <inputCode>53</inputCode>
+         <targetStage>10</targetStage>
+      </condition>
+      <condition>
+         <inputCode>54</inputCode>
+         <targetStage>23</targetStage>
+      </condition>
+      <finalStage>FALSE</finalStage>
+   </stage>
+   <stage id="20">
+      <start-stage>FALSE</start-stage>
+      <welcomeMessage />
+      <header>بازی موزیسین
+راهنمایی میخوای؟ الان بهت میگم. اونجایی که آتش افتاده نی زیاد داره. حالا به سوال جواب بده:</header>
+      <footer>در این بازی ما همیشه همراه شما هستیم</footer>
+      <name>راهنمای سوال دوم</name>
+      <price>0</price>
+      <score>0</score>
+      <question>TRUE</question>
+      <nextStageCode />
+      <desc>شهرام ناظری توی یکی از آهنگهاش میگه یک شب آتش کجا افتاد؟
+41 در نیستان
+42 در گلستان
+43 برگشت به انتخاب دسته</desc>
+      <condition>
+         <inputCode>41</inputCode>
+         <targetStage>31</targetStage>
+      </condition>
+      <condition>
+         <inputCode>42</inputCode>
+         <targetStage>32</targetStage>
+      </condition>
+      <condition>
+         <inputCode>43</inputCode>
+         <targetStage>1</targetStage>
+      </condition>
+      <finalStage>FALSE</finalStage>
+   </stage>
+   <stage id="21">
+      <start-stage>FALSE</start-stage>
+      <welcomeMessage />
+      <header>بازی موزیسین
+آفرین درست جواب دادی جواب شهرام ناظری بود
+حالا سوال بعدی رو جواب بده:</header>
+      <footer>در این بازی ما همیشه همراه شما هستیم</footer>
+      <name>جواب درست - سوال دوم ناظری</name>
+      <price>0</price>
+      <score>0</score>
+      <question>TRUE</question>
+      <nextStageCode />
+      <desc>شهرام ناظری توی یکی از آهنگهاش میگه یک شب آتش کجا افتاد؟
+41 در نیستان
+42 در گلستان
+43 راهنما
+44 برگشت به انتخاب دسته</desc>
+      <condition>
+         <inputCode>41</inputCode>
+         <targetStage>31</targetStage>
+      </condition>
+      <condition>
+         <inputCode>42</inputCode>
+         <targetStage>32</targetStage>
+      </condition>
+      <condition>
+         <inputCode>43</inputCode>
+         <targetStage>20</targetStage>
+      </condition>
+      <condition>
+         <inputCode>44</inputCode>
+         <targetStage>1</targetStage>
+      </condition>
+      <finalStage>FALSE</finalStage>
+   </stage>
+   <stage id="31">
+      <start-stage>FALSE</start-stage>
+      <welcomeMessage />
+      <header>بازی موزیسین
+آفرین درست جواب دادی.
+یک شب آتش در نیستان افتاده بود</header>
+      <footer>51 برگشت به انتخاب دسته</footer>
+      <name>جواب درست - انتهای بازی</name>
+      <price>0</price>
+      <score>0</score>
+      <question>FALSE</question>
+      <nextStageCode />
+      <desc>بازی تموم شد دیگه</desc>
+      <condition>
+         <inputCode>51</inputCode>
+         <targetStage>1</targetStage>
+      </condition>
+      <finalStage>TRUE</finalStage>
+   </stage>
+   <stage id="32">
+      <start-stage>FALSE</start-stage>
+      <welcomeMessage />
+      <header>بازی موزیسین
+ای بابا اشتباه جواب دادی که
+یک شب آتش در نیستان افتاده بود</header>
+      <footer>51 برگشت به انتخاب دسته</footer>
+      <name>جواب اشتباه - انتهای بازی</name>
+      <price>0</price>
+      <score>0</score>
+      <question>FALSE</question>
+      <nextStageCode />
+      <desc>بازی تموم شد</desc>
+      <condition>
+         <inputCode>51</inputCode>
+         <targetStage>1</targetStage>
+      </condition>
+      <finalStage>TRUE</finalStage>
+   </stage>
+   <stage id="22">
+      <start-stage>FALSE</start-stage>
+      <welcomeMessage />
+      <header>بازی موزیسین
+بلد نیستی واسه چی سنتی انتخاب میکنی؟ جواب شهرام ناظری بود
+حالا این سوال رو جواب بده:</header>
+      <footer>در این بازی ما همیشه همراه شما هستیم</footer>
+      <name>جواب اشتباه - سوال دوم ناظری</name>
+      <price>0</price>
+      <score>0</score>
+      <question>TRUE</question>
+      <nextStageCode />
+      <desc>شهرام ناظری توی یکی از آهنگهاش میگه یک شب آتش کجا افتاد؟
+41 در نیستان
+42 در گلستان
+43 راهنما
+44 برگشت به انتخاب دسته</desc>
+      <condition>
+         <inputCode>41</inputCode>
+         <targetStage>31</targetStage>
+      </condition>
+      <condition>
+         <inputCode>42</inputCode>
+         <targetStage>32</targetStage>
+      </condition>
+      <condition>
+         <inputCode>43</inputCode>
+         <targetStage>20</targetStage>
+      </condition>
+      <condition>
+         <inputCode>44</inputCode>
+         <targetStage>1</targetStage>
+      </condition>
+      <finalStage>FALSE</finalStage>
+   </stage>
+   <stage id="23">
+      <start-stage>FALSE</start-stage>
+      <welcomeMessage />
+      <header>بازی موزیسین
+جواب سوال قبلی شهرام ناظری بود
+اشکال نداره بلد نبودی
+حالا این سوال رو جواب بده</header>
+      <footer>در این بازی ما همیشه همراه شما هستیم</footer>
+      <name>انتخاب سوال بعد - سوال دوم ناظری</name>
+      <price>0</price>
+      <score>0</score>
+      <question>TRUE</question>
+      <nextStageCode />
+      <desc>شهرام ناظری توی یکی از آهنگهاش میگه یک شب آتش کجا افتاد؟
+41 در نیستان
+42 در گلستان
+43 راهنما
+44 برگشت به انتخاب دسته</desc>
+      <condition>
+         <inputCode>41</inputCode>
+         <targetStage>31</targetStage>
+      </condition>
+      <condition>
+         <inputCode>42</inputCode>
+         <targetStage>32</targetStage>
+      </condition>
+      <condition>
+         <inputCode>43</inputCode>
+         <targetStage>21.1</targetStage>
+      </condition>
+      <condition>
+         <inputCode>44</inputCode>
+         <targetStage>1</targetStage>
+      </condition>
+      <finalStage>FALSE</finalStage>
+   </stage>
+   <stage id="12">
+      <start-stage>FALSE</start-stage>
+      <welcomeMessage />
+      <header>بازی موزیسین
+خب پس پاپ رو انتخاب کردی
+حالا بهم بگو:</header>
+      <footer>در این بازی ما همیشه همراه شما هستیم</footer>
+      <name>سوال اول پاپ</name>
+      <price>0</price>
+      <score>0</score>
+      <question>TRUE</question>
+      <nextStageCode />
+      <desc>اسم پسر ایرج که الان خواننده شده چیه؟
+51 احسان خواجه امیری
+52 محمد افتخاری
+53 راهنما
+54 سوال بعد</desc>
+      <condition>
+         <inputCode>51</inputCode>
+         <targetStage>24</targetStage>
+      </condition>
+      <condition>
+         <inputCode>52</inputCode>
+         <targetStage>25</targetStage>
+      </condition>
+      <condition>
+         <inputCode>53</inputCode>
+         <targetStage>13</targetStage>
+      </condition>
+      <condition>
+         <inputCode>54</inputCode>
+         <targetStage>27</targetStage>
+      </condition>
+      <finalStage>FALSE</finalStage>
+   </stage>
+   <stage id="24">
+      <start-stage>FALSE</start-stage>
+      <welcomeMessage />
+      <header>بازی موزیسین
+آفرین درست جواب دادی، احسان خواجه امیری بود.
+حالا این سوال رو هم جواب بده که:</header>
+      <footer>در این بازی ما همیشه همراه شما هستیم</footer>
+      <name>جواب درست - سوال دوم پاپ</name>
+      <price>0</price>
+      <score>0</score>
+      <question>TRUE</question>
+      <nextStageCode />
+      <desc>خواجه امیری تو کدوم برج کنسرت داشته؟
+41 برج میلاد
+42 برجهای دوقلوی کوالالامپور
+43 راهنما
+44 برگشت به انتخاب دسته</desc>
+      <condition>
+         <inputCode>41</inputCode>
+         <targetStage>33</targetStage>
+      </condition>
+      <condition>
+         <inputCode>42</inputCode>
+         <targetStage>34</targetStage>
+      </condition>
+      <condition>
+         <inputCode>43</inputCode>
+         <targetStage>26</targetStage>
+      </condition>
+      <condition>
+         <inputCode>44</inputCode>
+         <targetStage>1</targetStage>
+      </condition>
+      <finalStage>FALSE</finalStage>
+   </stage>
+   <stage id="33">
+      <start-stage>FALSE</start-stage>
+      <welcomeMessage />
+      <header>بازی موزیسین
+آفرین درست جواب دادی، برج میلاد بود</header>
+      <footer>51 برگشت به انتخاب دسته</footer>
+      <name>جواب درست - انتهای بازی</name>
+      <price>0</price>
+      <score>0</score>
+      <question>FALSE</question>
+      <nextStageCode />
+      <desc>بازی دیگه تموم شد</desc>
+      <condition>
+         <inputCode>51</inputCode>
+         <targetStage>1</targetStage>
+      </condition>
+      <finalStage>TRUE</finalStage>
+   </stage>
+   <stage id="34">
+      <start-stage>FALSE</start-stage>
+      <welcomeMessage />
+      <header>بازی موزیسین
+ای بابا اشتباه جواب دادی، جواب برج میلاد بود</header>
+      <footer>51 برگشت به انتخاب دسته</footer>
+      <name>جواب اشتباه - انتهای بازی</name>
+      <price>0</price>
+      <score>0</score>
+      <question>FALSE</question>
+      <nextStageCode />
+      <desc>بازی تموم شد دیگه</desc>
+      <condition>
+         <inputCode>51</inputCode>
+         <targetStage>1</targetStage>
+      </condition>
+      <finalStage>TRUE</finalStage>
+   </stage>
+   <stage id="25">
+      <start-stage>FALSE</start-stage>
+      <welcomeMessage />
+      <header>بازی موزیسین
+بلد نیستی واسه چی بازی میکنی؟
+جواب خواجه امیری بود. حالا این سوال رو جواب بده</header>
+      <footer>در این بازی ما همیشه همراه شما هستیم</footer>
+      <name>جواب اشتباه - سوال دوم پاپ</name>
+      <price>0</price>
+      <score>0</score>
+      <question>TRUE</question>
+      <nextStageCode />
+      <desc>خواجه امیری تو کدوم برج کنسرت داشته؟
+41 برج میلاد
+42 برجهای دوقلوی کوالالامپور
+43 راهنما
+44 برگشت به انتخاب دسته</desc>
+      <condition>
+         <inputCode>41</inputCode>
+         <targetStage>33</targetStage>
+      </condition>
+      <condition>
+         <inputCode>42</inputCode>
+         <targetStage>34</targetStage>
+      </condition>
+      <condition>
+         <inputCode>43</inputCode>
+         <targetStage>26</targetStage>
+      </condition>
+      <condition>
+         <inputCode>44</inputCode>
+         <targetStage>1</targetStage>
+      </condition>
+      <finalStage>FALSE</finalStage>
+   </stage>
+   <stage id="26">
+      <start-stage>FALSE</start-stage>
+      <welcomeMessage />
+      <header>بازی موزیسین
+راهنمایی:
+این برج تو تهران قرار داره. سوال این بود که:</header>
+      <footer>در این بازی ما همیشه همراه شما هستیم</footer>
+      <name>راهنمای سوال دوم پاپ</name>
+      <price>0</price>
+      <score>0</score>
+      <question>TRUE</question>
+      <nextStageCode />
+      <desc>خواجه امیری تو کدوم برج کنسرت داشته؟
+41 برج میلاد
+42 برجهای دوقلوی کوالالامپور
+43 برگشت به انتخاب دسته</desc>
+      <condition>
+         <inputCode>41</inputCode>
+         <targetStage>33</targetStage>
+      </condition>
+      <condition>
+         <inputCode>42</inputCode>
+         <targetStage>34</targetStage>
+      </condition>
+      <condition>
+         <inputCode>43</inputCode>
+         <targetStage>1</targetStage>
+      </condition>
+      <finalStage>FALSE</finalStage>
+   </stage>
+   <stage id="27">
+      <start-stage>FALSE</start-stage>
+      <welcomeMessage />
+      <header>بازی موزیسین
+جواب سوال قبلی احسان خواجه امیری بود. حالا این سوال رو جواب بده:</header>
+      <footer>در این بازی ما همیشه همراه شما هستیم</footer>
+      <name>سوال بعد - سوال دوم پاپ</name>
+      <price>0</price>
+      <score>0</score>
+      <question>TRUE</question>
+      <nextStageCode />
+      <desc>خواجه امیری تو کدوم برج کنسرت داشته؟
+41 برج میلاد
+42 برجهای دوقلوی کوالالامپور
+43 راهنما
+44 برگشت به انتخاب دسته</desc>
+      <condition>
+         <inputCode>41</inputCode>
+         <targetStage>33</targetStage>
+      </condition>
+      <condition>
+         <inputCode>42</inputCode>
+         <targetStage>34</targetStage>
+      </condition>
+      <condition>
+         <inputCode>43</inputCode>
+         <targetStage>26</targetStage>
+      </condition>
+      <condition>
+         <inputCode>44</inputCode>
+         <targetStage>1</targetStage>
+      </condition>
+      <finalStage>FALSE</finalStage>
+   </stage>
+   <stage id="10">
+      <start-stage>FALSE</start-stage>
+      <welcomeMessage />
+      <header>بازی موزیسین
+سوال به اون آسونی، احتیاج به راهنمایی داری بازم؟
+برای راهنمایی بهت بگم که اون خواننده آهنگ های کردی هم زیاد داره
+سوال این بود که:</header>
+      <footer>در این بازی ما همیشه همراه شما هستیم</footer>
+      <name>راهنمای سوال اول</name>
+      <price>0</price>
+      <score>0</score>
+      <question>TRUE</question>
+      <nextStageCode />
+      <desc>اون خواننده خوبه که پسرش هم خوبه و چند سال پیش خودش نشان شوالیه گرفت از فرانسه کی بود؟
+51 شهرام ناظری
+52 ایرج بسطامی
+54 سوال بعد</desc>
+      <condition>
+         <inputCode>51</inputCode>
+         <targetStage>21</targetStage>
+      </condition>
+      <condition>
+         <inputCode>52</inputCode>
+         <targetStage>22</targetStage>
+      </condition>
+      <condition>
+         <inputCode>54</inputCode>
+         <targetStage>23</targetStage>
+      </condition>
+      <finalStage>FALSE</finalStage>
+   </stage>
+   <stage id="13">
+      <start-stage>FALSE</start-stage>
+      <welcomeMessage />
+      <header>بازی موزیسین
+واقعا راهنمایی میخوای؟  اوکی
+اسم  کوچیک احسانِ. سوال این بود که:</header>
+      <footer>در این بازی ما همیشه همراه شما هستیم</footer>
+      <name>راهنمایی سوال اول پاپ</name>
+      <price>0</price>
+      <score>0</score>
+      <question>TRUE</question>
+      <nextStageCode />
+      <desc>اسم پسر ایرج که الان خواننده شده چیه؟
+51 احسان خواجه امیری
+52 محمد افتخاری
+53 سوال بعد</desc>
+      <condition>
+         <inputCode>51</inputCode>
+         <targetStage>24</targetStage>
+      </condition>
+      <condition>
+         <inputCode>52</inputCode>
+         <targetStage>25</targetStage>
+      </condition>
+      <condition>
+         <inputCode>53</inputCode>
+         <targetStage>27</targetStage>
+      </condition>
+      <finalStage>FALSE</finalStage>
+   </stage>
+</game-definition>
