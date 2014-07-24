@@ -179,6 +179,7 @@ public class ScheduleTask extends TimerTask {
 
             if (!message.isEmpty())
             {
+                player.incChargeNo();
                 player.setLastChargeDate(new Date());
                 _playerService.updatePlayer(player);
 

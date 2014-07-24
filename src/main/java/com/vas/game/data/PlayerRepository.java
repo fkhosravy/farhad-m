@@ -47,7 +47,7 @@ public interface PlayerRepository extends JpaSpecificationExecutor<Player>, JpaR
     public List<Player> findByGameIdOrderByScoreAndLastRequestDate(
             @Param("gameId") Long gameId);
 
-    @Query("SELECT p FROM Player p WHERE p.gameId=:gameId and p.lastChargeDate<:lastChargeDate and p.gameState>:gameState order by id")
+    @Query("SELECT p FROM Player p WHERE p.gameId=:gameId and (p.lastChargeDate is null or date(p.lastChargeDate)<date(:lastChargeDate)) and p.gameState>:gameState order by id")
     public List<Player> findPlayerByGameIdAndLastChargeDateLessThanAndGameStateGreaterThan(
             @Param("gameId") Long gameId,
             @Param("lastChargeDate") Date lastChargeDate,

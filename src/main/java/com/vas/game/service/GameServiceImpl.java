@@ -61,7 +61,7 @@ public class GameServiceImpl implements GameService {
     public List<Game> findGameBySeries(String parentPrefix) {
         List<Game> games = gameRepository.findByParentPrefix(parentPrefix.toUpperCase());
         for (Game game : games) {
-            System.out.println("in GameServiceimpl" + new String(game.getFileName()));
+            System.out.println("in GameServiceImpl" + new String(game.getFileName()));
         }
 
         return games;

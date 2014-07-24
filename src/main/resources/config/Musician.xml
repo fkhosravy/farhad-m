@@ -12,18 +12,21 @@
     <start-range>40</start-range>
     <end-range>60</end-range>
     <reminder>
-        <hour>17</hour> <!-- 0 - 23 -->
+        <hour>23</hour> <!-- 0 - 23 -->
+		 <header>قهرمان سینمایی ما کجایی؟
+امروز بازی نکردی. کلی سوالهای جذاب داریم که هنوز بهشون جواب ندادی.
+آخرین سوالت این بود که:
+</header>
         <message></message>
         <period>ONCE_PER_DAY</period> <!-- ONCE_PER_DAY , ONCE_PER_WEEK , ONCE_PER_2WEEK , ONCE_PER_MONTH -->
         <action>reminder</action> <!-- deactivation , invite , reminder -->
-        <header></header>
     </reminder>
-    <!--<reminder>-->
-        <!--<hour>18</hour> &lt;!&ndash; 0 - 23 &ndash;&gt;-->
-        <!--<message></message>-->
-        <!--<period>ONCE_PER_2WEEK</period> &lt;!&ndash; ONCE_PER_DAY , ONCE_PER_WEEK , ONCE_PER_2WEEK , ONCE_PER_MONTH &ndash;&gt;-->
-        <!--<action>deactivation</action> &lt;!&ndash; deactivation , invite , reminder &ndash;&gt;-->
-    <!--</reminder>-->
+    <reminder>
+        <hour>16</hour> <!-- 0 - 23 -->
+        <message></message>
+        <period>ONCE_PER_2WEEK</period> <!-- ONCE_PER_DAY , ONCE_PER_WEEK , ONCE_PER_2WEEK , ONCE_PER_MONTH -->
+        <action>deactivation</action> <!-- deactivation , invite , reminder -->
+    </reminder>
 	<!--<errorMsg>-->
 		<!--<message>msg1</message>-->
 		<!--<message>msg2</message>-->
@@ -34,503 +37,1964 @@
     <!--	 			game parameter defenitions  			   -->
     <!--===========================================================-->
     <!--         	 			game stages          			   -->
-   <stage id="1">
+   <stage id="01">
       <start-stage>TRUE</start-stage>
-      <welcomeMessage>بازی موزیسین
-مشترک گرامی خوش آمدی</welcomeMessage>
-      <header>
-از بین دسته های زیر یکی رو انتخاب کن</header>
-      <footer>غیر فعال سازی با ارسال کد موزیسین خاموش</footer>
-      <name>ولکام</name>
+      <welcomeMessage>به جشنواره *بخوان و میلیونر شو* خوش آمدید
+با بازی *سانس لبخند*
+بازی کن و میلیونر شو
+
+جایزه ویژه: 200 میلیون تومان
+دریافت هر 7 سوال = یک ستاره
+هر تعداد ستاره بیشتر = شانس بیشتر در قرعه کشی
+با ما باشید تا ستاره هایتان 2برابر شود
+تمایل به غیرفعالسازی: سانس خاموش
+روزانه: 100 تومان</welcomeMessage>
+      <header />
+      <footer />
+      <name />
       <price>0</price>
       <score>0</score>
-      <question>FALSE</question>
+      <question>true</question>
       <nextStageCode />
-      <desc>دسته های موجود در بازی
-41 سنتی
-42 پاپ</desc>
+      <desc>سوال 1)
+این شخصیت تنها شخصیتیه که تو تلویزیون ما آهنگ تایتانیک رو با پاپیون خونده!
+41 - سمندون
+42 - پاواروتی
+43 - گروه فیتیله
+44- ببعی
+45 - راهنمایی
+ برای پاسخ، فقط عدد گزینه مورد نظرت رو ارسال کن</desc>
       <condition>
          <inputCode>41</inputCode>
          <targetStage>11</targetStage>
       </condition>
       <condition>
          <inputCode>42</inputCode>
-         <targetStage>12</targetStage>
+         <targetStage>11</targetStage>
       </condition>
-      <finalStage>FALSE</finalStage>
+      <condition>
+         <inputCode>43</inputCode>
+         <targetStage>11</targetStage>
+      </condition>
+      <condition>
+         <inputCode>44</inputCode>
+         <targetStage>10</targetStage>
+      </condition>
+      <condition>
+         <inputCode>45</inputCode>
+         <targetStage>02</targetStage>
+      </condition>
+      <condition>
+         <inputCode />
+         <targetStage />
+      </condition>
+      <finalStage>false</finalStage>
    </stage>
-   <stage id="11">
-      <start-stage>FALSE</start-stage>
+   <stage id="02">
+      <start-stage>false</start-stage>
       <welcomeMessage />
-      <header>بازی موزیسین
-خب پس دسته سنتی رو انتخاب کردی
-اگه راست میگی سوال اول رو جواب بده</header>
-      <footer>در این بازی ما همیشه همراه شما هستیم</footer>
-      <name>سوال اول ناظری</name>
+      <header>*سانس لبخند*
+این شخصیت دو سه سال بیشتر نیست که وارد زندگی ما ها شده، اما حسابی جا خوش کرده و تیکه کلامهاش تو حرفهای خیلی ها هست. حالا یه بار دیگه به سوال دقت کن:</header>
+      <footer />
+      <name />
       <price>0</price>
       <score>0</score>
-      <question>TRUE</question>
+      <question>true</question>
       <nextStageCode />
-      <desc>اون خواننده خوبه که پسرش هم خوبه و چند سال پیش خودش نشان شوالیه گرفت از فرانسه کی بود؟
-51 شهرام ناظری
-52 ایرج بسطامی
-53 راهنما
-54 سوال بعد</desc>
+      <desc>سوال 1)
+این شخصیت تنها شخصیتیه که تو تلویزیون ما آهنگ تایتانیک رو با پاپیون خونده!
+41 - سمندون
+42 - پاواروتی
+43 - گروه فیتیله
+44- ببعی
+45 - سوال بعدی
+برای پاسخ، فقط عدد گزینه مورد نظرت رو بفرست</desc>
+      <condition>
+         <inputCode>41</inputCode>
+         <targetStage>11</targetStage>
+      </condition>
+      <condition>
+         <inputCode>42</inputCode>
+         <targetStage>11</targetStage>
+      </condition>
+      <condition>
+         <inputCode>43</inputCode>
+         <targetStage>11</targetStage>
+      </condition>
+      <condition>
+         <inputCode>44</inputCode>
+         <targetStage>10</targetStage>
+      </condition>
+      <condition>
+         <inputCode>45</inputCode>
+         <targetStage>12</targetStage>
+      </condition>
+      <condition>
+         <inputCode />
+         <targetStage />
+      </condition>
+      <finalStage>false</finalStage>
+   </stage>
+   <stage id="10">
+      <start-stage>false</start-stage>
+      <welcomeMessage />
+      <header>*سانس لبخند*
+آفرین سوال اولو خوب جواب دادی البته خب سوال سختی نبود. همه مون کلاه قرمزی دوست داریم و ببعی هم یکی از بامزه های این برنامه ست.
+خب، 100 امتیاز میدم بهت. حالا بریم سراغ سوال بعدی:</header>
+      <footer />
+      <name />
+      <price>0</price>
+      <score>100</score>
+      <question>true</question>
+      <nextStageCode />
+      <desc>سوال 2)
+میدونی کدوم گزینه قبل از کارگردان شدن بازیگر نبوده؟
+51 - مجید مجیدی
+52 - ایرج قادری
+53 - ابراهیم حاتمی کیا
+54 - رضا عطاران
+55 - سوال بعدی
+56 - راهنمایی</desc>
       <condition>
          <inputCode>51</inputCode>
          <targetStage>21</targetStage>
       </condition>
       <condition>
          <inputCode>52</inputCode>
-         <targetStage>22</targetStage>
+         <targetStage>21</targetStage>
       </condition>
       <condition>
          <inputCode>53</inputCode>
-         <targetStage>10</targetStage>
+         <targetStage>20</targetStage>
       </condition>
       <condition>
          <inputCode>54</inputCode>
-         <targetStage>23</targetStage>
+         <targetStage>21</targetStage>
       </condition>
-      <finalStage>FALSE</finalStage>
+      <condition>
+         <inputCode>55</inputCode>
+         <targetStage>22</targetStage>
+      </condition>
+      <condition>
+         <inputCode>56</inputCode>
+         <targetStage>13</targetStage>
+      </condition>
+      <finalStage>false</finalStage>
    </stage>
    <stage id="20">
       <start-stage>FALSE</start-stage>
       <welcomeMessage />
-      <header>بازی موزیسین
-راهنمایی میخوای؟ الان بهت میگم. اونجایی که آتش افتاده نی زیاد داره. حالا به سوال جواب بده:</header>
-      <footer>در این بازی ما همیشه همراه شما هستیم</footer>
-      <name>راهنمای سوال دوم</name>
+      <header>*سانس لبخند*
+آفرین، این جواب درست 100 امتیاز برات داشت. البته قبول کن که سوال قبل آسون بود، مجیدی و قادری و عطاران معلومه که قبلا بازیگر بودن!
+بریم سراغ یه سوال یه کم سخت تر:</header>
+      <footer />
+      <name />
       <price>0</price>
-      <score>0</score>
-      <question>TRUE</question>
+      <score>100</score>
+      <question>true</question>
       <nextStageCode />
-      <desc>شهرام ناظری توی یکی از آهنگهاش میگه یک شب آتش کجا افتاد؟
-41 در نیستان
-42 در گلستان
-43 برگشت به انتخاب دسته</desc>
+      <desc>
+سوال 3)
+میدونید سازنده های سریال پایتخت 3 اسم راسکولنیکوف، حریف روس چغر بد بدن نقی معمولی رو از روی کدم یکی از شاهکارهای جهان ادبیات برداشتن؟
+41 - جنگ و صلح
+42 -جنایت و مکافات
+43- شاه لیر
+44 - سوال بعدی
+45 - راهنمایی
+75 - جدول امتیازات</desc>
       <condition>
          <inputCode>41</inputCode>
          <targetStage>31</targetStage>
       </condition>
       <condition>
          <inputCode>42</inputCode>
-         <targetStage>32</targetStage>
+         <targetStage>30</targetStage>
       </condition>
       <condition>
          <inputCode>43</inputCode>
-         <targetStage>1</targetStage>
+         <targetStage>31</targetStage>
       </condition>
-      <finalStage>FALSE</finalStage>
+      <condition>
+         <inputCode>44</inputCode>
+         <targetStage>32</targetStage>
+      </condition>
+      <condition>
+         <inputCode>45</inputCode>
+         <targetStage>23</targetStage>
+      </condition>
+      <condition>
+         <inputCode />
+         <targetStage />
+      </condition>
+      <finalStage>false</finalStage>
    </stage>
    <stage id="21">
       <start-stage>FALSE</start-stage>
       <welcomeMessage />
-      <header>بازی موزیسین
-آفرین درست جواب دادی جواب شهرام ناظری بود
-حالا سوال بعدی رو جواب بده:</header>
-      <footer>در این بازی ما همیشه همراه شما هستیم</footer>
-      <name>جواب درست - سوال دوم ناظری</name>
+      <header>*سانس لبخند*
+دستت خورد که یه گزینه دیگه رو انتخاب کردی و اشتباه جواب دادی؟ معلوم بود که جواب صحیح ابراهیم حاتمی کیا بود.
+بریم سراغ سوال بعدی. بیشتر دقت کن:</header>
+      <footer />
+      <name />
       <price>0</price>
       <score>0</score>
-      <question>TRUE</question>
+      <question>true</question>
       <nextStageCode />
-      <desc>شهرام ناظری توی یکی از آهنگهاش میگه یک شب آتش کجا افتاد؟
-41 در نیستان
-42 در گلستان
-43 راهنما
-44 برگشت به انتخاب دسته</desc>
+      <desc>
+سوال 3)
+میدونید سازنده های سریال پایتخت 3 اسم راسکولنیکوف، حریف روس چغر بد بدن نقی معمولی رو از روی کدم یکی از شاهکارهای جهان ادبیات برداشتن؟
+41 - جنگ و صلح
+42 -جنایت و مکافات
+43- شاه لیر
+44 - سوال بعدی
+45 - راهنمایی
+75 - جدول امتیازات</desc>
       <condition>
          <inputCode>41</inputCode>
          <targetStage>31</targetStage>
       </condition>
       <condition>
          <inputCode>42</inputCode>
-         <targetStage>32</targetStage>
+         <targetStage>30</targetStage>
       </condition>
       <condition>
          <inputCode>43</inputCode>
-         <targetStage>20</targetStage>
+         <targetStage>31</targetStage>
       </condition>
       <condition>
          <inputCode>44</inputCode>
-         <targetStage>1</targetStage>
+         <targetStage>32</targetStage>
       </condition>
-      <finalStage>FALSE</finalStage>
-   </stage>
-   <stage id="31">
-      <start-stage>FALSE</start-stage>
-      <welcomeMessage />
-      <header>بازی موزیسین
-آفرین درست جواب دادی.
-یک شب آتش در نیستان افتاده بود</header>
-      <footer>51 برگشت به انتخاب دسته</footer>
-      <name>جواب درست - انتهای بازی</name>
-      <price>0</price>
-      <score>0</score>
-      <question>FALSE</question>
-      <nextStageCode />
-      <desc>بازی تموم شد دیگه</desc>
       <condition>
-         <inputCode>51</inputCode>
-         <targetStage>1</targetStage>
+         <inputCode>45</inputCode>
+         <targetStage>23</targetStage>
       </condition>
-      <finalStage>TRUE</finalStage>
-   </stage>
-   <stage id="32">
-      <start-stage>FALSE</start-stage>
-      <welcomeMessage />
-      <header>بازی موزیسین
-ای بابا اشتباه جواب دادی که
-یک شب آتش در نیستان افتاده بود</header>
-      <footer>51 برگشت به انتخاب دسته</footer>
-      <name>جواب اشتباه - انتهای بازی</name>
-      <price>0</price>
-      <score>0</score>
-      <question>FALSE</question>
-      <nextStageCode />
-      <desc>بازی تموم شد</desc>
       <condition>
-         <inputCode>51</inputCode>
-         <targetStage>1</targetStage>
+         <inputCode />
+         <targetStage />
       </condition>
-      <finalStage>TRUE</finalStage>
+      <finalStage>false</finalStage>
    </stage>
    <stage id="22">
       <start-stage>FALSE</start-stage>
       <welcomeMessage />
-      <header>بازی موزیسین
-بلد نیستی واسه چی سنتی انتخاب میکنی؟ جواب شهرام ناظری بود
-حالا این سوال رو جواب بده:</header>
-      <footer>در این بازی ما همیشه همراه شما هستیم</footer>
-      <name>جواب اشتباه - سوال دوم ناظری</name>
+      <header>*سانس لبخند*
+سوال تقریبا آسونی بود اما از روش پریدی و امتیازی بابتش نمیگیری. جواب صحیح ابراهیم حاتمی کیا بود.
+واسه جواب دادن به این سوال بیشتر دقت کن که بتونی ازش امتیاز بگیری:</header>
+      <footer />
+      <name />
       <price>0</price>
       <score>0</score>
-      <question>TRUE</question>
+      <question>true</question>
       <nextStageCode />
-      <desc>شهرام ناظری توی یکی از آهنگهاش میگه یک شب آتش کجا افتاد؟
-41 در نیستان
-42 در گلستان
-43 راهنما
-44 برگشت به انتخاب دسته</desc>
+      <desc>
+سوال 3)
+میدونید سازنده های سریال پایتخت 3 اسم راسکولنیکوف، حریف روس چغر بد بدن نقی معمولی رو از روی کدم یکی از شاهکارهای جهان ادبیات برداشتن؟
+41 - جنگ و صلح
+42 -جنایت و مکافات
+43- شاه لیر
+44 - سوال بعدی
+45 - راهنمایی
+75 - جدول امتیازات</desc>
       <condition>
          <inputCode>41</inputCode>
          <targetStage>31</targetStage>
       </condition>
       <condition>
          <inputCode>42</inputCode>
-         <targetStage>32</targetStage>
+         <targetStage>30</targetStage>
       </condition>
       <condition>
          <inputCode>43</inputCode>
-         <targetStage>20</targetStage>
+         <targetStage>31</targetStage>
       </condition>
       <condition>
          <inputCode>44</inputCode>
-         <targetStage>1</targetStage>
+         <targetStage>32</targetStage>
       </condition>
-      <finalStage>FALSE</finalStage>
+      <condition>
+         <inputCode>45</inputCode>
+         <targetStage>23</targetStage>
+      </condition>
+      <condition>
+         <inputCode />
+         <targetStage />
+      </condition>
+      <finalStage>false</finalStage>
    </stage>
    <stage id="23">
       <start-stage>FALSE</start-stage>
       <welcomeMessage />
-      <header>بازی موزیسین
-جواب سوال قبلی شهرام ناظری بود
-اشکال نداره بلد نبودی
-حالا این سوال رو جواب بده</header>
-      <footer>در این بازی ما همیشه همراه شما هستیم</footer>
-      <name>انتخاب سوال بعد - سوال دوم ناظری</name>
+      <header>*سانس لبخند*
+این اثر، یکی از شاهکارهای داستایوفسکیه که از روش فیلمها و کارتونهای زیادی ساخته شده و تو اول داستان، یه جوون، پیرزن نزول خور رو میکشه. بعدش هم چه مکافاتها که نمیکشه. آخ آخ.
+منظورم رو متوجه شدی؟</header>
+      <footer />
+      <name />
       <price>0</price>
       <score>0</score>
-      <question>TRUE</question>
+      <question>true</question>
       <nextStageCode />
-      <desc>شهرام ناظری توی یکی از آهنگهاش میگه یک شب آتش کجا افتاد؟
-41 در نیستان
-42 در گلستان
-43 راهنما
-44 برگشت به انتخاب دسته</desc>
+      <desc>
+سوال 3)
+میدونید سازنده های سریال پایتخت 3 اسم راسکولنیکوف، حریف روس چغر بد بدن نقی معمولی رو از روی کدم یکی از شاهکارهای جهان ادبیات برداشتن؟
+41 - جنگ و صلح
+42 -جنایت و مکافات
+43- شاه لیر
+44 - سوال بعدی
+75 - جدول امتیازات</desc>
       <condition>
          <inputCode>41</inputCode>
          <targetStage>31</targetStage>
       </condition>
       <condition>
          <inputCode>42</inputCode>
+         <targetStage>30</targetStage>
+      </condition>
+      <condition>
+         <inputCode>43</inputCode>
+         <targetStage>31</targetStage>
+      </condition>
+      <condition>
+         <inputCode>44</inputCode>
+         <targetStage>31</targetStage>
+      </condition>
+      <condition>
+         <inputCode>45</inputCode>
          <targetStage>32</targetStage>
       </condition>
       <condition>
-         <inputCode>43</inputCode>
-         <targetStage>21.1</targetStage>
+         <inputCode />
+         <targetStage />
       </condition>
-      <condition>
-         <inputCode>44</inputCode>
-         <targetStage>1</targetStage>
-      </condition>
-      <finalStage>FALSE</finalStage>
+      <finalStage>false</finalStage>
    </stage>
-   <stage id="12">
+   <stage id="11">
       <start-stage>FALSE</start-stage>
       <welcomeMessage />
-      <header>بازی موزیسین
-خب پس پاپ رو انتخاب کردی
-حالا بهم بگو:</header>
-      <footer>در این بازی ما همیشه همراه شما هستیم</footer>
-      <name>سوال اول پاپ</name>
+      <header>*سانس لبخند*
+نه، اشتباه جواب دادی! خیلی آسون بود که
+همه مون کلاه قرمزی دوست داریم و ببعی هم یکی از بامزه های این برنامه ست.
+اشکال نداره، حالا بریم سراغ سوال بعدی:</header>
+      <footer />
+      <name />
       <price>0</price>
       <score>0</score>
-      <question>TRUE</question>
+      <question>true</question>
       <nextStageCode />
-      <desc>اسم پسر ایرج که الان خواننده شده چیه؟
-51 احسان خواجه امیری
-52 محمد افتخاری
-53 راهنما
-54 سوال بعد</desc>
-      <condition>
-         <inputCode>51</inputCode>
-         <targetStage>24</targetStage>
-      </condition>
-      <condition>
-         <inputCode>52</inputCode>
-         <targetStage>25</targetStage>
-      </condition>
-      <condition>
-         <inputCode>53</inputCode>
-         <targetStage>13</targetStage>
-      </condition>
-      <condition>
-         <inputCode>54</inputCode>
-         <targetStage>27</targetStage>
-      </condition>
-      <finalStage>FALSE</finalStage>
-   </stage>
-   <stage id="24">
-      <start-stage>FALSE</start-stage>
-      <welcomeMessage />
-      <header>بازی موزیسین
-آفرین درست جواب دادی، احسان خواجه امیری بود.
-حالا این سوال رو هم جواب بده که:</header>
-      <footer>در این بازی ما همیشه همراه شما هستیم</footer>
-      <name>جواب درست - سوال دوم پاپ</name>
-      <price>0</price>
-      <score>0</score>
-      <question>TRUE</question>
-      <nextStageCode />
-      <desc>خواجه امیری تو کدوم برج کنسرت داشته؟
-41 برج میلاد
-42 برجهای دوقلوی کوالالامپور
-43 راهنما
-44 برگشت به انتخاب دسته</desc>
-      <condition>
-         <inputCode>41</inputCode>
-         <targetStage>33</targetStage>
-      </condition>
-      <condition>
-         <inputCode>42</inputCode>
-         <targetStage>34</targetStage>
-      </condition>
-      <condition>
-         <inputCode>43</inputCode>
-         <targetStage>26</targetStage>
-      </condition>
-      <condition>
-         <inputCode>44</inputCode>
-         <targetStage>1</targetStage>
-      </condition>
-      <finalStage>FALSE</finalStage>
-   </stage>
-   <stage id="33">
-      <start-stage>FALSE</start-stage>
-      <welcomeMessage />
-      <header>بازی موزیسین
-آفرین درست جواب دادی، برج میلاد بود</header>
-      <footer>51 برگشت به انتخاب دسته</footer>
-      <name>جواب درست - انتهای بازی</name>
-      <price>0</price>
-      <score>0</score>
-      <question>FALSE</question>
-      <nextStageCode />
-      <desc>بازی دیگه تموم شد</desc>
-      <condition>
-         <inputCode>51</inputCode>
-         <targetStage>1</targetStage>
-      </condition>
-      <finalStage>TRUE</finalStage>
-   </stage>
-   <stage id="34">
-      <start-stage>FALSE</start-stage>
-      <welcomeMessage />
-      <header>بازی موزیسین
-ای بابا اشتباه جواب دادی، جواب برج میلاد بود</header>
-      <footer>51 برگشت به انتخاب دسته</footer>
-      <name>جواب اشتباه - انتهای بازی</name>
-      <price>0</price>
-      <score>0</score>
-      <question>FALSE</question>
-      <nextStageCode />
-      <desc>بازی تموم شد دیگه</desc>
-      <condition>
-         <inputCode>51</inputCode>
-         <targetStage>1</targetStage>
-      </condition>
-      <finalStage>TRUE</finalStage>
-   </stage>
-   <stage id="25">
-      <start-stage>FALSE</start-stage>
-      <welcomeMessage />
-      <header>بازی موزیسین
-بلد نیستی واسه چی بازی میکنی؟
-جواب خواجه امیری بود. حالا این سوال رو جواب بده</header>
-      <footer>در این بازی ما همیشه همراه شما هستیم</footer>
-      <name>جواب اشتباه - سوال دوم پاپ</name>
-      <price>0</price>
-      <score>0</score>
-      <question>TRUE</question>
-      <nextStageCode />
-      <desc>خواجه امیری تو کدوم برج کنسرت داشته؟
-41 برج میلاد
-42 برجهای دوقلوی کوالالامپور
-43 راهنما
-44 برگشت به انتخاب دسته</desc>
-      <condition>
-         <inputCode>41</inputCode>
-         <targetStage>33</targetStage>
-      </condition>
-      <condition>
-         <inputCode>42</inputCode>
-         <targetStage>34</targetStage>
-      </condition>
-      <condition>
-         <inputCode>43</inputCode>
-         <targetStage>26</targetStage>
-      </condition>
-      <condition>
-         <inputCode>44</inputCode>
-         <targetStage>1</targetStage>
-      </condition>
-      <finalStage>FALSE</finalStage>
-   </stage>
-   <stage id="26">
-      <start-stage>FALSE</start-stage>
-      <welcomeMessage />
-      <header>بازی موزیسین
-راهنمایی:
-این برج تو تهران قرار داره. سوال این بود که:</header>
-      <footer>در این بازی ما همیشه همراه شما هستیم</footer>
-      <name>راهنمای سوال دوم پاپ</name>
-      <price>0</price>
-      <score>0</score>
-      <question>TRUE</question>
-      <nextStageCode />
-      <desc>خواجه امیری تو کدوم برج کنسرت داشته؟
-41 برج میلاد
-42 برجهای دوقلوی کوالالامپور
-43 برگشت به انتخاب دسته</desc>
-      <condition>
-         <inputCode>41</inputCode>
-         <targetStage>33</targetStage>
-      </condition>
-      <condition>
-         <inputCode>42</inputCode>
-         <targetStage>34</targetStage>
-      </condition>
-      <condition>
-         <inputCode>43</inputCode>
-         <targetStage>1</targetStage>
-      </condition>
-      <finalStage>FALSE</finalStage>
-   </stage>
-   <stage id="27">
-      <start-stage>FALSE</start-stage>
-      <welcomeMessage />
-      <header>بازی موزیسین
-جواب سوال قبلی احسان خواجه امیری بود. حالا این سوال رو جواب بده:</header>
-      <footer>در این بازی ما همیشه همراه شما هستیم</footer>
-      <name>سوال بعد - سوال دوم پاپ</name>
-      <price>0</price>
-      <score>0</score>
-      <question>TRUE</question>
-      <nextStageCode />
-      <desc>خواجه امیری تو کدوم برج کنسرت داشته؟
-41 برج میلاد
-42 برجهای دوقلوی کوالالامپور
-43 راهنما
-44 برگشت به انتخاب دسته</desc>
-      <condition>
-         <inputCode>41</inputCode>
-         <targetStage>33</targetStage>
-      </condition>
-      <condition>
-         <inputCode>42</inputCode>
-         <targetStage>34</targetStage>
-      </condition>
-      <condition>
-         <inputCode>43</inputCode>
-         <targetStage>26</targetStage>
-      </condition>
-      <condition>
-         <inputCode>44</inputCode>
-         <targetStage>1</targetStage>
-      </condition>
-      <finalStage>FALSE</finalStage>
-   </stage>
-   <stage id="10">
-      <start-stage>FALSE</start-stage>
-      <welcomeMessage />
-      <header>بازی موزیسین
-سوال به اون آسونی، احتیاج به راهنمایی داری بازم؟
-برای راهنمایی بهت بگم که اون خواننده آهنگ های کردی هم زیاد داره
-سوال این بود که:</header>
-      <footer>در این بازی ما همیشه همراه شما هستیم</footer>
-      <name>راهنمای سوال اول</name>
-      <price>0</price>
-      <score>0</score>
-      <question>TRUE</question>
-      <nextStageCode />
-      <desc>اون خواننده خوبه که پسرش هم خوبه و چند سال پیش خودش نشان شوالیه گرفت از فرانسه کی بود؟
-51 شهرام ناظری
-52 ایرج بسطامی
-54 سوال بعد</desc>
+      <desc>سوال 2)
+میدونی کدوم گزینه قبل از کارگردان شدن بازیگر نبوده؟
+51 - مجید مجیدی
+52 - ایرج قادری
+53 - ابراهیم حاتمی کیا
+54 - رضا عطاران
+55 - سوال بعدی
+56 - راهنمایی</desc>
       <condition>
          <inputCode>51</inputCode>
          <targetStage>21</targetStage>
       </condition>
       <condition>
          <inputCode>52</inputCode>
-         <targetStage>22</targetStage>
+         <targetStage>21</targetStage>
+      </condition>
+      <condition>
+         <inputCode>53</inputCode>
+         <targetStage>20</targetStage>
       </condition>
       <condition>
          <inputCode>54</inputCode>
-         <targetStage>23</targetStage>
+         <targetStage>21</targetStage>
       </condition>
-      <finalStage>FALSE</finalStage>
+      <condition>
+         <inputCode>55</inputCode>
+         <targetStage>22</targetStage>
+      </condition>
+      <condition>
+         <inputCode>56</inputCode>
+         <targetStage>13</targetStage>
+      </condition>
+      <finalStage>false</finalStage>
+   </stage>
+   <stage id="12">
+      <start-stage>FALSE</start-stage>
+      <welcomeMessage />
+      <header>*سانس لبخند*
+نخواستی به سوال قبلی جواب بدی؟ خیلی آسون بود که
+همه مون کلاه قرمزی دوست داریم و ببعی هم یکی از بامزه های این برنامه ست.
+اشکال نداره، حالا بریم سراغ سوال بعدی:</header>
+      <footer />
+      <name />
+      <price>0</price>
+      <score>0</score>
+      <question>true</question>
+      <nextStageCode />
+      <desc>سوال 2)
+میدونی کدوم گزینه قبل از کارگردان شدن بازیگر نبوده؟
+51 - مجید مجیدی
+52 - ایرج قادری
+53 - ابراهیم حاتمی کیا
+54 - رضا عطاران
+55 - سوال بعدی
+56 - راهنمایی</desc>
+      <condition>
+         <inputCode>51</inputCode>
+         <targetStage>21</targetStage>
+      </condition>
+      <condition>
+         <inputCode>52</inputCode>
+         <targetStage>21</targetStage>
+      </condition>
+      <condition>
+         <inputCode>53</inputCode>
+         <targetStage>20</targetStage>
+      </condition>
+      <condition>
+         <inputCode>54</inputCode>
+         <targetStage>21</targetStage>
+      </condition>
+      <condition>
+         <inputCode>55</inputCode>
+         <targetStage>22</targetStage>
+      </condition>
+      <condition>
+         <inputCode>56</inputCode>
+         <targetStage>13</targetStage>
+      </condition>
+      <finalStage>false</finalStage>
    </stage>
    <stage id="13">
       <start-stage>FALSE</start-stage>
       <welcomeMessage />
-      <header>بازی موزیسین
-واقعا راهنمایی میخوای؟  اوکی
-اسم  کوچیک احسانِ. سوال این بود که:</header>
-      <footer>در این بازی ما همیشه همراه شما هستیم</footer>
-      <name>راهنمایی سوال اول پاپ</name>
+      <header>*سانس لبخند*
+جواب درست، قبل از کارگردان شدن فیلمبردار مستندهای روایت فتح بوده. یه بار دیگه به سوال و گزینه ها دقت کن و ببین این شخصیت بیشتر شبیه کیه</header>
+      <footer />
+      <name />
       <price>0</price>
       <score>0</score>
-      <question>TRUE</question>
+      <question>true</question>
       <nextStageCode />
-      <desc>اسم پسر ایرج که الان خواننده شده چیه؟
-51 احسان خواجه امیری
-52 محمد افتخاری
-53 سوال بعد</desc>
+      <desc>سوال 2)
+میدونی کدوم گزینه قبل از کارگردان شدن بازیگر نبوده؟
+51 - مجید مجیدی
+52 - ایرج قادری
+53 - ابراهیم حاتمی کیا
+54 - رضا عطاران
+55 - سوال بعدی</desc>
       <condition>
          <inputCode>51</inputCode>
-         <targetStage>24</targetStage>
+         <targetStage>21</targetStage>
       </condition>
       <condition>
          <inputCode>52</inputCode>
-         <targetStage>25</targetStage>
+         <targetStage>21</targetStage>
       </condition>
       <condition>
          <inputCode>53</inputCode>
-         <targetStage>27</targetStage>
+         <targetStage>20</targetStage>
       </condition>
-      <finalStage>FALSE</finalStage>
+      <condition>
+         <inputCode>54</inputCode>
+         <targetStage>21</targetStage>
+      </condition>
+      <condition>
+         <inputCode>55</inputCode>
+         <targetStage>22</targetStage>
+      </condition>
+      <condition>
+         <inputCode />
+         <targetStage />
+      </condition>
+      <finalStage>false</finalStage>
+   </stage>
+   <stage id="31">
+      <start-stage>FALSE</start-stage>
+      <welcomeMessage />
+      <header>*سانس لبخند*
+بهت حق میدم که درست جواب ندادی، سوال سختی بود.
+راسکولنیکوف شخصیت اصلی رمان جنایت و مکافات بود که یه پیرزن رو با تبر کشت.
+ناامید نشو. هنوز فرصت خیلی زیاده. بریم سراغ سوال بعدی:</header>
+      <footer />
+      <name />
+      <price>0</price>
+      <score>0</score>
+      <question>true</question>
+      <nextStageCode />
+      <desc>سوال 4)
+تو کدوم فیلم، هیتلر تو سالن سینما کشته شد؟
+51 - پیروزی اراده
+52 - لعنتی های بی آبرو
+53 - بازداشتگاه شماره 17
+54 - سوال بعدی
+55 - راهنمایی</desc>
+      <condition>
+         <inputCode>51</inputCode>
+         <targetStage>41</targetStage>
+      </condition>
+      <condition>
+         <inputCode>52</inputCode>
+         <targetStage>40</targetStage>
+      </condition>
+      <condition>
+         <inputCode>53</inputCode>
+         <targetStage>41</targetStage>
+      </condition>
+      <condition>
+         <inputCode>54</inputCode>
+         <targetStage>42</targetStage>
+      </condition>
+      <condition>
+         <inputCode>55</inputCode>
+         <targetStage>33</targetStage>
+      </condition>
+      <condition>
+         <inputCode />
+         <targetStage />
+      </condition>
+      <finalStage>false</finalStage>
+   </stage>
+   <stage id="32">
+      <start-stage>FALSE</start-stage>
+      <welcomeMessage />
+      <header>*سانس لبخند*
+بهت حق میدم که نخواستی به سوال قبلی جواب بدی، سوال سختی بود.
+راسکولنیکوف شخصیت اصلی رمان جنایت و مکافات بود که یه پیرزن رو با تبر کشت.
+ناامید نشو. هنوز فرصت خیلی زیاده. بریم سراغ سوال بعدی:</header>
+      <footer />
+      <name />
+      <price>0</price>
+      <score>0</score>
+      <question>true</question>
+      <nextStageCode />
+      <desc>سوال 4)
+تو کدوم فیلم، هیتلر تو سالن سینما کشته شد؟
+51 - پیروزی اراده
+52 - لعنتی های بی آبرو
+53 - بازداشتگاه شماره 17
+54 - سوال بعدی
+55 - راهنمایی</desc>
+      <condition>
+         <inputCode>51</inputCode>
+         <targetStage>41</targetStage>
+      </condition>
+      <condition>
+         <inputCode>52</inputCode>
+         <targetStage>40</targetStage>
+      </condition>
+      <condition>
+         <inputCode>53</inputCode>
+         <targetStage>41</targetStage>
+      </condition>
+      <condition>
+         <inputCode>54</inputCode>
+         <targetStage>42</targetStage>
+      </condition>
+      <condition>
+         <inputCode>55</inputCode>
+         <targetStage>33</targetStage>
+      </condition>
+      <condition>
+         <inputCode />
+         <targetStage />
+      </condition>
+      <finalStage>false</finalStage>
+   </stage>
+   <stage id="30">
+      <start-stage>FALSE</start-stage>
+      <welcomeMessage />
+      <header>*سانس لبخند*
+آفرین. دقت کردی کارت خیلی درسته؟
+راسکولنیکوف شخصیت اصلی رمان جنایت و مکافات بود که یه پیرزن رو با تبر کشت.
+100 امتیاز ریختم به حسابت.
+بریم سراغ سوال بعدی:</header>
+      <footer />
+      <name />
+      <price>0</price>
+      <score>100</score>
+      <question>true</question>
+      <nextStageCode />
+      <desc>سوال 4)
+تو کدوم فیلم، هیتلر تو سالن سینما کشته شد؟
+51 - پیروزی اراده
+52 - لعنتی های بی آبرو
+53 - بازداشتگاه شماره 17
+54 - سوال بعدی
+55 - راهنمایی</desc>
+      <condition>
+         <inputCode>51</inputCode>
+         <targetStage>41</targetStage>
+      </condition>
+      <condition>
+         <inputCode>52</inputCode>
+         <targetStage>40</targetStage>
+      </condition>
+      <condition>
+         <inputCode>53</inputCode>
+         <targetStage>41</targetStage>
+      </condition>
+      <condition>
+         <inputCode>54</inputCode>
+         <targetStage>42</targetStage>
+      </condition>
+      <condition>
+         <inputCode>55</inputCode>
+         <targetStage>33</targetStage>
+      </condition>
+      <condition>
+         <inputCode />
+         <targetStage />
+      </condition>
+      <finalStage>false</finalStage>
+   </stage>
+   <stage id="33">
+      <start-stage>FALSE</start-stage>
+      <welcomeMessage />
+      <header>*سانس لبخند*
+این فیلم یکی از بهترین فیلمهای تارانتینو با بازی برد پیته
+تو این فیلم هیتلر توی یک سینما کشته میشه و آلمانی ها حسابی بابت این مسئله بی آبرو میشن.
+به گزینه ها دقت کن دوباره:</header>
+      <footer />
+      <name />
+      <price>0</price>
+      <score>0</score>
+      <question>true</question>
+      <nextStageCode />
+      <desc>سوال 4)
+تو کدوم فیلم، هیتلر تو سالن سینما کشته شد؟
+51 - پیروزی اراده
+52 - لعنتی های بی آبرو
+53 - بازداشتگاه شماره 17
+54 - سوال بعدی</desc>
+      <condition>
+         <inputCode>51</inputCode>
+         <targetStage>41</targetStage>
+      </condition>
+      <condition>
+         <inputCode>52</inputCode>
+         <targetStage>40</targetStage>
+      </condition>
+      <condition>
+         <inputCode>53</inputCode>
+         <targetStage>41</targetStage>
+      </condition>
+      <condition>
+         <inputCode>54</inputCode>
+         <targetStage>42</targetStage>
+      </condition>
+      <condition>
+         <inputCode />
+         <targetStage />
+      </condition>
+      <condition>
+         <inputCode />
+         <targetStage />
+      </condition>
+      <finalStage>false</finalStage>
+   </stage>
+   <stage id="41">
+      <start-stage>FALSE</start-stage>
+      <welcomeMessage />
+      <header>*سانس لبخند*
+نه! اشتباه جواب دادی. سوال آسونی بود و حیف شد از دست دادیش.
+لعنتی های بی آبرو جزو فیلمهای خوب تارانتینوست. حتما ببینش.
+میخوای بریم سمت سینمای وطنی؟ خب پس به این سوال جواب بده:</header>
+      <footer />
+      <name />
+      <price>0</price>
+      <score>0</score>
+      <question>true</question>
+      <nextStageCode />
+      <desc>سوال 5)
+علیرضا خمسه تو  کدوم فیلم نقش کمدی بازی نکرده؟
+41 - بیست
+42 - جیب برها به بهشت نمیروند
+43 - من زمین را دوست دارم
+44 - دونفر و نصفی
+45 - سوال بعدی
+46 - راهنمایی</desc>
+      <condition>
+         <inputCode>41</inputCode>
+         <targetStage>50</targetStage>
+      </condition>
+      <condition>
+         <inputCode>42</inputCode>
+         <targetStage>51</targetStage>
+      </condition>
+      <condition>
+         <inputCode>43</inputCode>
+         <targetStage>51</targetStage>
+      </condition>
+      <condition>
+         <inputCode>44</inputCode>
+         <targetStage>51</targetStage>
+      </condition>
+      <condition>
+         <inputCode>45</inputCode>
+         <targetStage>52</targetStage>
+      </condition>
+      <condition>
+         <inputCode>46</inputCode>
+         <targetStage>43</targetStage>
+      </condition>
+      <finalStage>false</finalStage>
+   </stage>
+   <stage id="42">
+      <start-stage>FALSE</start-stage>
+      <welcomeMessage />
+      <header>*سانس لبخند*
+از رو سوال قبل پریدی سوال آسونی بود و حیف شد از دست دادیش.
+لعنتی های بی آبرو جزو فیلمهای خوب تارانتینوست. حتما ببینش.
+میخوای بریم سمت سینمای وطنی؟ خب پس به این سوال جواب بده:</header>
+      <footer />
+      <name />
+      <price>0</price>
+      <score>0</score>
+      <question>true</question>
+      <nextStageCode />
+      <desc>سوال 5)
+علیرضا خمسه تو  کدوم فیلم نقش کمدی بازی نکرده؟
+41 - بیست
+42 - جیب برها به بهشت نمیروند
+43 - من زمین را دوست دارم
+44 - دونفر و نصفی
+45 - سوال بعدی
+46 - راهنمایی</desc>
+      <condition>
+         <inputCode>41</inputCode>
+         <targetStage>50</targetStage>
+      </condition>
+      <condition>
+         <inputCode>42</inputCode>
+         <targetStage>51</targetStage>
+      </condition>
+      <condition>
+         <inputCode>43</inputCode>
+         <targetStage>51</targetStage>
+      </condition>
+      <condition>
+         <inputCode>44</inputCode>
+         <targetStage>51</targetStage>
+      </condition>
+      <condition>
+         <inputCode>45</inputCode>
+         <targetStage>52</targetStage>
+      </condition>
+      <condition>
+         <inputCode>46</inputCode>
+         <targetStage>43</targetStage>
+      </condition>
+      <finalStage>false</finalStage>
+   </stage>
+   <stage id="40">
+      <start-stage>FALSE</start-stage>
+      <welcomeMessage />
+      <header>*سانس لبخند*
+ایول
+معلومه حسابی فیلم میبینی جواب درست لعنتی های بی آبرو بود.
+100 امتیاز دیگه به حسابت واریز شد.
+حالا وقتشه دوباره یه سری به سینمای کشور خودمون بزنیم:</header>
+      <footer />
+      <name />
+      <price>0</price>
+      <score>100</score>
+      <question>true</question>
+      <nextStageCode />
+      <desc>سوال 5)
+علیرضا خمسه تو  کدوم فیلم نقش کمدی بازی نکرده؟
+41 - بیست
+42 - جیب برها به بهشت نمیروند
+43 - من زمین را دوست دارم
+44 - دونفر و نصفی
+45 - سوال بعدی
+46 - راهنمایی</desc>
+      <condition>
+         <inputCode>41</inputCode>
+         <targetStage>50</targetStage>
+      </condition>
+      <condition>
+         <inputCode>42</inputCode>
+         <targetStage>51</targetStage>
+      </condition>
+      <condition>
+         <inputCode>43</inputCode>
+         <targetStage>51</targetStage>
+      </condition>
+      <condition>
+         <inputCode>44</inputCode>
+         <targetStage>51</targetStage>
+      </condition>
+      <condition>
+         <inputCode>45</inputCode>
+         <targetStage>52</targetStage>
+      </condition>
+      <condition>
+         <inputCode>46</inputCode>
+         <targetStage>43</targetStage>
+      </condition>
+      <finalStage>false</finalStage>
+   </stage>
+   <stage id="43">
+      <start-stage>FALSE</start-stage>
+      <welcomeMessage />
+      <header>*سانس لبخند*
+اگه این فیلم رو دیده باشی حتما یادت میاد که دست راست علیرضا خمسه تو این فیلم معیوبه
+سوالها و گزینه ها رو نگاه کن، شاید یادت بیاد:</header>
+      <footer />
+      <name />
+      <price>0</price>
+      <score>0</score>
+      <question>true</question>
+      <nextStageCode />
+      <desc>سوال 5)
+علیرضا خمسه تو  کدوم فیلم نقش کمدی بازی نکرده؟
+41 - بیست
+42 - جیب برها به بهشت نمیروند
+43 - من زمین را دوست دارم
+44 - دونفر و نصفی
+45 - سوال بعدی</desc>
+      <condition>
+         <inputCode>41</inputCode>
+         <targetStage>50</targetStage>
+      </condition>
+      <condition>
+         <inputCode>42</inputCode>
+         <targetStage>51</targetStage>
+      </condition>
+      <condition>
+         <inputCode>43</inputCode>
+         <targetStage>51</targetStage>
+      </condition>
+      <condition>
+         <inputCode>44</inputCode>
+         <targetStage>51</targetStage>
+      </condition>
+      <condition>
+         <inputCode>45</inputCode>
+         <targetStage>52</targetStage>
+      </condition>
+      <condition>
+         <inputCode />
+         <targetStage />
+      </condition>
+      <finalStage>false</finalStage>
+   </stage>
+   <stage id="51">
+      <start-stage>FALSE</start-stage>
+      <welcomeMessage />
+      <header>*سانس لبخند*
+نهههه، اشتباه جواب دادی. حتما فیلم بیست رو ندیدی، چون اگه دیده بودی بازی علیرضا خمسه و دست راست معیوبش یادت میموند.
+حالا که صحبت دست شد، یه سوال در مورد یه فیلم بپرسم که دست بازیگرش توش به یاد موندنی بود:</header>
+      <footer />
+      <name />
+      <price>0</price>
+      <score>0</score>
+      <question>true</question>
+      <nextStageCode />
+      <desc>سوال 6)
+تو کدوم فیلم شخصیت اولش با یک دست هم کبریتش رو روشن میکرد و هم سیگارش رو؟
+51- ناخدا خورشید
+52 - رئیس
+53 - سربازان جمعه
+54 - تنگنا
+55 - سوال بعدی
+56 - راهنمایی
+75 - جدول امتیازات</desc>
+      <condition>
+         <inputCode>51</inputCode>
+         <targetStage>60</targetStage>
+      </condition>
+      <condition>
+         <inputCode>52</inputCode>
+         <targetStage>61</targetStage>
+      </condition>
+      <condition>
+         <inputCode>53</inputCode>
+         <targetStage>61</targetStage>
+      </condition>
+      <condition>
+         <inputCode>54</inputCode>
+         <targetStage>61</targetStage>
+      </condition>
+      <condition>
+         <inputCode>55</inputCode>
+         <targetStage>62</targetStage>
+      </condition>
+      <condition>
+         <inputCode>56</inputCode>
+         <targetStage>53</targetStage>
+      </condition>
+      <finalStage>false</finalStage>
+   </stage>
+   <stage id="52">
+      <start-stage>FALSE</start-stage>
+      <welcomeMessage />
+      <header>*سانس لبخند*
+از سوال قبلی پریدی و نخواستی بهش جواب بدی. حتما فیلم بیست رو ندیدی، چون اگه دیده بودی بازی علیرضا خمسه و دست راست معیوبش یادت میموند.
+حالا که صحبت دست شد، یه سوال در مورد یه فیلم بپرسم که دست بازیگرش توش به یاد موندنی بود:</header>
+      <footer />
+      <name />
+      <price>0</price>
+      <score>0</score>
+      <question>true</question>
+      <nextStageCode />
+      <desc>سوال 6)
+تو کدوم فیلم شخصیت اولش با یک دست هم کبریتش رو روشن میکرد و هم سیگارش رو؟
+51- ناخدا خورشید
+52 - رئیس
+53 - سربازان جمعه
+54 - تنگنا
+55 - سوال بعدی
+56 - راهنمایی
+75 - جدول امتیازات</desc>
+      <condition>
+         <inputCode>51</inputCode>
+         <targetStage>60</targetStage>
+      </condition>
+      <condition>
+         <inputCode>52</inputCode>
+         <targetStage>61</targetStage>
+      </condition>
+      <condition>
+         <inputCode>53</inputCode>
+         <targetStage>61</targetStage>
+      </condition>
+      <condition>
+         <inputCode>54</inputCode>
+         <targetStage>61</targetStage>
+      </condition>
+      <condition>
+         <inputCode>55</inputCode>
+         <targetStage>62</targetStage>
+      </condition>
+      <condition>
+         <inputCode>56</inputCode>
+         <targetStage>53</targetStage>
+      </condition>
+      <finalStage>false</finalStage>
+   </stage>
+   <stage id="50">
+      <start-stage>FALSE</start-stage>
+      <welcomeMessage />
+      <header>*سانس لبخند*
+بابا تو دیگه کی هستی
+100 امتیاز شیرین گرفتی.
+خیلی خوب بود، علیرضا خمسه از بین گزینه های موجود، فقط تو فیلم بیست بود که نقش کمدی توش بازی نکرده بود. تو اون فیلم، دست راست خمسه هم معیوب بود.
+حالا که صحبت دست شد، یه سوال در مورد یه فیلم بپرسم که دست بازیگرش توش به یاد موندنی بود:</header>
+      <footer />
+      <name />
+      <price>0</price>
+      <score>100</score>
+      <question>true</question>
+      <nextStageCode />
+      <desc>سوال 6)
+تو کدوم فیلم شخصیت اولش با یک دست هم کبریتش رو روشن میکرد و هم سیگارش رو؟
+51- ناخدا خورشید
+52 - رئیس
+53 - سربازان جمعه
+54 - تنگنا
+55 - سوال بعدی
+56 - راهنمایی
+75 - جدول امتیازات</desc>
+      <condition>
+         <inputCode>51</inputCode>
+         <targetStage>60</targetStage>
+      </condition>
+      <condition>
+         <inputCode>52</inputCode>
+         <targetStage>61</targetStage>
+      </condition>
+      <condition>
+         <inputCode>53</inputCode>
+         <targetStage>51</targetStage>
+      </condition>
+      <condition>
+         <inputCode>54</inputCode>
+         <targetStage>61</targetStage>
+      </condition>
+      <condition>
+         <inputCode>55</inputCode>
+         <targetStage>62</targetStage>
+      </condition>
+      <condition>
+         <inputCode>56</inputCode>
+         <targetStage>53</targetStage>
+      </condition>
+      <finalStage>false</finalStage>
+   </stage>
+   <stage id="60">
+      <start-stage>FALSE</start-stage>
+      <welcomeMessage />
+      <header>*سانس لبخند*
+تو که این همه فیلم دیدی، پس کی وقت کردی به بقیه کارهات برسی؟
+آفرین درست جواب دادی، جواب ناخدا خورشید بود
+100 امتیاز گرفتی.
+حالا بریم سراغ یه سوال ویژه و 500 امتیازی. خوب حواست رو جمع کن:</header>
+      <footer />
+      <name />
+      <price>0</price>
+      <score>100</score>
+      <question>true</question>
+      <nextStageCode />
+      <desc>سوال 7)
+کدوم یکی از بازیگرهای مشهور به ایران نیومده؟
+41 - ژولیت بینوش
+42 - شان پن
+43 - مارلون براندو
+44 - سوال بعدی
+45 - راهنمایی</desc>
+      <condition>
+         <inputCode>41</inputCode>
+         <targetStage>71</targetStage>
+      </condition>
+      <condition>
+         <inputCode>42</inputCode>
+         <targetStage>71</targetStage>
+      </condition>
+      <condition>
+         <inputCode>43</inputCode>
+         <targetStage>70</targetStage>
+      </condition>
+      <condition>
+         <inputCode>44</inputCode>
+         <targetStage>72</targetStage>
+      </condition>
+      <condition>
+         <inputCode>45</inputCode>
+         <targetStage>63</targetStage>
+      </condition>
+      <condition>
+         <inputCode />
+         <targetStage />
+      </condition>
+      <finalStage>false</finalStage>
+   </stage>
+   <stage id="70">
+      <start-stage>FALSE</start-stage>
+      <welcomeMessage />
+      <header>*سانس لبخند*
+تو که انقدر به سینما علاقه داری، پیشنهاد میکنم حتما به صورت حرفه واردش بشی
+جوابت عالی بود. مارلون براندو هیچ وقت به ایران نیومد. با این جواب صحیح به سوال ویژه ما، 500 امتیاز گرفتی. پیش به سوی سوال بعدی:</header>
+      <footer />
+      <name />
+      <price>0</price>
+      <score>500</score>
+      <question>true</question>
+      <nextStageCode />
+      <desc>سوال 8)
+کدوم فیلم پر از صحنه های پخت و سرو غذاهای لذیذه؟
+51 - ماهی ها عاشق میشوند
+52 - پیتزای مخلوط
+53 - سالاد فصل
+54 - اسپاگتی در هشت دقیقه
+55- سوال بعدی
+56 - راهنمایی
+75 - جدول امتیازات</desc>
+      <condition>
+         <inputCode>51</inputCode>
+         <targetStage>80</targetStage>
+      </condition>
+      <condition>
+         <inputCode>52</inputCode>
+         <targetStage>81</targetStage>
+      </condition>
+      <condition>
+         <inputCode>53</inputCode>
+         <targetStage>81</targetStage>
+      </condition>
+      <condition>
+         <inputCode>54</inputCode>
+         <targetStage>81</targetStage>
+      </condition>
+      <condition>
+         <inputCode>55</inputCode>
+         <targetStage>82</targetStage>
+      </condition>
+      <condition>
+         <inputCode>56</inputCode>
+         <targetStage>73</targetStage>
+      </condition>
+      <finalStage>false</finalStage>
+   </stage>
+   <stage id="80">
+      <start-stage>FALSE</start-stage>
+      <welcomeMessage />
+      <header>*سانس لبخند*
+آفرین. خیلی خوب بود. انگار با یه فیلم بین حرفه ای طرفیم
+یا شایدم هم حسابی به غذا خوردن علاقه داری که ماهی ها عاشق میشوند رو یادت مونده.
+100 امتیاز گرفتی.
+جدیدا سینما رفتی؟</header>
+      <footer />
+      <name />
+      <price>0</price>
+      <score>100</score>
+      <question>true</question>
+      <nextStageCode />
+      <desc>سوال 9)
+کدوم بازیگر طبقه حساس(هساث) تمام فیلم، در حال فیلمبرداری کردن با گوشی موبایلش بود؟حتی توی استخر! تازه صداپیشه عروسکی توی سریال کلاه قرمزیه که ارادت خاصی به [در] داره.
+41 - رضا عطاران
+42 - پیمان قاسم خانی
+43 - بهادر مالکی
+44 - حمید جبلی
+45 - سوال بعدی
+46 - راهنمایی</desc>
+      <condition>
+         <inputCode>41</inputCode>
+         <targetStage>91</targetStage>
+      </condition>
+      <condition>
+         <inputCode>42</inputCode>
+         <targetStage>91</targetStage>
+      </condition>
+      <condition>
+         <inputCode>43</inputCode>
+         <targetStage>90</targetStage>
+      </condition>
+      <condition>
+         <inputCode>44</inputCode>
+         <targetStage>91</targetStage>
+      </condition>
+      <condition>
+         <inputCode>45</inputCode>
+         <targetStage>92</targetStage>
+      </condition>
+      <condition>
+         <inputCode>46</inputCode>
+         <targetStage>83</targetStage>
+      </condition>
+      <finalStage>false</finalStage>
+   </stage>
+   <stage id="90">
+      <start-stage>FALSE</start-stage>
+      <welcomeMessage />
+      <header>*سانس لبخند*
+ با این در اگر در بند در مانند، در مانند!
+واقعا بهادر مالکی این شعر رو بهتر از هر کس دیگه ای میخونه.
+100 امتیاز شیرین دادم بهت
+حالا یه سوال یه کم قدیمی تر میپرسم ازت:</header>
+      <footer />
+      <name />
+      <price>0</price>
+      <score>100</score>
+      <question>true</question>
+      <nextStageCode />
+      <desc>سوال 10)
+تو کدوم فیلم محمدرضا گلزار و حامد بهداد با هم بازی کردند؟
+51 - سربازان جمعه
+52 - دوئل
+53 - بوتیک
+54 - درباره الی
+55 - سوال بعدی
+56 - راهنمایی</desc>
+      <condition>
+         <inputCode>51</inputCode>
+         <targetStage>101</targetStage>
+      </condition>
+      <condition>
+         <inputCode>52</inputCode>
+         <targetStage>101</targetStage>
+      </condition>
+      <condition>
+         <inputCode>53</inputCode>
+         <targetStage>100</targetStage>
+      </condition>
+      <condition>
+         <inputCode>54</inputCode>
+         <targetStage>101</targetStage>
+      </condition>
+      <condition>
+         <inputCode>55</inputCode>
+         <targetStage>102</targetStage>
+      </condition>
+      <condition>
+         <inputCode>56</inputCode>
+         <targetStage>93</targetStage>
+      </condition>
+      <finalStage>false</finalStage>
+   </stage>
+   <stage id="100">
+      <start-stage>FALSE</start-stage>
+      <welcomeMessage />
+      <header>*سانس لبخند*
+آفرین خیلی خوب جواب دادی، البته انتظاری جز این هم ازت نداشتم.
+بوتیک تنها فیلمیه که گلزار و حامد بهداد باهم همبازی بودن، و به جرات یکی از بهترین بازیهای جفتشون بوده.
+100 امتیاز دیگه گرفتی. معلومه از سوالهای سینمای ایران امتیازهای خوبی میتونی بگیری. برو سراغ سوال بعدی:</header>
+      <footer />
+      <name />
+      <price>0</price>
+      <score>100</score>
+      <question>true</question>
+      <nextStageCode />
+      <desc>سوال 11)
+«یعنی کی میتونه باشه این موقع شب؟»تو کدوم یکی از سریال‌های زیر هجو شد؟
+41 - دنیای شیرین
+42 - خانه ما
+43 - خانه سبز
+44 - سوال بعدی
+45 - راهنمایی
+75 - جدول امتیازات</desc>
+      <condition>
+         <inputCode>41</inputCode>
+         <targetStage>111</targetStage>
+      </condition>
+      <condition>
+         <inputCode>42</inputCode>
+         <targetStage>110</targetStage>
+      </condition>
+      <condition>
+         <inputCode>43</inputCode>
+         <targetStage>111</targetStage>
+      </condition>
+      <condition>
+         <inputCode>44</inputCode>
+         <targetStage>112</targetStage>
+      </condition>
+      <condition>
+         <inputCode>45</inputCode>
+         <targetStage>103</targetStage>
+      </condition>
+      <condition>
+         <inputCode />
+         <targetStage />
+      </condition>
+      <finalStage>false</finalStage>
+   </stage>
+   <stage id="101">
+      <start-stage>FALSE</start-stage>
+      <welcomeMessage />
+      <header>*سانس لبخند*
+نه اشتباه جواب دادی، بیشتر دقت کن برای سوالهای بعدی
+بوتیک تنها فیلمیه که گلزار و حامد بهداد باهم همبازی بودن، و به جرات یکی از بهترین بازیهای جفتشون بوده.
+موافقی که تو بازم با سوالهای سینمایی ایران پیش بریم؟</header>
+      <footer />
+      <name />
+      <price>0</price>
+      <score>0</score>
+      <question>true</question>
+      <nextStageCode />
+      <desc>سوال 11)
+«یعنی کی میتونه باشه این موقع شب؟»تو کدوم یکی از سریال‌های زیر هجو شد؟
+41 - دنیای شیرین
+42 - خانه ما
+43 - خانه سبز
+44 - سوال بعدی
+45 - راهنمایی
+75 - جدول امتیازات</desc>
+      <condition>
+         <inputCode>41</inputCode>
+         <targetStage>111</targetStage>
+      </condition>
+      <condition>
+         <inputCode>42</inputCode>
+         <targetStage>110</targetStage>
+      </condition>
+      <condition>
+         <inputCode>43</inputCode>
+         <targetStage>111</targetStage>
+      </condition>
+      <condition>
+         <inputCode>44</inputCode>
+         <targetStage>112</targetStage>
+      </condition>
+      <condition>
+         <inputCode>45</inputCode>
+         <targetStage>103</targetStage>
+      </condition>
+      <condition>
+         <inputCode />
+         <targetStage />
+      </condition>
+      <finalStage>false</finalStage>
+   </stage>
+   <stage id="102">
+      <start-stage>FALSE</start-stage>
+      <welcomeMessage />
+      <header>*سانس لبخند*
+سوال قبلی رو جواب ندادی و از روش پریدی
+بوتیک تنها فیلمیه که گلزار و حامد بهداد باهم همبازی بودن، و به جرات یکی از بهترین بازیهای جفتشون بوده.
+موافقی که تو بازم با سوالهای سینمایی ایران پیش بریم؟</header>
+      <footer />
+      <name />
+      <price>0</price>
+      <score>0</score>
+      <question>true</question>
+      <nextStageCode />
+      <desc>سوال 11)
+«یعنی کی میتونه باشه این موقع شب؟»تو کدوم یکی از سریال‌های زیر هجو شد؟
+41 - دنیای شیرین
+42 - خانه ما
+43 - خانه سبز
+44 - سوال بعدی
+45 - راهنمایی
+75 - جدول امتیازات</desc>
+      <condition>
+         <inputCode>41</inputCode>
+         <targetStage>111</targetStage>
+      </condition>
+      <condition>
+         <inputCode>42</inputCode>
+         <targetStage>110</targetStage>
+      </condition>
+      <condition>
+         <inputCode>43</inputCode>
+         <targetStage>111</targetStage>
+      </condition>
+      <condition>
+         <inputCode>44</inputCode>
+         <targetStage>112</targetStage>
+      </condition>
+      <condition>
+         <inputCode>45</inputCode>
+         <targetStage>103</targetStage>
+      </condition>
+      <condition>
+         <inputCode />
+         <targetStage />
+      </condition>
+      <finalStage>false</finalStage>
+   </stage>
+   <stage id="103">
+      <start-stage>FALSE</start-stage>
+      <welcomeMessage />
+      <header>*سانس لبخند*
+شخصیت های اصلی فیلم خونه شون تو لواسان بود و پسرشون فوتبالیست و خیلی هم بامزه بودن
+یه کم فکر کنی حتما یادت میاد:</header>
+      <footer />
+      <name />
+      <price>0</price>
+      <score>0</score>
+      <question>true</question>
+      <nextStageCode />
+      <desc>سوال 11)
+«یعنی کی میتونه باشه این موقع شب؟»تو کدوم یکی از سریال‌های زیر هجو شد؟
+41 - دنیای شیرین
+42 - خانه ما
+43 - خانه سبز
+44 - سوال بعدی
+75 - جدول امتیازات</desc>
+      <condition>
+         <inputCode>41</inputCode>
+         <targetStage>111</targetStage>
+      </condition>
+      <condition>
+         <inputCode>42</inputCode>
+         <targetStage>110</targetStage>
+      </condition>
+      <condition>
+         <inputCode>43</inputCode>
+         <targetStage>111</targetStage>
+      </condition>
+      <condition>
+         <inputCode>44</inputCode>
+         <targetStage>112</targetStage>
+      </condition>
+      <condition>
+         <inputCode />
+         <targetStage />
+      </condition>
+      <condition>
+         <inputCode />
+         <targetStage />
+      </condition>
+      <finalStage>false</finalStage>
+   </stage>
+   <stage id="91">
+      <start-stage>FALSE</start-stage>
+      <welcomeMessage />
+      <header>*سانس لبخند*
+ با این در اگر در بند در مانند، در مانند!
+واقعا بهادر مالکی این شعر رو بهتر از هر کس دیگه ای میخونه.
+نتونستی درست جواب بدی. فدا سرت.
+حالا یه سوال یه کم قدیمی تر میپرسم ازت:</header>
+      <footer />
+      <name />
+      <price>0</price>
+      <score>0</score>
+      <question>true</question>
+      <nextStageCode />
+      <desc>سوال 10)
+تو کدوم فیلم محمدرضا گلزار و حامد بهداد با هم بازی کردند؟
+51 - سربازان جمعه
+52 - دوئل
+53 - بوتیک
+54 - درباره الی
+55 - سوال بعدی
+56 - راهنمایی</desc>
+      <condition>
+         <inputCode>51</inputCode>
+         <targetStage>101</targetStage>
+      </condition>
+      <condition>
+         <inputCode>52</inputCode>
+         <targetStage>101</targetStage>
+      </condition>
+      <condition>
+         <inputCode>53</inputCode>
+         <targetStage>100</targetStage>
+      </condition>
+      <condition>
+         <inputCode>54</inputCode>
+         <targetStage>101</targetStage>
+      </condition>
+      <condition>
+         <inputCode>55</inputCode>
+         <targetStage>102</targetStage>
+      </condition>
+      <condition>
+         <inputCode>56</inputCode>
+         <targetStage>93</targetStage>
+      </condition>
+      <finalStage>false</finalStage>
+   </stage>
+   <stage id="92">
+      <start-stage>FALSE</start-stage>
+      <welcomeMessage />
+      <header>*سانس لبخند*
+ با این در اگر در بند در مانند، در مانند!
+واقعا بهادر مالکی این شعر رو بهتر از هر کس دیگه ای میخونه.
+نخواستی به سوال قبل جواب بدی. فدا سرت.
+حالا یه سوال یه کم قدیمی تر میپرسم ازت:</header>
+      <footer />
+      <name />
+      <price>0</price>
+      <score>0</score>
+      <question>true</question>
+      <nextStageCode />
+      <desc>سوال 10)
+تو کدوم فیلم محمدرضا گلزار و حامد بهداد با هم بازی کردند؟
+51 - سربازان جمعه
+52 - دوئل
+53 - بوتیک
+54 - درباره الی
+55 - سوال بعدی
+56 - راهنمایی</desc>
+      <condition>
+         <inputCode>51</inputCode>
+         <targetStage>101</targetStage>
+      </condition>
+      <condition>
+         <inputCode>52</inputCode>
+         <targetStage>101</targetStage>
+      </condition>
+      <condition>
+         <inputCode>53</inputCode>
+         <targetStage>100</targetStage>
+      </condition>
+      <condition>
+         <inputCode>54</inputCode>
+         <targetStage>101</targetStage>
+      </condition>
+      <condition>
+         <inputCode>55</inputCode>
+         <targetStage>102</targetStage>
+      </condition>
+      <condition>
+         <inputCode>56</inputCode>
+         <targetStage>93</targetStage>
+      </condition>
+      <finalStage>false</finalStage>
+   </stage>
+   <stage id="93">
+      <start-stage>FALSE</start-stage>
+      <welcomeMessage />
+      <header>*سانس لبخند*
+این فیلم تو سال 82 ساخته شد و یکی از فیلمهای خوب اون دوره ست و کلی بازیگر خوب مثل رضا رویگری و یوسف تیموری هم توش بازی کردن
+یه بار دیگه به گزینه ها دقت کن:</header>
+      <footer />
+      <name />
+      <price>0</price>
+      <score>0</score>
+      <question>true</question>
+      <nextStageCode />
+      <desc>سوال 10)
+تو کدوم فیلم محمدرضا گلزار و حامد بهداد با هم بازی کردند؟
+51 - سربازان جمعه
+52 - دوئل
+53 - بوتیک
+54 - درباره الی
+55 - سوال بعدی</desc>
+      <condition>
+         <inputCode>51</inputCode>
+         <targetStage>101</targetStage>
+      </condition>
+      <condition>
+         <inputCode>52</inputCode>
+         <targetStage>101</targetStage>
+      </condition>
+      <condition>
+         <inputCode>53</inputCode>
+         <targetStage>100</targetStage>
+      </condition>
+      <condition>
+         <inputCode>54</inputCode>
+         <targetStage>101</targetStage>
+      </condition>
+      <condition>
+         <inputCode>55</inputCode>
+         <targetStage>102</targetStage>
+      </condition>
+      <condition>
+         <inputCode />
+         <targetStage />
+      </condition>
+      <finalStage>false</finalStage>
+   </stage>
+   <stage id="81">
+      <start-stage>FALSE</start-stage>
+      <welcomeMessage />
+      <header>*سانس لبخند*
+نه!
+اشتباه جواب دادی، جواب درست ماهی ها عاشق میشوند بود. البته بهت حق میدم، سوال سختی بود.
+جدیدا سینما رفتی؟</header>
+      <footer />
+      <name />
+      <price>0</price>
+      <score>0</score>
+      <question>true</question>
+      <nextStageCode />
+      <desc>سوال 9)
+کدوم بازیگر طبقه حساس(هساث) تمام فیلم، در حال فیلمبرداری کردن با گوشی موبایلش بود؟حتی توی استخر! تازه صداپیشه عروسکی توی سریال کلاه قرمزیه که ارادت خاصی به [در] داره.
+41 - رضا عطاران
+42 - پیمان قاسم خانی
+43 - بهادر مالکی
+44 - حمید جبلی
+45 - سوال بعدی
+46 - راهنمایی</desc>
+      <condition>
+         <inputCode>41</inputCode>
+         <targetStage>91</targetStage>
+      </condition>
+      <condition>
+         <inputCode>42</inputCode>
+         <targetStage>91</targetStage>
+      </condition>
+      <condition>
+         <inputCode>43</inputCode>
+         <targetStage>90</targetStage>
+      </condition>
+      <condition>
+         <inputCode>44</inputCode>
+         <targetStage>91</targetStage>
+      </condition>
+      <condition>
+         <inputCode>45</inputCode>
+         <targetStage>92</targetStage>
+      </condition>
+      <condition>
+         <inputCode>46</inputCode>
+         <targetStage>83</targetStage>
+      </condition>
+      <finalStage>false</finalStage>
+   </stage>
+   <stage id="82">
+      <start-stage>FALSE</start-stage>
+      <welcomeMessage />
+      <header>*سانس لبخند*
+جواب درست ماهی ها عاشق میشوند بود. البته بهت حق میدم که نخواستی به اون سوال جواب بدی، سوال سختی بود.
+جدیدا سینما رفتی؟</header>
+      <footer />
+      <name />
+      <price>0</price>
+      <score>0</score>
+      <question>true</question>
+      <nextStageCode />
+      <desc>سوال 9)
+کدوم بازیگر طبقه حساس(هساث) تمام فیلم، در حال فیلمبرداری کردن با گوشی موبایلش بود؟حتی توی استخر! تازه صداپیشه عروسکی توی سریال کلاه قرمزیه که ارادت خاصی به [در] داره.
+41 - رضا عطاران
+42 - پیمان قاسم خانی
+43 - بهادر مالکی
+44 - حمید جبلی
+45 - سوال بعدی
+46 - راهنمایی</desc>
+      <condition>
+         <inputCode>41</inputCode>
+         <targetStage>91</targetStage>
+      </condition>
+      <condition>
+         <inputCode>42</inputCode>
+         <targetStage>91</targetStage>
+      </condition>
+      <condition>
+         <inputCode>43</inputCode>
+         <targetStage>90</targetStage>
+      </condition>
+      <condition>
+         <inputCode>44</inputCode>
+         <targetStage>91</targetStage>
+      </condition>
+      <condition>
+         <inputCode>45</inputCode>
+         <targetStage>92</targetStage>
+      </condition>
+      <condition>
+         <inputCode>46</inputCode>
+         <targetStage>83</targetStage>
+      </condition>
+      <finalStage>false</finalStage>
+   </stage>
+   <stage id="83">
+      <start-stage>FALSE</start-stage>
+      <welcomeMessage />
+      <header>*سانس لبخند*
+گزینه درست از بقیه گزینه ها سن و شهرت کمتری داره. آسون شده دیگه، نه؟</header>
+      <footer />
+      <name />
+      <price>0</price>
+      <score>0</score>
+      <question>true</question>
+      <nextStageCode />
+      <desc>سوال 9)
+کدوم بازیگر طبقه حساس(هساث) تمام فیلم، در حال فیلمبرداری کردن با گوشی موبایلش بود؟حتی توی استخر! تازه صداپیشه عروسکی توی سریال کلاه قرمزیه که ارادت خاصی به [در] داره.
+41 - رضا عطاران
+42 - پیمان قاسم خانی
+43 - بهادر مالکی
+44 - حمید جبلی
+45 - سوال بعدی</desc>
+      <condition>
+         <inputCode>41</inputCode>
+         <targetStage>91</targetStage>
+      </condition>
+      <condition>
+         <inputCode>42</inputCode>
+         <targetStage>91</targetStage>
+      </condition>
+      <condition>
+         <inputCode>43</inputCode>
+         <targetStage>90</targetStage>
+      </condition>
+      <condition>
+         <inputCode>44</inputCode>
+         <targetStage>91</targetStage>
+      </condition>
+      <condition>
+         <inputCode>45</inputCode>
+         <targetStage>92</targetStage>
+      </condition>
+      <condition>
+         <inputCode />
+         <targetStage />
+      </condition>
+      <finalStage>false</finalStage>
+   </stage>
+   <stage id="71">
+      <start-stage>FALSE</start-stage>
+      <welcomeMessage />
+      <header>*سانس لبخند*
+عجب فرصتی رو از دست دادی. خیلی ناراحت شدم. جواب درست مارلون براندو بود.
+سعی کن تو سوالهای بعدی جبران کنی.</header>
+      <footer />
+      <name />
+      <price>0</price>
+      <score>0</score>
+      <question>true</question>
+      <nextStageCode />
+      <desc>سوال 8)
+کدوم فیلم پر از صحنه های پخت و سرو غذاهای لذیذه؟
+51 - ماهی ها عاشق میشوند
+52 - پیتزای مخلوط
+53 - سالاد فصل
+54 - اسپاگتی در هشت دقیقه
+55 - سوال بعدی
+56 - راهنمایی
+75 - جدول امتیازات</desc>
+      <condition>
+         <inputCode>51</inputCode>
+         <targetStage>80</targetStage>
+      </condition>
+      <condition>
+         <inputCode>52</inputCode>
+         <targetStage>81</targetStage>
+      </condition>
+      <condition>
+         <inputCode>53</inputCode>
+         <targetStage>81</targetStage>
+      </condition>
+      <condition>
+         <inputCode>54</inputCode>
+         <targetStage>81</targetStage>
+      </condition>
+      <condition>
+         <inputCode>55</inputCode>
+         <targetStage>82</targetStage>
+      </condition>
+      <condition>
+         <inputCode>56</inputCode>
+         <targetStage>73</targetStage>
+      </condition>
+      <finalStage>false</finalStage>
+   </stage>
+   <stage id="72">
+      <start-stage>FALSE</start-stage>
+      <welcomeMessage />
+      <header>*سانس لبخند*
+عجب فرصتی رو از دست دادی. خیلی ناراحت شدم. جواب درست مارلون براندو بود.
+سعی کن تو سوالهای بعدی جبران کنی.</header>
+      <footer />
+      <name />
+      <price>0</price>
+      <score>0</score>
+      <question>true</question>
+      <nextStageCode />
+      <desc>سوال 8)
+کدوم فیلم پر از صحنه های پخت و سرو غذاهای لذیذه؟
+51 - ماهی ها عاشق میشوند
+52 - پیتزای مخلوط
+53 - سالاد فصل
+54 - اسپاگتی در هشت دقیقه
+55- سوال بعدی
+56 - راهنمایی
+75 - جدول امتیازات</desc>
+      <condition>
+         <inputCode>51</inputCode>
+         <targetStage>80</targetStage>
+      </condition>
+      <condition>
+         <inputCode>52</inputCode>
+         <targetStage>81</targetStage>
+      </condition>
+      <condition>
+         <inputCode>53</inputCode>
+         <targetStage>81</targetStage>
+      </condition>
+      <condition>
+         <inputCode>54</inputCode>
+         <targetStage>81</targetStage>
+      </condition>
+      <condition>
+         <inputCode>55</inputCode>
+         <targetStage>82</targetStage>
+      </condition>
+      <condition>
+         <inputCode>56</inputCode>
+         <targetStage>73</targetStage>
+      </condition>
+      <finalStage>false</finalStage>
+   </stage>
+   <stage id="73">
+      <start-stage>FALSE</start-stage>
+      <welcomeMessage />
+      <header>*سانس لبخند*
+وقتی این فیلم رو میبینی دقیقا چندتا کلمه میاد تو ذهنت:
+آره. یه شماله و دریا و غذاهای خوشمزش.
+حالا گزینه ها رو دوباره بخونه:</header>
+      <footer />
+      <name />
+      <price>0</price>
+      <score>0</score>
+      <question>true</question>
+      <nextStageCode />
+      <desc>سوال 8)
+کدوم فیلم پر از صحنه های پخت و سرو غذاهای لذیذه؟
+51 - ماهی ها عاشق میشوند
+52 - پیتزای مخلوط
+53 - سالاد فصل
+54 - اسپاگتی در هشت دقیقه
+55- سوال بعدی
+75 - جدول امتیازات</desc>
+      <condition>
+         <inputCode>51</inputCode>
+         <targetStage>80</targetStage>
+      </condition>
+      <condition>
+         <inputCode>52</inputCode>
+         <targetStage>81</targetStage>
+      </condition>
+      <condition>
+         <inputCode>53</inputCode>
+         <targetStage>81</targetStage>
+      </condition>
+      <condition>
+         <inputCode>54</inputCode>
+         <targetStage>81</targetStage>
+      </condition>
+      <condition>
+         <inputCode>55</inputCode>
+         <targetStage>82</targetStage>
+      </condition>
+      <condition>
+         <inputCode />
+         <targetStage />
+      </condition>
+      <finalStage>false</finalStage>
+   </stage>
+   <stage id="61">
+      <start-stage>FALSE</start-stage>
+      <welcomeMessage />
+      <header>*سانس لبخند*
+احتمالا ناخدا خورشید رو دیده بودی و حرکات شخصیت اصلیش رو فراموش کردی. کمتر کسی پیدا میشه که ناخدا خورشید رو ندیده باشه.
+اشکال نداره، فرصت واسه جبران هست.
+این سوال یه سوال ویژه و 500 امتیازیه، خوب حواست رو جمع کن:</header>
+      <footer />
+      <name>ولکام</name>
+      <price>0</price>
+      <score>0</score>
+      <question>true</question>
+      <nextStageCode />
+      <desc>سوال 7)
+کدوم یکی از بازیگرهای مشهور به ایران نیومده؟
+41 - ژولیت بینوش
+42 - شان پن
+43 - مارلون براندو
+44 - سوال بعدی
+45 - راهنمایی</desc>
+      <condition>
+         <inputCode>41</inputCode>
+         <targetStage>71</targetStage>
+      </condition>
+      <condition>
+         <inputCode>42</inputCode>
+         <targetStage>70</targetStage>
+      </condition>
+      <condition>
+         <inputCode>43</inputCode>
+         <targetStage>71</targetStage>
+      </condition>
+      <condition>
+         <inputCode>44</inputCode>
+         <targetStage>72</targetStage>
+      </condition>
+      <condition>
+         <inputCode>45</inputCode>
+         <targetStage>63</targetStage>
+      </condition>
+      <condition>
+         <inputCode />
+         <targetStage />
+      </condition>
+      <finalStage>false</finalStage>
+   </stage>
+   <stage id="62">
+      <start-stage>FALSE</start-stage>
+      <welcomeMessage />
+      <header>*سانس لبخند*
+احتمالا ناخدا خورشید رو دیده بودی و حرکات شخصیت اصلیش رو فراموش کردی. کمتر کسی پیدا میشه که ناخدا خورشید رو ندیده باشه.
+اشکال نداره، فرصت واسه جبران هست.
+این سوال یه سوال ویژه و 500 امتیازیه، خوب حواست رو جمع کن:</header>
+      <footer />
+      <name>ولکام</name>
+      <price>0</price>
+      <score>0</score>
+      <question>true</question>
+      <nextStageCode />
+      <desc>سوال 7)
+کدوم یکی از بازیگرهای مشهور به ایران نیومده؟
+41 - ژولیت بینوش
+42 - شان پن
+43 - مارلون براندو
+44 - سوال بعدی
+45 - راهنمایی</desc>
+      <condition>
+         <inputCode>41</inputCode>
+         <targetStage>71</targetStage>
+      </condition>
+      <condition>
+         <inputCode>42</inputCode>
+         <targetStage>71</targetStage>
+      </condition>
+      <condition>
+         <inputCode>43</inputCode>
+         <targetStage>70</targetStage>
+      </condition>
+      <condition>
+         <inputCode>44</inputCode>
+         <targetStage>72</targetStage>
+      </condition>
+      <condition>
+         <inputCode>45</inputCode>
+         <targetStage>63</targetStage>
+      </condition>
+      <condition>
+         <inputCode />
+         <targetStage />
+      </condition>
+      <finalStage>false</finalStage>
+   </stage>
+   <stage id="63">
+      <start-stage>FALSE</start-stage>
+      <welcomeMessage />
+      <header>*سانس لبخند*
+یکی از توانایی های این بازیگر توی فیلم پدرخوانده این بود که به طرفش یه پیشنهادی میداد که نمیتونست رد کنه. اگه فیلم باز باشی منظورم رو میگیری. یه بار دیگه به سوال و جوابها دقت کن
+یادت نره که جواب صحیح به این سوال ویژه 500 امتیاز داره:</header>
+      <footer />
+      <name>ولکام</name>
+      <price>0</price>
+      <score>0</score>
+      <question>true</question>
+      <nextStageCode />
+      <desc>سوال 7)
+کدوم یکی از بازیگرهای مشهور به ایران نیومده؟
+41 - ژولیت بینوش
+42 - شان پن
+43 - مارلون براندو
+44 - سوال بعدی</desc>
+      <condition>
+         <inputCode>41</inputCode>
+         <targetStage>71</targetStage>
+      </condition>
+      <condition>
+         <inputCode>42</inputCode>
+         <targetStage>71</targetStage>
+      </condition>
+      <condition>
+         <inputCode>43</inputCode>
+         <targetStage>70</targetStage>
+      </condition>
+      <condition>
+         <inputCode>44</inputCode>
+         <targetStage>72</targetStage>
+      </condition>
+      <condition>
+         <inputCode />
+         <targetStage />
+      </condition>
+      <condition>
+         <inputCode />
+         <targetStage />
+      </condition>
+      <finalStage>false</finalStage>
+   </stage>
+   <stage id="53">
+      <start-stage>FALSE</start-stage>
+      <welcomeMessage />
+      <header>*سانس لبخند*
+برای راهنمایی بهت بگم که این فیلم یکی از بهترین بازیهای داریوش ارجمند و به کارگردانی ناصر تقوایی بود. تو این فیلم یه ناخدا پاش به ماجرای قاچاق و فراری دادن چند نفر کشیده میشه و ...
+یادت اومد؟ یه بار دیگه به سوال و گزینه ها نگاه کن:</header>
+      <footer />
+      <name />
+      <price>0</price>
+      <score>0</score>
+      <question>true</question>
+      <nextStageCode />
+      <desc>سوال 6)
+تو کدوم فیلم شخصیت اولش با یک دست هم کبریتش رو روشن میکرد و هم سیگارش رو؟
+51- ناخدا خورشید
+52 - رئیس
+53 - سربازان جمعه
+54 - تنگنا
+55 - سوال بعدی
+75 - جدول امتیازات</desc>
+      <condition>
+         <inputCode>51</inputCode>
+         <targetStage>60</targetStage>
+      </condition>
+      <condition>
+         <inputCode>52</inputCode>
+         <targetStage>61</targetStage>
+      </condition>
+      <condition>
+         <inputCode>53</inputCode>
+         <targetStage>61</targetStage>
+      </condition>
+      <condition>
+         <inputCode>54</inputCode>
+         <targetStage>61</targetStage>
+      </condition>
+      <condition>
+         <inputCode>55</inputCode>
+         <targetStage>62</targetStage>
+      </condition>
+      <condition>
+         <inputCode />
+         <targetStage />
+      </condition>
+      <finalStage>false</finalStage>
    </stage>
 </game-definition>

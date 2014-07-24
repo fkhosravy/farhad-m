@@ -14,8 +14,10 @@ import com.vas.engine.xml.model.*;
 import com.vas.engine.xml.model.PlayerState;
 import com.vas.server.scheduler.ScheduleTask;
 import com.vas.server.sender.MessageSender;
+import com.vas.util.ConfigLoader;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.io.File;
 import java.io.IOException;
@@ -28,51 +30,71 @@ import java.util.concurrent.BlockingQueue;
  * Date: 1/16/13 1:18 AM
  */
 
-public class GameEngineManager implements Runnable, GameEngineIF {
+public class GameEngineManager implements Runnable, GameEngineIF
+{
 
     private static Logger logger = Logger.getLogger(GameEngineManager.class);
 
-    public static String cancelMessage;
-
     public static final int GAME_END_STATE = 100;
+
     public static final int UN_STARTED_GAME_ERROR = 1;
+
     public static final int UNDEFINED_GAME = 2;
+
+    ConfigLoader configLoader;
+
+    ResourceBundle resourceBundle;
 
     BlockingQueue<IncomingMessage> _incomingMessageQueue = new ArrayBlockingQueue<IncomingMessage>(10000);
 
     GameStatisticManager _gameStatisticManager;
+
     CentralEventManager _eventManager;
 
     MessageParser _messageParser;
+
     MessageSender _messageSender;
 
     ScheduleTaskManager scheduleTaskManager;
 
     String gameStatusCode = "103";
+
     String gameListCode = "100";
 
     String gameStartCode = "روشن";
+
     String gameEndCode = "خاموش";
+
     String gameHelpCode = "کمك";
+
     String gameTableCode = "جدول";
+
     String gameScoreCode = "امتياز";
+
     String gameNextCode = "بعدي";
+
     String gameCancelCode = "انصراف";
+
     String gameServiceOff = "serviceOff";
 
     String gameXmlFilePath = "";
+
     XMLConverter converter;
 
     // contain game Code ----> Game Definition
     Map<String, GameDefinition> gameListMap = new HashMap<String, GameDefinition>();
+
     List<String> gameSeriesList = new ArrayList<String>();
 
     boolean useEngineError = false;
+
     boolean useEngineHelp = false;
 
     String engineErrorMessage = "";
+
     String engineHelpMessage = "";
 
+    @Qualifier("playerServiceImpl")
     @Autowired
     PlayerService _playerService;
 
@@ -85,374 +107,403 @@ public class GameEngineManager implements Runnable, GameEngineIF {
     @Autowired
     PlayerBlackListService _playerBlackListService;
 
-    public void setGameList(List<GameDefinition> gameList) {
-        for (GameDefinition nextGameDefinition : gameList) {
+    public void setGameList(List<GameDefinition> gameList)
+    {
+        for (GameDefinition nextGameDefinition : gameList)
+        {
             gameListMap.put(nextGameDefinition.getGameCode().toLowerCase().trim(), nextGameDefinition);
             gameListMap.put(nextGameDefinition.getGameCode().toUpperCase().trim(), nextGameDefinition);
         }
         logger.info("gameList.size() = " + gameList.size());
     }
 
-    public String getGameXmlFilePath() {
+    public String getGameXmlFilePath()
+    {
         return gameXmlFilePath;
     }
 
-    public void setGameXmlFilePath(String gameXmlFilePath) {
+    public void setGameXmlFilePath(String gameXmlFilePath)
+    {
         this.gameXmlFilePath = gameXmlFilePath;
     }
 
-    public void setMessageSender(MessageSender messageSender) {
+    public void setMessageSender(MessageSender messageSender)
+    {
         _messageSender = messageSender;
     }
 
-    public void setEventManager(CentralEventManager eventManager) {
+    public void setEventManager(CentralEventManager eventManager)
+    {
         _eventManager = eventManager;
     }
 
-    public void setGameStatusCode(String gameStatusCode) {
+    public void setGameStatusCode(String gameStatusCode)
+    {
         this.gameStatusCode = gameStatusCode;
     }
 
-    public void setGameListCode(String gameListCode) {
+    public void setGameListCode(String gameListCode)
+    {
         this.gameListCode = gameListCode;
     }
 
-    public void setGameStartCode(String gameStartCode) {
+    public void setGameStartCode(String gameStartCode)
+    {
         this.gameStartCode = gameStartCode;
     }
 
-    public void setGameEndCode(String gameEndCode) {
+    public void setGameEndCode(String gameEndCode)
+    {
         this.gameEndCode = gameEndCode;
     }
 
-    public String getGameEndCode() {
+    public String getGameEndCode()
+    {
         return gameEndCode;
     }
 
-    public void setGameStatisticManager(GameStatisticManager gameStatisticManager) {
+    public void setGameStatisticManager(GameStatisticManager gameStatisticManager)
+    {
         _gameStatisticManager = gameStatisticManager;
     }
 
-    public void setMessageParser(MessageParser messageParser) {
+    public void setMessageParser(MessageParser messageParser)
+    {
         _messageParser = messageParser;
     }
 
-    public String getGameHelpCode() {
+    public String getGameHelpCode()
+    {
         return gameHelpCode;
     }
 
-    public String getGameServiceOff() {
+    public String getGameServiceOff()
+    {
         return gameServiceOff;
     }
 
-    public void setGameServiceOff(String gameServiceOff) {
+    public void setGameServiceOff(String gameServiceOff)
+    {
         this.gameServiceOff = gameServiceOff;
     }
 
-    public XMLConverter getConverter() {
+    public XMLConverter getConverter()
+    {
         return converter;
     }
 
-    public void setConverter(XMLConverter converter) {
+    public void setConverter(XMLConverter converter)
+    {
         this.converter = converter;
     }
 
-    public void setGameHelpCode(String gameHelpCode) {
+    public void setGameHelpCode(String gameHelpCode)
+    {
         this.gameHelpCode = gameHelpCode;
     }
 
-    public boolean isUseEngineError() {
+    public boolean isUseEngineError()
+    {
         return useEngineError;
     }
 
-    public void setUseEngineError(boolean useEngineError) {
+    public void setUseEngineError(boolean useEngineError)
+    {
         this.useEngineError = useEngineError;
     }
 
-    public boolean isUseEngineHelp() {
+    public boolean isUseEngineHelp()
+    {
         return useEngineHelp;
     }
 
-    public void setUseEngineHelp(boolean useEngineHelp) {
+    public void setUseEngineHelp(boolean useEngineHelp)
+    {
         this.useEngineHelp = useEngineHelp;
     }
 
-    public String getEngineErrorMessage() {
+    public String getEngineErrorMessage()
+    {
         return engineErrorMessage;
     }
 
-    public void setEngineErrorMessage(String engineErrorMessage) {
+    public void setEngineErrorMessage(String engineErrorMessage)
+    {
         this.engineErrorMessage = engineErrorMessage;
     }
 
-    public String getEngineHelpMessage() {
+    public String getEngineHelpMessage()
+    {
         return engineHelpMessage;
     }
 
-    public void setEngineHelpMessage(String engineHelpMessage) {
+    public void setEngineHelpMessage(String engineHelpMessage)
+    {
         this.engineHelpMessage = engineHelpMessage;
     }
 
-    public String getGameTableCode() {
+    public String getGameTableCode()
+    {
         return gameTableCode;
     }
 
-    public void setGameTableCode(String gameTableCode) {
+    public void setGameTableCode(String gameTableCode)
+    {
         this.gameTableCode = gameTableCode;
     }
 
-    public String getGameScoreCode() {
+    public String getGameScoreCode()
+    {
         return gameScoreCode;
     }
 
-    public void setGameScoreCode(String gameScoreCode) {
+    public void setGameScoreCode(String gameScoreCode)
+    {
         this.gameScoreCode = gameScoreCode;
     }
 
-    public String getGameNextCode() {
+    public String getGameNextCode()
+    {
         return gameNextCode;
     }
 
-    public void setGameNextCode(String gameNextCode) {
+    public void setGameNextCode(String gameNextCode)
+    {
         this.gameNextCode = gameNextCode;
     }
 
-    public String getGameCancelCode() {
+    public String getGameCancelCode()
+    {
         return gameCancelCode;
     }
 
-    public void setGameCancelCode(String gameCancelCode) {
+    public void setGameCancelCode(String gameCancelCode)
+    {
         this.gameCancelCode = gameCancelCode;
     }
 
-    public Map<String, GameDefinition> getGameListMap() {
+    public Map<String, GameDefinition> getGameListMap()
+    {
         return gameListMap;
     }
 
-    public GameEngineManager() {
-
-        readConfig();
+    public GameEngineManager()
+    {
+//        configLoader = new ConfigLoader();
+        ConfigLoader.loadConfig();
+//        readConfig(this);
         Thread thread = new Thread(this, "IncomingMessageProcessor thread");
         thread.start();
     }
 
     @Override
-    public BlockingQueue<IncomingMessage> getIncomingMessageQueue() {
+    public BlockingQueue<IncomingMessage> getIncomingMessageQueue()
+    {
         return _incomingMessageQueue;
     }
 
-    public static void readConfig()
+    public static void readConfig(GameEngineManager gameEngineManager)
     {
-        ResourceBundle resourceBundle = ResourceBundle.getBundle("application-config", new Locale("fa"));
-        Enumeration <String> keys = resourceBundle.getKeys();
-        while (keys.hasMoreElements()) {
+        gameEngineManager.resourceBundle = ResourceBundle.getBundle("application-config", new Locale("fa"));
+        Enumeration<String> keys = gameEngineManager.resourceBundle.getKeys();
+        while (keys.hasMoreElements())
+        {
             String key = keys.nextElement();
-            if (key.compareTo("cancel.message") == 0)
-                cancelMessage = resourceBundle.getString(key);
+//            if (key.compareTo("cancel.message") == 0)
+//                cancelMessage = gameEngineManager.resourceBundle.getString(key);
         }
     }
 
     public void run()
     {
-        List<PlayerBlackList> playerBlackLists = null;
-
-        while (true) {
-
-            try {
+        while (true)
+        {
+            try
+            {
                 IncomingMessage incomingMessage = _incomingMessageQueue.take();
                 logger.info("get message from queue: " + incomingMessage.getMessageContent());
                 incomingMessage.setMsgItems(_messageParser.parse(incomingMessage));
 
-                String firstToken = (incomingMessage.getMsgItems().size() > 0) ? incomingMessage.getMsgItems().get(0) : "";
-                String secondToken = (incomingMessage.getMsgItems().size() > 1) ? incomingMessage.getMsgItems().get(1) : "";
-                logger.info("firstToken = " + firstToken);
-
-                String playerMobileNo = incomingMessage.getSourceAddr();
-
-                Player lastActivePlay = null;
-                //find player in player databse
-                if (firstToken != null && !firstToken.isEmpty())
-                {
-                    try {
-                        int code = Integer.parseInt(firstToken);
-                        for (GameDefinition gameDefinition : gameListMap.values())
-                        {
-                            if (code >= gameDefinition.getStartRange() && code <= gameDefinition.getEndRange())
-                            {
-                                secondToken = firstToken;
-                                firstToken = gameDefinition.getCode().toLowerCase();
-
-                                List<String> items = new ArrayList<String>();
-                                items.add(firstToken);
-                                items.add(secondToken);
-                                incomingMessage.getMsgItems().clear();
-                                incomingMessage.setMsgItems(items);
-                                break;
-                            }
-                        }
-                    } catch (NumberFormatException exp)
-                    {
-
-                    }
-
-                    lastActivePlay = _playerService.findLastActivePlayByMobileAndGameSeries(playerMobileNo, firstToken);
-                    playerBlackLists = _playerBlackListService.findByMobileAndGamePrefix(playerMobileNo, firstToken);
-                }
-                else
-                    playerBlackLists = _playerBlackListService.findByMobile(playerMobileNo);
-
-                if (playerBlackLists != null && playerBlackLists.size() > 0)
-                {
-                    logger.warn("Receive Message " + firstToken + " From Blocked Player " + incomingMessage.getSourceAddr());
-                    playerBlackLists.clear();
-                    continue;
-                }
-
                 if (incomingMessage.getMsgItems().size() < 1)
                 {
-                    sendHelp(incomingMessage, lastActivePlay);
+                    sendHelp(incomingMessage, null);
                     continue;
                 }
-                else if (firstToken.equals(gameHelpCode) || secondToken.equals(gameHelpCode))
+                else    // player send something
                 {
-                    sendHelp(incomingMessage, lastActivePlay);
-                    continue;
-                }
-                else if (firstToken.equals(gameListCode) || secondToken.equals(gameListCode))
-                {
-                    sendHelp(incomingMessage, lastActivePlay);
-                    continue;
-                }
-                else if (firstToken.equals(gameServiceOff) || firstToken.equals(gameServiceOff.toLowerCase()))
-                {
-                    lastActivePlay = _playerService.findLastActivePlay(playerMobileNo);
-                    if (lastActivePlay != null)
-                    {
-                        logger.info("customer service off requested...");
+                    String firstToken = (incomingMessage.getMsgItems().size() > 0) ? incomingMessage.getMsgItems().get(0) : "";
+                    String secondToken = (incomingMessage.getMsgItems().size() > 1) ? incomingMessage.getMsgItems().get(1) : "";
+                    logger.info("firstToken = " + firstToken);
 
-                        lastActivePlay.setGameState(_playerService.GAME_OFF_STATE);
-                        lastActivePlay.setLastRequestDate(new Date());
-                        _playerService.updatePlayer(lastActivePlay);
-                    }
+                    String playerMobileNo = incomingMessage.getSourceAddr();
+
+                    if (existInBlackList(playerMobileNo, firstToken))
+                        continue;
                     else
-                        logger.info("unknown customer service off requested...");
-                }
-                else if (!gameSeriesList.contains(firstToken))
-                {
-                    //if received message at least has one part and first part is invalid code
-                    logger.warn("TODO must send error that express first token is invalid...");
-
-                    String correctCode = "";
-                    if (!gameListMap.keySet().isEmpty())
                     {
-                        correctCode = gameListMap.keySet().iterator().next();
-                        if (correctCode != null)
-                            correctCode = correctCode.toUpperCase();
-                    }
-
-                    sendInvalidInput(incomingMessage, correctCode);
-                    savePlayerStateLog(incomingMessage, lastActivePlay);
-                }
-                else
-                {
-                    //if received message has one part and it is game series code
-                    if (gameSeriesList.contains(firstToken) && secondToken.isEmpty()) {
-
-                        // check player already has active play if true send current state for it
-                        // disable for checking active user just send current state for it
-                        if (lastActivePlay == null)
+                        try
                         {
-                            List<Game> gameListRelatedToSeries = _gameService.findGameBySeries(firstToken);
+                            int code = Integer.parseInt(firstToken);
+                            for (GameDefinition gameDefinition : gameListMap.values())
+                            {
+                                if (code >= gameDefinition.getStartRange() && code <= gameDefinition.getEndRange())
+                                {
+                                    secondToken = firstToken;
+                                    firstToken = gameDefinition.getCode().toLowerCase();
 
-                            if (gameListRelatedToSeries.isEmpty())
-                            {
-                                //send error
-                                logger.fatal("Does not exist any game for requested series with token " + firstToken + "] !");
-                                //TODO must send error message to express does not exist any game for requested series");
-                                sendDoesNotAnyGame(incomingMessage);
-                                savePlayerStateLog(incomingMessage, lastActivePlay);
-                            }
-                            else
-                            {
-                                //normal registration
-                                Game firstGameInSeries = gameListRelatedToSeries.get(0);
-                                GameDefinition gameDefinition = gameListMap.get(firstGameInSeries.getPrefix());
-                                registerCustomer(incomingMessage, gameDefinition, firstGameInSeries.getId(),true);
+                                    List<String> items = new ArrayList<String>();
+                                    items.add(firstToken);
+                                    items.add(secondToken);
+                                    incomingMessage.getMsgItems().clear();
+                                    incomingMessage.setMsgItems(items);
+                                    break;
+                                }
                             }
                         }
-                        else
+                        catch (NumberFormatException exp)
+                        {}
+
+                        //find player in player database
+                        Player player = _playerService.findLastActivePlayByMobileAndGameSeries(playerMobileNo, firstToken);
+
+                        if (firstToken.equals(gameHelpCode) || secondToken.equals(gameHelpCode))
                         {
-                            logger.info("Already has registered play so send current state for player");
-                            Game foundGame = _gameService.findGame(lastActivePlay.getGameId());
-                            GameDefinition gameDefinition = gameListMap.get(foundGame.getPrefix());
-
-                            int price = messagePrice(gameDefinition, lastActivePlay, gameDefinition.getStartStage());
-
-                            sendStartStatus(incomingMessage, gameDefinition, price);
-
-                            savePlayerStateLog(incomingMessage, lastActivePlay);
-
-                            if (price > 0)
-                                lastActivePlay.setLastChargeDate(new Date());
-
-                            lastActivePlay.setLastStageId(gameDefinition.getStartStage().getId());
-                            lastActivePlay.setLastRequestDate(new Date());
-                            _playerService.updatePlayer(lastActivePlay);
-                        }
-
-                    }
-                    else if (gameSeriesList.contains(firstToken) && !secondToken.isEmpty())
-                    {
-                        // if received message at least has two part, first part is game series and second part is not empty
-                        GameDefinition foundGame = gameListMap.get(firstToken);
-                        if (foundGame == null)
-                        {
-                            logger.info("found any game for gameId " + firstToken + " is null...");
-                            sendHelp(incomingMessage, lastActivePlay);
+                            sendHelp(incomingMessage, player);
                             continue;
                         }
+                        else if (firstToken.equals(gameListCode) || secondToken.equals(gameListCode))
+                        {
+                            sendHelp(incomingMessage, player);
+                            continue;
+                        }
+                        else if (firstToken.equals(gameServiceOff) || firstToken.equals(gameServiceOff.toLowerCase()))
+                        {
+                            serviceOffRequest(playerMobileNo);
+                            continue;
+                        }
+                        else if (!gameSeriesList.contains(firstToken))
+                        {
+                            //if received message at least has one part and first part is invalid code
+                            logger.warn("TODO must send error that express first token is invalid...");
+
+                            String correctCode = "";
+                            if (!gameListMap.keySet().isEmpty())
+                            {
+                                correctCode = gameListMap.keySet().iterator().next();
+                                if (correctCode != null)
+                                    correctCode = correctCode.toUpperCase();
+                            }
+                            else
+                                logger.fatal("Error : Game List Map is Empty...");
+
+                            sendInvalidInput(incomingMessage, correctCode);
+                            savePlayerStateLog(incomingMessage, player);
+                        }
                         else
                         {
-                            List<Game> gameListRelatedToSeries = _gameService.findGameBySeries(firstToken);
-
-                            if (lastActivePlay == null)
+                            //if received message has one part and it is game series code
+                            if (secondToken.isEmpty())
                             {
+                                List<Game> gameListRelatedToSeries = _gameService.findGameBySeries(firstToken);
+
                                 if (gameListRelatedToSeries.isEmpty())
                                 {
                                     //send error
                                     logger.fatal("Does not exist any game for requested series with token " + firstToken + "] !");
-                                    //TODO must send error message to express does not exist any game for requested series");
                                     sendDoesNotAnyGame(incomingMessage);
-                                    savePlayerStateLog(incomingMessage, null);
+                                    savePlayerStateLog(incomingMessage, player);
                                 }
                                 else
                                 {
-                                    Game firstGameInSeries = gameListRelatedToSeries.get(0);
-
-                                    if (secondToken != null && secondToken.equals(gameStartCode))
-                                        registerCustomer(incomingMessage, foundGame, firstGameInSeries.getId(), true);
-                                    else if (secondToken != null && secondToken.equals(gameEndCode))
-                                        unRegisterCustomer(incomingMessage, foundGame, true);
-
                                     //normal registration
-                                    registerCustomer(incomingMessage, foundGame, firstGameInSeries.getId(), false);
+                                    Game firstGameInSeries = gameListRelatedToSeries.get(0);
+                                    GameDefinition gameDefinition = gameListMap.get(firstGameInSeries.getPrefix());
+                                    if (gameDefinition != null)
+                                    {
+                                        if (player == null)
+                                        {
+                                            sendHelp(incomingMessage, null);
+//                                            registerCustomer(incomingMessage, gameDefinition, firstGameInSeries.getId(), true);
+                                        }
+                                        else
+                                        {
+                                            sendHelp(incomingMessage, player);
+//                                            if (player.getGameState() == _playerService.GAME_OFF_STATE)
+//                                                registerCustomer(incomingMessage, gameDefinition, firstGameInSeries.getId(), true);
+//                                            else
+//                                            {
+//                                                // check player already has active play if true send current state for it
+//                                                logger.info("Already has registered play so send current state for player");
+//                                                Game foundGame = _gameService.findGame(player.getGameId());
+//
+//                                                if (foundGame != null)
+//                                                    sendStartStatus(incomingMessage, player, foundGame);
+//                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        logger.fatal("Does not exist any GameDefinition for requested prefix: " + firstGameInSeries.getPrefix());
+                                        sendDoesNotAnyGame(incomingMessage);
+                                    }
                                 }
                             }
-                            else
-                                process(incomingMessage, foundGame, firstToken);
+                            else // if secondToken is not empty
+                            {
+                                // if received message at least has two part, first part is game series and second part is not empty
+                                GameDefinition gameDefinition = gameListMap.get(firstToken);
+                                if (gameDefinition == null)
+                                {
+                                    logger.info("found any game for gameId " + firstToken + " is null...");
+                                    sendHelp(incomingMessage, player);
+                                    continue;
+                                }
+                                else
+                                {
+                                    List<Game> gameListRelatedToSeries = _gameService.findGameBySeries(firstToken);
+
+                                    if (gameListRelatedToSeries.isEmpty())
+                                    {
+                                        //send error
+                                        logger.fatal("Does not exist any game for requested series with token " + firstToken + "] !");
+                                        //TODO must send error message to express does not exist any game for requested series");
+                                        sendDoesNotAnyGame(incomingMessage);
+                                        savePlayerStateLog(incomingMessage, null);
+                                    }
+                                    else
+                                        process(incomingMessage, gameDefinition, gameListRelatedToSeries.get(0));
+                                }
+                            }
                         }
                     }
                 }
 
                 logger.info("end process");
-
-            } catch (Throwable e) {
+            }
+            catch (Throwable e)
+            {
                 logger.error("err msg : " + e.getMessage(), e);
             }
         }
     }
 
-    private void process(IncomingMessage incomingMessage, GameDefinition relatedGame, String gameId)
+    private void serviceOffRequest(String playerMobileNo)
+    {
+        Player player = _playerService.findLastActivePlay(playerMobileNo);
+        if (player != null)
+        {
+            logger.info("customer service off requested...");
+
+            player.setGameState(_playerService.GAME_OFF_STATE);
+            player.setLastRequestDate(new Date());
+
+            _playerService.updatePlayer(player);
+        }
+        else
+            logger.info("unknown customer service off requested...");
+    }
+
+    private void process(IncomingMessage incomingMessage, GameDefinition relatedGame, Game game)
     {
         logger.info("entered into process");
 
@@ -463,7 +514,7 @@ public class GameEngineManager implements Runnable, GameEngineIF {
         //if second code is gameStartCode register new customer
         if (secondToken != null && secondToken.equals(gameStartCode))
         {
-            registerCustomer(incomingMessage, relatedGame, -1L, true);
+            registerCustomer(incomingMessage, relatedGame, game.getId(), true);
         }
         //if second code is gameEndCode unregister exist customer
         else if (secondToken != null && secondToken.equals(gameEndCode))
@@ -474,46 +525,44 @@ public class GameEngineManager implements Runnable, GameEngineIF {
             //todo check conflict with _playerService. findLastActivePlay(customerMobileNo); called in main method
 
             //PlayerState currentPlayerState = _gameStatisticManager.getPlayerState(customerMobileNo, relatedGame.getGameCode());
-            Player lastActivePlay = _playerService.findLastActivePlayByMobileAndGameSeries(customerMobileNo, relatedGame.getGameCode());
+            Player player = _playerService.findLastActivePlayByMobileAndGameSeries(customerMobileNo, relatedGame.getGameCode());
 
             //current player not have previous state in the system so send error for customer
-            if (lastActivePlay == null)
+            if (player == null)
             {
                 logger.error("customer : " + customerMobileNo + " does not have previous state with code " + firstToken);
-                sendHelp(incomingMessage, lastActivePlay);
+                sendHelp(incomingMessage, player);
             }
             else if (secondToken != null && secondToken.equals(gameStatusCode))
             {
                 logger.info("customer status requested...");
-                sendCurrentStatus(incomingMessage, relatedGame, lastActivePlay, null);
+                sendCurrentStatus(incomingMessage, relatedGame, player, null);
             }
             else if (secondToken != null && secondToken.equals(gameTableCode))
             {
                 logger.info("customer table requested...");
-                sendTable(incomingMessage, lastActivePlay, relatedGame);
-                savePlayerStateLog(incomingMessage, lastActivePlay);
+                sendTable(incomingMessage, player, relatedGame);
+                savePlayerStateLog(incomingMessage, player);
             }
             else if (secondToken != null && secondToken.equals(gameScoreCode))
             {
                 logger.info("customer score requested...");
-                sendScore(incomingMessage, lastActivePlay, relatedGame);
-                savePlayerStateLog(incomingMessage, lastActivePlay);
+                sendScore(incomingMessage, player, relatedGame);
+                savePlayerStateLog(incomingMessage, player);
             }
             else if (secondToken != null && secondToken.equals(gameCancelCode))
             {
-                savePlayerStateLog(incomingMessage, lastActivePlay);
+                savePlayerStateLog(incomingMessage, player);
 
                 GameStage startStage = relatedGame.getStartStage();
-                int price = messagePrice(relatedGame, lastActivePlay, startStage);
+                int price = messagePrice(relatedGame, player, startStage);
 
-//                String customerMessage = cancelMessage.replaceAll("#score#", lastActivePlay.getScore().toString());
-                String customerMessage = "به درخواست شما سوالات اين دسته ديگر برايتان ارسال نخواهد شد. شما حالا مجموعا ";
-                customerMessage = customerMessage + lastActivePlay.getScore().intValue() + " امتياز داريد.";
+                String customerMessage = ConfigLoader.getValue("game.message.cancelCode").replace("#", player.getScore().toString());
                 customerMessage += "\n";
 
-                lastActivePlay.setLastStageId(startStage.getId());
-                lastActivePlay.setLastRequestDate(new Date());
-                _playerService.updatePlayer(lastActivePlay);
+                player.setLastStageId(startStage.getId());
+                player.setLastRequestDate(new Date());
+                player = _playerService.updatePlayer(player);
 
                 if (startStage.getHeader() != null)
                     customerMessage = startStage.getHeader() + "\n";
@@ -530,54 +579,58 @@ public class GameEngineManager implements Runnable, GameEngineIF {
 
                 if (price > 0)
                 {
-                    lastActivePlay.setLastChargeDate(new Date());
-                    _playerService.updatePlayer(lastActivePlay);
+                    player.incChargeNo();
+                    player.setLastChargeDate(new Date());
+                    _playerService.updatePlayer(player);
                 }
             }
             else
             {
                 //find related defined stage in system to current state of customer
                 //and if find, process it otherwise send error to customer
-                GameStage relatedGameStageToPlayer = findGameStage(relatedGame, lastActivePlay.getLastStageId());
+                GameStage relatedGameStageToPlayer = findGameStage(relatedGame, player.getLastStageId());
                 if (relatedGameStageToPlayer != null)
                 {
                     if (secondToken != null && secondToken.equals(gameNextCode))
                     {
                         GameStage targetGameStage = findGameStage(relatedGame, relatedGameStageToPlayer.getNextStageCode());
 
-                        savePlayerStateLog(incomingMessage, lastActivePlay);
+                        savePlayerStateLog(incomingMessage, player);
 
                         if (targetGameStage != null)
-                            nextStage(relatedGame, incomingMessage, lastActivePlay, targetGameStage);
+                            nextStage(relatedGame, incomingMessage, player, targetGameStage);
                         else
                         {
-                            int price = messagePrice(relatedGame, lastActivePlay, targetGameStage);
+                            int price = messagePrice(relatedGame, player, targetGameStage);
 
                             String customerMessage = "";
                             if (relatedGameStageToPlayer.isStartStage())
-                                customerMessage += "شما در مرحله اول هستيد و باید موزیسین مورد علاقه خود را انتخاب کنيد.";
+                                customerMessage += ConfigLoader.getValue("game.message.firstStage");
                             else
-                                customerMessage += "شما در مرحله آخر هستيد.";
+                                customerMessage += ConfigLoader.getValue("game.message.lastStage");
 
                             if (relatedGameStageToPlayer.getDesc() != null)
-                                customerMessage =  customerMessage + "\n" + relatedGameStageToPlayer.getDesc();
+                                customerMessage = customerMessage + "\n" + relatedGameStageToPlayer.getDesc();
 
                             if (relatedGameStageToPlayer.getFooter() != null)
                                 customerMessage = customerMessage + " " + relatedGameStageToPlayer.getFooter();
 
                             _messageSender.sendMessage(incomingMessage.getSourceAddr(), customerMessage, relatedGame.getServiceID(), price);
-                            logger.info("Send Message " + customerMessage + " To Reciever " + incomingMessage.getSourceAddr() +
+                            logger.info("Send Message " + customerMessage + " To Receiver " + incomingMessage.getSourceAddr() +
                                     " With ServiceId " + relatedGame.getServiceID() + " With Price " + price);
 
                             if (price > 0)
-                                lastActivePlay.setLastChargeDate(new Date());
+                            {
+                                player.incChargeNo();
+                                player.setLastChargeDate(new Date());
+                            }
 
-                            lastActivePlay.setLastStageId(relatedGameStageToPlayer.getName());
-                            _playerService.updatePlayer(lastActivePlay);
+                            player.setLastStageId(relatedGameStageToPlayer.getName());
+                            player = _playerService.updatePlayer(player);
                         }
                     }
                     else
-                        processInputForStage(relatedGame, relatedGameStageToPlayer, lastActivePlay.getLastStageId(), secondToken, incomingMessage);
+                        processInputForStage(relatedGame, relatedGameStageToPlayer, player.getLastStageId(), secondToken, incomingMessage);
                 }
                 else
                     sendError(incomingMessage); //Todo Change better error
@@ -585,21 +638,24 @@ public class GameEngineManager implements Runnable, GameEngineIF {
         }
     }
 
-    private int messagePrice(GameDefinition relatedGame, Player lastActivePlay, GameStage gameStage)
+    private int messagePrice(GameDefinition relatedGame, Player player, GameStage gameStage)
     {
         Calendar calendar = new GregorianCalendar();
         calendar.set(Calendar.HOUR, 0);
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
 
-        if (lastActivePlay.getLastRequestDate().before(calendar.getTime()))
+        if (player.getChargeNo() == 0)
+            return relatedGame.getPricePerDay();
+        else if (player.getLastChargeDate().before(calendar.getTime()))
             return relatedGame.getPricePerDay();
         else
             return gameStage.getPrice();
     }
 
     private void processInputForStage(GameDefinition relatedGame, GameStage currentPlayerStage,
-                                      String previousStageId, String inputValue, IncomingMessage incomingMessage) {
+                                      String previousStageId, String inputValue, IncomingMessage incomingMessage)
+    {
         logger.warn("********************************");
         logger.info("entered into processInputForStage");
         String customerMobileNo = incomingMessage.getSourceAddr();
@@ -629,14 +685,14 @@ public class GameEngineManager implements Runnable, GameEngineIF {
                 customer.setLastRequestDate(new Date());
 
                 logger.info("CurrentStateId: [" + previousStageId + "] TargetStageId: [" + targetStageId + "]");
-                _playerService.updatePlayer(customer);
+                customer = _playerService.updatePlayer(customer);
 
                 GameStage targetGameStage = findGameStage(relatedGame, targetStageId);
 
                 if (targetGameStage == null)
                 {
                     //TODO check this condition
-                    logger.error("targetGameStage with id " + targetStageId + " not found in system .....");
+                    logger.fatal("targetGameStage with id " + targetStageId + " not found in system .....");
                 }
                 else
                     nextStage(relatedGame, incomingMessage, customer, targetGameStage);
@@ -649,14 +705,16 @@ public class GameEngineManager implements Runnable, GameEngineIF {
             sendError(incomingMessage, currentPlayerStage, incomingMessage.getMsgItems().get(0));
     }
 
-    private void nextStage(GameDefinition relatedGame, IncomingMessage incomingMessage, Player customer, GameStage targetGameStage) {
+    private void nextStage(GameDefinition relatedGame, IncomingMessage incomingMessage, Player customer, GameStage targetGameStage)
+    {
+        boolean updateFlag = false;
         //send stage description
         String customerMessage = "";
         if (targetGameStage.getHeader() != null)
             customerMessage = targetGameStage.getHeader() + "\n";
 
         if (targetGameStage.getDesc() != null)
-            customerMessage =  customerMessage + " " + targetGameStage.getDesc();
+            customerMessage = customerMessage + " " + targetGameStage.getDesc();
 
         if (targetGameStage.getFooter() != null)
             customerMessage = customerMessage + " " + targetGameStage.getFooter();
@@ -669,28 +727,51 @@ public class GameEngineManager implements Runnable, GameEngineIF {
 
             customerMessage = customerMessage + "\n " +
                     (targetGameStage.getGoodByMessage() == null ? "" : targetGameStage.getGoodByMessage());
+
+            updateFlag = true;
         }
 
-        _messageSender.sendMessage(incomingMessage.getSourceAddr(), customerMessage, relatedGame.getServiceID(), targetGameStage.getPrice());
-        logger.info("Send Message " + customerMessage + " To Reciever " + incomingMessage.getSourceAddr() +
-                " With ServiceId " + relatedGame.getServiceID() + " With Price " + targetGameStage.getPrice());
+        int price = messagePrice(relatedGame, customer, targetGameStage);
 
-        if (targetGameStage.getPrice() > 0)
+        _messageSender.sendMessage(incomingMessage.getSourceAddr(), customerMessage, relatedGame.getServiceID(), price);
+        logger.info("Send Message " + customerMessage + " To Receiver " + incomingMessage.getSourceAddr() +
+                " With ServiceId " + relatedGame.getServiceID() + " With Price " + price);
+
+        if (price > 0)
+        {
+            customer.incChargeNo();
             customer.setLastChargeDate(new Date());
+            updateFlag = true;
+        }
 
-        customer.setLastStageId(targetGameStage.getName());
-        _playerService.updatePlayer(customer);
+//        customer.setLastStageId(targetGameStage.getName());
+
+        if (updateFlag)
+            _playerService.updatePlayer(customer);
     }
 
-    private void sendStartStatus(IncomingMessage incomingMessage, GameDefinition relatedGame, int price) {
+    private void sendStartStatus(IncomingMessage incomingMessage, Player player, Game game)
+    {
         logger.info("Get Stage0");
 
-        //find gameStage
-        GameStage relatedStageToPlayer = relatedGame.getStartStage();
-        if (relatedStageToPlayer == null) {
-            sendError(incomingMessage); //Todo Change better error
-        } else {
+        GameDefinition gameDefinition = gameListMap.get(game.getPrefix());
 
+        int price = messagePrice(gameDefinition, player, gameDefinition.getStartStage());
+
+        savePlayerStateLog(incomingMessage, player);
+
+        player.setLastStageId(gameDefinition.getStartStage().getId());
+        player.setLastRequestDate(new Date());
+
+        player = _playerService.updatePlayer(player);
+
+        //find gameStage
+        GameStage relatedStageToPlayer = gameDefinition.getStartStage();
+
+        if (relatedStageToPlayer == null)
+            sendError(incomingMessage); //Todo Change better error
+        else
+        {
             String smsContent = relatedStageToPlayer.getDesc();
 
             if (relatedStageToPlayer.getHeader() != null)
@@ -699,9 +780,16 @@ public class GameEngineManager implements Runnable, GameEngineIF {
             if (relatedStageToPlayer.getFooter() != null)
                 smsContent = smsContent + "\n" + relatedStageToPlayer.getFooter();
 
-            _messageSender.sendMessage(incomingMessage.getSourceAddr(), smsContent, relatedGame.getServiceID(), price);
-            logger.info("Send Message " + smsContent + " To Reciever " + incomingMessage.getSourceAddr() +
-                    " With ServiceId " + relatedGame.getServiceID() + " With Price " + price);
+            _messageSender.sendMessage(incomingMessage.getSourceAddr(), smsContent, gameDefinition.getServiceID(), price);
+            logger.info("Send Message " + smsContent + " To Receiver " + incomingMessage.getSourceAddr() +
+                    " With ServiceId " + gameDefinition.getServiceID() + " With Price " + price);
+
+            if (price > 0)
+            {
+                player.incChargeNo();
+                player.setLastChargeDate(new Date());
+                _playerService.updatePlayer(player);
+            }
         }
     }
 
@@ -712,79 +800,68 @@ public class GameEngineManager implements Runnable, GameEngineIF {
         //find gameStage
         GameStage relatedStageToPlayer = findGameStage(relatedGame, player.getLastStageId());
 
-        if (relatedStageToPlayer == null) {
+        if (relatedStageToPlayer == null)
             sendError(incomingMessage); //Todo Change better error
-        }
-        else {
+        else
+        {
             int price = messagePrice(relatedGame, player, relatedStageToPlayer);
 
             String smsContent = relatedStageToPlayer.getDesc();
 
             if (msg != null)
                 smsContent = msg + smsContent;
-
-            if (relatedStageToPlayer.getHeader() != null)
+            else if (relatedStageToPlayer.getHeader() != null)
                 smsContent = relatedStageToPlayer.getHeader() + "\n" + smsContent;
 
             if (relatedStageToPlayer.getFooter() != null)
                 smsContent = smsContent + "\n" + relatedStageToPlayer.getFooter();
 
             _messageSender.sendMessage(incomingMessage.getSourceAddr(), smsContent, relatedGame.getServiceID(), price);
-            logger.info("Send Message " + smsContent + " To Reciever " + incomingMessage.getSourceAddr() +
+            logger.info("Send Message " + smsContent + " To Receiver " + incomingMessage.getSourceAddr() +
                     " With ServiceId " + relatedGame.getServiceID() + " With Price " + price);
 
             if (price > 0)
             {
+                player.incChargeNo();
                 player.setLastChargeDate(new Date());
                 _playerService.updatePlayer(player);
             }
         }
     }
 
-    private void unRegisterCustomer(IncomingMessage incomingMessage, GameDefinition relatedGame, boolean notifyPlayer) {
+    private void unRegisterCustomer(IncomingMessage incomingMessage, GameDefinition relatedGame, boolean notifyPlayer)
+    {
         logger.info("entered into unRegisterCustomer");
+        String message;
 
         PlayerState currentPlayerState = _gameStatisticManager.getPlayerState(incomingMessage.getSourceAddr(), relatedGame.getGameCode());
         _gameStatisticManager.unRegisterUserWithState(currentPlayerState);
 
-//        comment by me
-//        Player lastActivePlay = _playerService.findLastActivePlay(incomingMessage.getSourceAddr());
-        Player lastActivePlay = _playerService.findLastActivePlayByMobileAndGameSeries(incomingMessage.getSourceAddr(), relatedGame.getGameCode());
+        Player player = _playerService.findLastActivePlayByMobileAndGameSeries(incomingMessage.getSourceAddr(), relatedGame.getGameCode());
 
+        if (player != null)
+        {
+            savePlayerStateLog(incomingMessage, player);
 
-        if (lastActivePlay != null) {
-            savePlayerStateLog(incomingMessage, lastActivePlay);
-
-            if (lastActivePlay.getGameState().intValue() != _playerService.GAME_OFF_STATE)
+            if (player.getGameState().intValue() != _playerService.GAME_OFF_STATE)
             {
-                lastActivePlay.setGameState(_playerService.GAME_OFF_STATE);
-                _playerService.updatePlayer(lastActivePlay);
-            }
-        }
-
-        //todo send game good bye...
-        if (notifyPlayer) {
-            if (lastActivePlay != null)
-            {
-                if (lastActivePlay.getGameState().intValue() != _playerService.GAME_OFF_STATE)
-                {
-                    _messageSender.sendMessage(incomingMessage.getSourceAddr(), "با تشکر و به امید دیدار مجدد شما...", relatedGame.getServiceID());
-                    logger.info("Send Message goodby message To Receiver " + incomingMessage.getSourceAddr() +
-                            " With ServiceId " + relatedGame.getServiceID());
-                }
-                else
-                {
-                    _messageSender.sendMessage(incomingMessage.getSourceAddr(), "شما قبلا غیرفعال شده ايد و اين درخواست معتبر نيست.", relatedGame.getServiceID());
-                    logger.info("Send Message To Receiver " + incomingMessage.getSourceAddr() +
-                            " With ServiceId " + relatedGame.getServiceID());
-                }
+                message = ConfigLoader.getValue("game.message.goodBye");
+                player.setGameState(_playerService.GAME_OFF_STATE);
+                player.setLastRequestDate(new Date());
+                _playerService.updatePlayer(player);
             }
             else
-            {
-                _messageSender.sendMessage(incomingMessage.getSourceAddr(), "شما هنوز عضو نشده ايد و اين درخواست معتبر نيست.", relatedGame.getServiceID());
-                logger.info("Send Message To Receiver " + incomingMessage.getSourceAddr() +
-                        " With ServiceId " + relatedGame.getServiceID());
-            }
+                message = ConfigLoader.getValue("game.message.unregisterBefore");
+        }
+        else
+            message = ConfigLoader.getValue("game.message.notMember");
+
+        //todo send game good bye...
+        if (notifyPlayer)
+        {
+            _messageSender.sendMessage(incomingMessage.getSourceAddr(), message, relatedGame.getServiceID());
+            logger.info("Send Message goodby message To Receiver " + incomingMessage.getSourceAddr() +
+                    " With ServiceId " + relatedGame.getServiceID());
         }
     }
 
@@ -794,7 +871,6 @@ public class GameEngineManager implements Runnable, GameEngineIF {
 
         int price = 0;
         String message = "";
-        Player newPlayer = null;
 
         GameStage startStage = gameDefinition.getStartStage();
 
@@ -807,42 +883,47 @@ public class GameEngineManager implements Runnable, GameEngineIF {
             {
                 player.setGameState(0);
                 player.setRegisterDate(new Date());
-                _playerService.updatePlayer(player);
-                message = "از عضویت مجدد شما بسیار خرسندیم. ";
+                player.setLastRequestDate(new Date());
+                player = _playerService.updatePlayer(player);
+
+                message = ConfigLoader.getValue("game.message.registerAgain");
                 logger.fatal("Player Register Again " + player.getId());
 
-                price = messagePrice(gameDefinition, newPlayer, startStage);
+                price = messagePrice(gameDefinition, player, startStage);
             }
             else
             {
                 logger.fatal("Player already registered" + player.getId().longValue());
-                message = "شما قبلا عضو شده بودید. ";
+                message = ConfigLoader.getValue("game.message.alreadyMember");
                 sendCurrentStatus(incomingMessage, gameDefinition, player, message);
+                return;
             }
         }
         else
         {
-            newPlayer = new Player();
-            newPlayer.setGameId(gameId);
-            newPlayer.setMobile(incomingMessage.getSourceAddr());
-            newPlayer.setGameState(0);//TODO what is this field
-            newPlayer.setLastStageId(startStage.getId().toUpperCase());
-            newPlayer.setLastRequestDate(new Date());
-            newPlayer.setRegisterDate(new Date());
-            newPlayer.setScore(0);
-            newPlayer.setVersion(0);
-            newPlayer.setQuestionNo(0);
+            player = new Player();
+            player.setGameId(gameId);
+            player.setMobile(incomingMessage.getSourceAddr());
+            player.setGameState(0);//TODO what is this field
+            player.setLastStageId(startStage.getId().toUpperCase());
+            player.setLastRequestDate(new Date());
+            player.setLastChargeDate(new Date());
+            player.setRegisterDate(new Date());
+            player.setScore(0);
+            player.setVersion(0);
+            player.setQuestionNo(0);
+            player.setChargeNo(0);
 
-            _playerService.savePlayer(newPlayer);
+            _playerService.savePlayer(player);
 
-            savePlayerStateLog(incomingMessage, newPlayer);
+            savePlayerStateLog(incomingMessage, player);
 
             message = startStage.getWelcomeMessage() != null ? startStage.getWelcomeMessage() + "\n" : "";
 
-            price = messagePrice(gameDefinition, newPlayer, startStage);
+            price = messagePrice(gameDefinition, player, startStage);
         }
 
-        if(sendMsg)
+        if (sendMsg)
         {
             if (startStage.getHeader() != null)
                 message = message + " " + startStage.getHeader() + "\n";
@@ -856,63 +937,63 @@ public class GameEngineManager implements Runnable, GameEngineIF {
             logger.warn("welcome message send to " + incomingMessage.getSourceAddr());
         }
 
-        if (newPlayer != null && price > 0)
+        if (player != null && price > 0)
         {
-            newPlayer.setLastChargeDate(new Date());
-            _playerService.updatePlayer(newPlayer);
+            player.incChargeNo();
+            player.setLastChargeDate(new Date());
+            _playerService.updatePlayer(player);
         }
     }
 
-    private void sendInvalidInput(IncomingMessage incomingMessage, String mustBe) {
-
+    private void sendInvalidInput(IncomingMessage incomingMessage, String mustBe)
+    {
         StringBuffer sb = new StringBuffer();
-        sb.append("درخواست شما بايد با ").append(mustBe).append(" شروع شود.");
-        sb.append("براي مثال ").append(mustBe).append(" 2");
-        sb.append("\n").append("نکته: در تمامي مراحل ابتدا کد بازي، سپس يک فاصله و پس از آن کد ورودي مورد نظر را به 20123 ارسال نماييد.");
+        sb.append(ConfigLoader.getValue("game.message.invalidInput1").replaceAll("#", mustBe));
+        sb.append("\n").append(ConfigLoader.getValue("game.message.invalidInput2"));
 
         _messageSender.sendMessage(incomingMessage.getSourceAddr(), sb.toString(), null, 0);
-        logger.info("Send Message " + sb.toString() + " To Reciever " + incomingMessage.getSourceAddr());
+        logger.info("Send Message " + sb.toString() + " To Receiver " + incomingMessage.getSourceAddr());
     }
 
-    private void sendDoesNotAnyGame(IncomingMessage incomingMessage) {
+    private void sendDoesNotAnyGame(IncomingMessage incomingMessage)
+    {
         logger.info("entered into sendDoesNotAnyGame");
-        StringBuffer sb = new StringBuffer();
-        sb.append("با تشکر از درخواست شما").append("\n");
-        sb.append("کد ارسالي شما با هيچ يک از بازي ها مطابقت ندارد.").append("\n");
+        String msg = ConfigLoader.getValue("game.message.doesNotExistAnyGame");
 
-        _messageSender.sendMessage(incomingMessage.getSourceAddr(), sb.toString(), null, 0);
-        logger.info("Send Message " + sb.toString() + " To Reciever " + incomingMessage.getSourceAddr());
+        _messageSender.sendMessage(incomingMessage.getSourceAddr(), msg, null, 0);
+        logger.info("Send Message " + msg + " To Receiver " + incomingMessage.getSourceAddr());
     }
 
-    private void sendHelp(IncomingMessage incomingMessage, Player player) {
+    private void sendHelp(IncomingMessage incomingMessage, Player player)
+    {
         logger.info("entered into sendHelp");
 
-        savePlayerStateLog(incomingMessage, player);
+        if (player != null)
+            savePlayerStateLog(incomingMessage, player);
 
+        String msg = "";
         StringBuilder sb = new StringBuilder();
 
-        if (useEngineHelp) {
+        if (useEngineHelp)
             sb.append(getEngineHelpMessage());
+        else
+        {
+            if (gameSeriesList.size() > 1)
+            {
+                for (String nextSeries : gameSeriesList)
+                    msg += nextSeries.toUpperCase() + ", ";
 
-        } else {
-
-            sb.append("برای شروع مسابقه ").append("\n");
-            if (gameSeriesList.size() > 1) {
-                sb.append("یکی از کدهای ");
-                for (String nextSeries : gameSeriesList) {
-                    sb.append(nextSeries.toUpperCase()).append(", ");
-                }
-            } else {
-                sb.append("کد ").append(gameSeriesList.get(0).toUpperCase()).append(" ");
-
-                sb.append("را به 20123 ارسال نماييد.").append("\n");
+                msg = ConfigLoader.getValue("game.message.helpAll").replace("#", msg);
             }
+            else
+                msg = ConfigLoader.getValue("game.message.help").replace("#", gameSeriesList.get(0).toUpperCase());
 
-            sb.append("نکته: در تمامی مراحل ابتدا کد بازی، سپس یک فاصله و پس از آن کد ورودی مورد نظر را به 20123 ارسال نمایید.").append("\n");
+            sb.append(msg).append("\n");
+            sb.append(ConfigLoader.getValue("game.message.invalidInput2")).append("\n");
         }
 
         _messageSender.sendMessage(incomingMessage.getSourceAddr(), sb.toString(), null);
-        logger.info("Send Message " + sb.toString() + " To Reciever " + incomingMessage.getSourceAddr());
+        logger.info("Send Message " + sb.toString() + " To Receiver " + incomingMessage.getSourceAddr());
     }
 
     private void savePlayerStateLog(IncomingMessage incomingMessage, Player player)
@@ -945,7 +1026,6 @@ public class GameEngineManager implements Runnable, GameEngineIF {
     private void sendTable(IncomingMessage incomingMessage, Player player, GameDefinition game)
     {
         logger.info("entered into sendTable");
-        String items[] = {"نفر اول: " , "نفر دوم: ", "نفر سوم: "};
         StringBuilder sb = new StringBuilder();
 
         List<Player> playerList = _playerService.findByGameIdOrderByScore(player.getGameId());
@@ -954,49 +1034,61 @@ public class GameEngineManager implements Runnable, GameEngineIF {
         boolean foundThisPlayer = false;
         for (int i = 0; i < max; i++)
         {
-            Player tmpPlayer =  playerList.get(i);
+            Player tmpPlayer = playerList.get(i);
+
+            String msg = "";
+
+            if (i == 0)
+                msg = ConfigLoader.getValue("game.message.firstOne");
+            else if (i == 1)
+                msg = ConfigLoader.getValue("game.message.secondOne");
+            else
+                msg = ConfigLoader.getValue("game.message.thirdOne");
 
             if (incomingMessage.getSourceAddr().compareTo(tmpPlayer.getMobile()) == 0)
             {
                 foundThisPlayer = true;
-                sb.append(items[i]).append("شما هستيد ").append(" با ");
+                msg = msg.replaceFirst("#", ConfigLoader.getValue("game.message.yourAre"));
             }
             else
-                sb.append(items[i]).append(tmpPlayer.getMobile().substring(9)).append("**").append(tmpPlayer.getMobile().substring(0, 7)).append(" با ");
+                msg = msg.replaceFirst("#", tmpPlayer.getMobile().substring(9) + "**" + tmpPlayer.getMobile().substring(0, 7));
 
-            sb.append(tmpPlayer.getScore()).append(" امتياز ").append("\n");
+            msg = msg.replace("#", tmpPlayer.getScore().toString());
+            sb.append(msg).append("\n");
         }
 
         if (!foundThisPlayer)
-            sb.append("شما هم تونستي ").append(player.getScore()).append(" امتياز بگيري");
+            sb.append(ConfigLoader.getValue("game.message.yourScore").replace("#", player.getScore().toString()));
 
         _messageSender.sendMessage(incomingMessage.getSourceAddr(), sb.toString(), game.getServiceID(), 0);
-        logger.info("Send Message " + sb.toString() + " To Reciever " + incomingMessage.getSourceAddr() +
+        logger.info("Send Message " + sb.toString() + " To Receiver " + incomingMessage.getSourceAddr() +
                 " With ServiceId " + game.getServiceID());
     }
 
     private void sendScore(IncomingMessage incomingMessage, Player player, GameDefinition game)
     {
         logger.info("entered into sendScore");
-        StringBuilder sb = new StringBuilder();
-        sb.append("از شما ").append(player.getQuestionNo()).append(" سوال پرسيده شده و تونستي ").append(player.getScore()).append(" امتياز بگيري.");
 
-        _messageSender.sendMessage(incomingMessage.getSourceAddr(), sb.toString(), game.getServiceID(), 0);
-        logger.info("Send Message " + sb.toString() + " To Reciever " + incomingMessage.getSourceAddr() +
+        String msg = ConfigLoader.getValue("game.message.playerScore").replaceFirst("#", player.getQuestionNo().toString());
+        msg = msg.replace("#", player.getScore().toString());
+
+        _messageSender.sendMessage(incomingMessage.getSourceAddr(), msg, game.getServiceID(), 0);
+        logger.info("Send Message " + msg + " To Receiver " + incomingMessage.getSourceAddr() +
                 " With ServiceId " + game.getServiceID());
     }
 
-    private void sendError(IncomingMessage incomingMessage) {
+    private void sendError(IncomingMessage incomingMessage)
+    {
         logger.info("entered into sendError");
         StringBuffer sb = new StringBuffer();
 
         if (useEngineError)
             sb.append(getEngineErrorMessage());
         else
-            sb.append("لطفا کد زير را ارسال نماييد:").append("\n").append("m انصراف");
+            sb.append(ConfigLoader.getValue("game.message.error"));
 
         _messageSender.sendMessage(incomingMessage.getSourceAddr(), sb.toString(), null, 0);
-        logger.info("Send Message " + sb.toString() + " To Reciever " + incomingMessage.getSourceAddr());
+        logger.info("Send Message " + sb.toString() + " To Receiver " + incomingMessage.getSourceAddr());
     }
 
     private void sendError(IncomingMessage incomingMessage, GameStage gameStage, String gameId)
@@ -1004,55 +1096,73 @@ public class GameEngineManager implements Runnable, GameEngineIF {
         logger.info("entered into sendError");
         StringBuffer sb = new StringBuffer();
 
-        if (useEngineError) {
+        if (useEngineError)
             sb.append(getEngineErrorMessage());
-
-        }
         else
         {
-            sb.append("کد وارد شده اشتباه است.");
+            sb.append(ConfigLoader.getValue("game.message.invalidCode"));
 
             if (!gameStage.getConditionList().isEmpty())
             {
-                sb.append("کدهاي صحيح براي نکته بعدي");
-                sb.append(" ").append(gameId.toUpperCase()).append(" و يک فاصله و سپس ");
+                String msg = ConfigLoader.getValue("game.message.correctCode");
+                msg = msg.replaceFirst("#", gameId.toUpperCase());
 
+                String tmp = "";
                 for (int i = 0; i < gameStage.getConditionList().size(); i++)
                 {
                     StageCondition nextStageCondition = gameStage.getConditionList().get(i);
-                    sb.append(nextStageCondition.getInputCode().toUpperCase());
+                    tmp += nextStageCondition.getInputCode().toUpperCase();
+
                     if (i < (gameStage.getConditionList().size() - 1))
-                        sb.append(" يا ");
+                        tmp += " يا ";
                 }
 
-                sb.append(" است.");
+                sb.append(msg.replace("#", tmp));
             }
         }
 
         _messageSender.sendMessage(incomingMessage.getSourceAddr(), sb.toString(), null, 0);
-        logger.info("Send Message " + sb.toString() + " To Reciever " + incomingMessage.getSourceAddr());
+        logger.info("Send Message " + sb.toString() + " To Receiver " + incomingMessage.getSourceAddr());
     }
 
-    private GameStage findGameStage(GameDefinition game, String stageId) {
-        for (GameStage nextGameStage : game.getStages()) {
-            if (nextGameStage.getId().equalsIgnoreCase(stageId)) {
+    private GameStage findGameStage(GameDefinition game, String stageId)
+    {
+        for (GameStage nextGameStage : game.getStages())
+        {
+            if (nextGameStage.getId().equalsIgnoreCase(stageId))
                 return nextGameStage;
-            }
         }
+
         return null;
     }
 
-    public void initGamesFromXmlDir() throws IOException {
+    private boolean existInBlackList(String playerMobileNo, String firstToken)
+    {
+        List<PlayerBlackList> playerBlackLists;
+        if (firstToken != null && !firstToken.isEmpty())
+            playerBlackLists = _playerBlackListService.findByMobileAndGamePrefix(playerMobileNo, firstToken);
+        else
+            playerBlackLists = _playerBlackListService.findByMobile(playerMobileNo);
 
+        if (playerBlackLists != null && playerBlackLists.size() > 0)
+        {
+            logger.warn("Receive Message " + firstToken + " From Blocked Player " + playerMobileNo);
+            return true;
+        }
+        else
+            return false;
+    }
+
+    public void initGamesFromXmlDir() throws IOException
+    {
         List<GameDefinition> returnList = new ArrayList<GameDefinition>();
 
         logger.error("gameXmlFilePath = " + gameXmlFilePath);
         logger.error("convert XML back to game definition object...!");
 
-        //XMLConverter converter = (XMLConverter) appContext.getBean("XMLConverter");
-
         File xmlDirPath = new File(gameXmlFilePath);
-        if (!xmlDirPath.exists()) {
+        if (!xmlDirPath.exists())
+        {
             logger.error("=====================================================");
             logger.error("=====================================================");
             logger.error("xmlDirPath does not exist in system >> " + xmlDirPath);
@@ -1060,7 +1170,8 @@ public class GameEngineManager implements Runnable, GameEngineIF {
         }
 
         File[] xmlDirFiles = xmlDirPath.listFiles();
-        for (File nextXmlDirFile : xmlDirFiles) {
+        for (File nextXmlDirFile : xmlDirFiles)
+        {
 
             logger.info("nextXmlDirFile.getName() = " + nextXmlDirFile.getName());
             if (nextXmlDirFile.isDirectory())
@@ -1088,7 +1199,6 @@ public class GameEngineManager implements Runnable, GameEngineIF {
             nextGame.setReplacable(game.isReplaceable());
             nextGame.setChargePerDay(game.getPricePerDay());
 
-            //_gameService.updateGame(nextGame);
             _gameService.saveGame(nextGame);
 
             if (!gameSeriesList.contains(nextGame.getParentPrefix().toLowerCase()))
@@ -1101,9 +1211,8 @@ public class GameEngineManager implements Runnable, GameEngineIF {
 
         logger.info("process xml files done...");
 
-        for (String nextGameSeries : gameSeriesList) {
+        for (String nextGameSeries : gameSeriesList)
             logger.info("nextGameSeriesCode = " + nextGameSeries);
-        }
 
         setGameList(returnList);
 
@@ -1113,24 +1222,26 @@ public class GameEngineManager implements Runnable, GameEngineIF {
         scheduleTaskManager.initTaskManager();
     }
 
-    private void loadPreviousPlayState() {
-
+    private void loadPreviousPlayState()
+    {
         List<Player> playList = _playerService.findAllPlayers();
 
-        for (Player nextPlay : playList) {
-
+        for (Player nextPlay : playList)
+        {
             if (nextPlay.getGameState() == 100)
                 continue;
 
             Game foundGame = _gameService.findGame(nextPlay.getGameId());
-            if (foundGame == null) {
+            if (foundGame == null)
+            {
                 logger.error("err msg game with id " + nextPlay.getGameId() + " does not in system...");
                 continue;
             }
 
             PlayerState oldPlayState = new PlayerState(nextPlay.getMobile(), foundGame.getPrefix(), nextPlay.getLastStageId());
 
-            for (com.vas.game.model.PlayerState nextPlayerState : nextPlay.getPlayerStates()) {
+            for (com.vas.game.model.PlayerState nextPlayerState : nextPlay.getPlayerStates())
+            {
                 GameParameter nextGameParameter = new GameParameter(nextPlayerState.getParamName(),
                         nextPlayerState.getParamLabel(), "", nextPlayerState.getParamValue());
                 oldPlayState.getPlayerParameters().add(nextGameParameter);
@@ -1140,19 +1251,20 @@ public class GameEngineManager implements Runnable, GameEngineIF {
         }
     }
 
-    private static void printGameInfo(GameDefinition game) {
+    private static void printGameInfo(GameDefinition game)
+    {
         logger.error("=====================================================1");
         logger.info("parameters >>");
-        for (GameParameter nextPerson : game.getParameters()) {
+        for (GameParameter nextPerson : game.getParameters())
+        {
             logger.info("  " + nextPerson);
 //            logger.info("  >>" + (nextPerson.getCode() == null ? "!!!" : nextPerson.getNewAddress().getPelak()));
 //            logger.info("nextPerson.getEmail() = " + nextPerson.getEmail());
         }
 
         logger.info("stages >>");
-        for (GameStage nextGameStage : game.getStages()) {
+        for (GameStage nextGameStage : game.getStages())
             logger.info("  nextGameStage = " + nextGameStage);
-        }
 
         logger.info(game);
         logger.info(game.getWinCondition());

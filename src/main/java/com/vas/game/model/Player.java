@@ -47,8 +47,12 @@ public class Player {
 
     @NotNull
     private Integer score;
+
     @NotNull
     private Integer questionNo;
+
+    @NotNull
+    private Integer chargeNo;
 
     @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(style = "M-")
@@ -211,6 +215,21 @@ public class Player {
         this.PlayerStates = PlayerStates;
     }
 
+    public Integer getChargeNo()
+    {
+        return chargeNo;
+    }
+
+    public void setChargeNo(Integer chargeNo)
+    {
+        this.chargeNo = chargeNo;
+    }
+
+    public void incChargeNo()
+    {
+        this.chargeNo++;
+    }
+
     public String toString() {
         return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
@@ -227,13 +246,13 @@ public class Player {
                 append(gameState, rhs.gameState).append(id, rhs.id).append(lastRequestDate, rhs.lastRequestDate).
                 append(lastChargeDate, rhs.lastChargeDate).append(lastStageId, rhs.lastStageId).append(mobile, rhs.mobile).
                 append(registerDate, rhs.registerDate).append(reserved1, rhs.reserved1).append(reserved2, rhs.reserved2).
-                append(reserved3, rhs.reserved3).isEquals();
+                append(reserved3, rhs.reserved3).append(chargeNo, rhs.chargeNo).isEquals();
     }
 
     public int hashCode() {
         return new HashCodeBuilder().append(gameId).append(score).append(gameState).append(id).append(lastRequestDate).
-                append(lastChargeDate).append(lastStageId).append(mobile).append(registerDate).append(reserved1).
-                append(reserved2).append(reserved3).toHashCode();
+                append(lastChargeDate).append(lastStageId).append(mobile).append(questionNo).append(chargeNo).
+                append(registerDate).append(reserved1).append(reserved2).append(reserved3).toHashCode();
     }
 
 }

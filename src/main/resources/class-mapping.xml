@@ -43,6 +43,7 @@
         <field name="message" type="string"/>
         <field name="period" type="string"/>
         <field name="action" type="string"/>
+        <field name="header" type="string"/>
     </class>
 
     <class name="com.vas.engine.xml.model.GameStage">

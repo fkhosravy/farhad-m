@@ -45,7 +45,7 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
     public Player updatePlayer(Player player) {
-        return playerRepository.save(player);
+        return playerRepository.saveAndFlush(player);
     }
 
     @Override

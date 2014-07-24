@@ -6,7 +6,7 @@
     <groupId>com.vas</groupId>
     <artifactId>game-engine</artifactId>
     <packaging>war</packaging>
-    <version>1.0.5</version>
+    <version>1.1.3</version>
     <name>game-engine</name>
 
     <properties>
@@ -337,6 +337,11 @@
             <version>2.8.1</version>
         </dependency>
 
+        <dependency>
+            <groupId>commons-configuration</groupId>
+            <artifactId>commons-configuration</artifactId>
+            <version>1.7</version>
+        </dependency>
 
     </dependencies>
 
