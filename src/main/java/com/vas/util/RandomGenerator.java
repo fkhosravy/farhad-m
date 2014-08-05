@@ -4,6 +4,10 @@ import org.apache.log4j.Logger;
 
 import java.util.Random;
 
+/**
+ * Author: M.Mohseni Email:mohseni.mehdi@gmail.com
+ * Date: 1/19/13 1:28 AM
+ */
 public class RandomGenerator {
     private static Logger logger = Logger.getLogger(RandomGenerator.class);
 

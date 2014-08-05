@@ -5,6 +5,10 @@ import org.apache.log4j.Logger;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Author: M.Mohseni Email:mohseni.mehdi@gmail.com
+ * Date: 1/26/13 1:46 AM
+ */
 public class BaseGameDefinition {
     private static Logger logger = Logger.getLogger(BaseGameDefinition.class);
 

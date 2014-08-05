@@ -24,6 +24,10 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.*;
 
+/**
+ * Author: M.Mohseni Email:mohseni.mehdi@gmail.com
+ * Date: 1/16/13 1:19 AM
+ */
 public class PardisMessageSender implements MessageSender {
 
     private static Logger logger = LoggerFactory.getLogger(PardisMessageSender.class);

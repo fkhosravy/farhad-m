@@ -3,6 +3,10 @@ package com.vas.util.expression;
 import de.congrace.exp4j.CustomOperator;
 import org.apache.log4j.Logger;
 
+/**
+ * Author: M.Mohseni Email:mohseni.mehdi@gmail.com
+ * Date: 1/27/13 1:35 AM
+ */
 public class ConditionalOperator {
 
     private static Logger logger = Logger.getLogger(ConditionalOperator.class);
