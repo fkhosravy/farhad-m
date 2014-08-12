@@ -2,17 +2,21 @@ package com.vas.engine.xml.model;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class GameDefinition extends BaseGameDefinition {
 
     private String enDesc;
+    private GameStage startStage;
 
     private WinCondition _winCondition;
     private LoosCondition _loosCondition;
 
     private List<GameStage> stages = new ArrayList<GameStage>();
     private List<Reminder> reminderList = new ArrayList<Reminder>();
+    private Map<String, GameStage> stageListMap = new HashMap<String, GameStage>();
 
     // -- used by the data-binding framework
     public GameDefinition() {
@@ -58,12 +62,37 @@ public class GameDefinition extends BaseGameDefinition {
         _loosCondition = loosCondition;
     }
 
+    public Map<String, GameStage> getStageListMap()
+    {
+        return stageListMap;
+    }
+
+    public void setStageListMap(Map<String, GameStage> stageListMap)
+    {
+        this.stageListMap = stageListMap;
+    }
+
     public GameStage getStartStage() {
-        for (GameStage nextStage : stages) {
-            if (nextStage.isStartStage())
-                return nextStage;
+        if (startStage == null)
+        {
+            for (GameStage nextStage : stages) {
+                if (nextStage.isStartStage())
+                {
+                    startStage = nextStage;
+                    break;
+                }
+            }
         }
-        return null;
+
+        return startStage;
+    }
+
+    public void initStageListMap(List<GameStage> gameStageList)
+    {
+        for (GameStage stage :  gameStageList)
+        {
+            stageListMap.put(stage.getId(), stage);
+        }
     }
 
     @Override

@@ -108,6 +108,8 @@ public class GameEngineManager implements Runnable, GameEngineIF
         {
             gameListMap.put(nextGameDefinition.getGameCode().toLowerCase().trim(), nextGameDefinition);
             gameListMap.put(nextGameDefinition.getGameCode().toUpperCase().trim(), nextGameDefinition);
+
+            nextGameDefinition.initStageListMap(nextGameDefinition.getStages());
         }
         logger.info("gameList.size() = " + gameList.size());
     }
@@ -1124,15 +1126,16 @@ public class GameEngineManager implements Runnable, GameEngineIF
         logger.info("Send Message " + sb.toString() + " To Receiver " + incomingMessage.getSourceAddr());
     }
 
-    private GameStage findGameStage(GameDefinition game, String stageId)
+    private GameStage findGameStage(GameDefinition gameDefinition, String stageId)
     {
-        for (GameStage nextGameStage : game.getStages())
-        {
-            if (nextGameStage.getId().equalsIgnoreCase(stageId))
-                return nextGameStage;
-        }
-
-        return null;
+        return gameDefinition.getStageListMap().get(stageId);
+//        for (GameStage nextGameStage : gameDefinition.getStages())
+//        {
+//            if (nextGameStage.getId().equalsIgnoreCase(stageId))
+//                return nextGameStage;
+//        }
+//
+//        return null;
     }
 
     private boolean existInBlackList(String playerMobileNo, String firstToken)

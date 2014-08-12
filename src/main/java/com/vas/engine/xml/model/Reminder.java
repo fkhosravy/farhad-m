@@ -23,7 +23,10 @@ public class Reminder {
     }
 
     public String getMessage() {
-        return message;
+        if (message == null)
+            return "";
+        else
+            return message;
     }
 
     public void setMessage(String message) {
@@ -47,7 +50,10 @@ public class Reminder {
     }
 
     public String getHeader() {
-        return header;
+        if (header == null)
+            return "";
+        else
+            return header;
     }
 
     public void setHeader(String header) {

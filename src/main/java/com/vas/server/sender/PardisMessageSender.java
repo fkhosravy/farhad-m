@@ -10,6 +10,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.auth.BasicScheme;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -87,28 +88,34 @@ public class PardisMessageSender implements MessageSender {
             for (int i = 0; i < 2; i++)
             {
                 HttpResponse response = null;
-                HttpGet httpGet = new HttpGet(uri);
+                HttpPut httpPut = new HttpPut(uri);
 
-                httpGet.addHeader(BasicScheme.authenticate(
+                httpPut.addHeader(BasicScheme.authenticate(
                         new UsernamePasswordCredentials(_profilerConfig.getUserName(), _profilerConfig.getPassword()),
                         "UTF-8", false));
                 try {
-                    logger.info(httpGet.getURI().toString());
+                    logger.info(httpPut.getURI().toString());
 
-                    response = httpClient.execute(httpGet);
-                    logger.warn("Profiler, sent request: " + httpGet.toString());
+                    response = httpClient.execute(httpPut);
+                    logger.warn("Profiler, sent request: " + httpPut.toString());
 
                     int code = response.getStatusLine().getStatusCode();
                     logger.warn("Profiler, response: " + code);
 
-                    if (code <= 300) {
-                        if (response != null)
-                            httpGet.abort();
+                    if (response != null)
+                        httpPut.abort();
+
+                    if (code == 200)
                         return;
-                    }
+                    else if (code == 401)
+                        logger.warn("Profiler, Authentication Failed");
+                    else if (code == 400)
+                        logger.warn("Profiler, Bad Request");
+                    else if (code == 403)
+                        logger.warn("Profiler, User Is Forbidden");
 
                     if (response != null)
-                        httpGet.abort();
+                        httpPut.abort();
 
                     //todo check why sleep
 //                    Thread.sleep(4000);

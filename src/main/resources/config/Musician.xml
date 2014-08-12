@@ -12,7 +12,7 @@
     <start-range>40</start-range>
     <end-range>60</end-range>
     <reminder>
-        <hour>23</hour> <!-- 0 - 23 -->
+        <hour>11</hour> <!-- 0 - 23 -->
 		 <header>قهرمان سینمایی ما کجایی؟
 امروز بازی نکردی. کلی سوالهای جذاب داریم که هنوز بهشون جواب ندادی.
 آخرین سوالت این بود که:
@@ -38,7 +38,7 @@
     <!--	 			game parameter defenitions  			   -->
     <!--===========================================================-->
     <!--         	 			game stages          			   -->
-   <stage id="01">
+   <stage id="1">
       <start-stage>TRUE</start-stage>
       <welcomeMessage>به جشنواره *بخوان و میلیونر شو* خوش آمدید
 با بازی *سانس لبخند*
@@ -83,7 +83,7 @@
       </condition>
       <condition>
          <inputCode>45</inputCode>
-         <targetStage>02</targetStage>
+         <targetStage>2</targetStage>
       </condition>
       <condition>
          <inputCode />
@@ -91,7 +91,7 @@
       </condition>
       <finalStage>false</finalStage>
    </stage>
-   <stage id="02">
+   <stage id="2">
       <start-stage>false</start-stage>
       <welcomeMessage />
       <header>*سانس لبخند*

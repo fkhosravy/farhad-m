@@ -212,16 +212,21 @@ public class StrategicalGameEngine implements Runnable, GameEngineIF {
 
             //find related defined stage in system to current state of player
             // and if find process it otherwise send error to player
-            for (GameStage nextGameStage : game.getStages()) {
-                if (nextGameStage.getId().equals(currentPlayerState.getCurrentStateId())) {
-                    matched = true;
-                    processStage(nextGameStage, currentPlayerState, requestCondition, incomingMessage);
-                    break;
-                }
-            }
+            GameStage nextGameStage = game.getStageListMap().get(currentPlayerState.getCurrentStateId());
+            if (nextGameStage != null)
+                processStage(nextGameStage, currentPlayerState, requestCondition, incomingMessage);
+            else
+                sendError(incomingMessage); //Todo Show better error
 
-            if (!matched)
-                sendError(incomingMessage); //Todo Change better error
+//            for (GameStage nextGameStage : game.getStages()) {
+//                if (nextGameStage.getId().equals(currentPlayerState.getCurrentStateId())) {
+//                    matched = true;
+//                    processStage(nextGameStage, currentPlayerState, requestCondition, incomingMessage);
+//                    break;
+//                }
+//            }
+//            if (!matched)
+//                sendError(incomingMessage); //Todo Change better error
         }
     }
 

@@ -28,7 +28,7 @@ public class ScheduleTask extends TimerTask {
 
     Game game;
     GameDefinition gameDefinition;
-    Reminder reminder;
+    private Reminder reminder;
 
     MessageSender _messageSender;
 
@@ -73,7 +73,7 @@ public class ScheduleTask extends TimerTask {
     {
         this.game = game;
         this.gameDefinition = gameDefinition;
-        this.reminder = reminder;
+        this.reminder = new Reminder(reminder.hour, reminder.message, reminder.period, reminder.action, reminder.header);
         this._playerService = playerService;
         this._gameService = gameService;
         this._messageSender = messageSender;
@@ -149,11 +149,17 @@ public class ScheduleTask extends TimerTask {
 
     private void sendReminder(List<Player> playerList)
     {
+        String reminderMsg = reminder.getMessage();
+        boolean reminderHasMsg = true;
+
+        if (reminder.getMessage().isEmpty())
+            reminderHasMsg = false;
+
         for (Player player : playerList)
         {
             String message = "";
 
-            if (reminder.getMessage() == null || reminder.getMessage().isEmpty())
+            if (!reminderHasMsg)
             {
                 if (player.getGameState() == GameEngineManager.GAME_END_STATE)
                 {
@@ -169,7 +175,7 @@ public class ScheduleTask extends TimerTask {
                     {
                         message = gameStage.getDesc();
 
-                        if (reminder.getHeader() == null || reminder.getHeader().isEmpty())
+                        if (reminder.getHeader().isEmpty())
                         {
                             if (gameStage.getHeader() != null)
                                 message = gameStage.getHeader() + " " + message;
@@ -184,10 +190,7 @@ public class ScheduleTask extends TimerTask {
             }
             else
             {
-                message = reminder.getMessage();
-
-                if (reminder.getHeader() != null || !reminder.getHeader().isEmpty())
-                    message = reminder.getHeader() + " " + message;
+                message = reminder.getHeader() + " " + reminderMsg;
             }
 
             if (!message.isEmpty())
@@ -202,16 +205,17 @@ public class ScheduleTask extends TimerTask {
         }
     }
 
-    private GameStage findGameStage(GameDefinition game, String stageId)
+    private GameStage findGameStage(GameDefinition gameDefinition, String stageId)
     {
-        for (GameStage nextGameStage : game.getStages())
-        {
-            if (nextGameStage.getId().equalsIgnoreCase(stageId)) {
-                return nextGameStage;
-            }
-        }
-
-        return null;
+        return gameDefinition.getStageListMap().get(stageId);
+//        for (GameStage nextGameStage : gameDefinition.getStages())
+//        {
+//            if (nextGameStage.getId().equalsIgnoreCase(stageId)) {
+//                return nextGameStage;
+//            }
+//        }
+//
+//        return null;
     }
 
 }
