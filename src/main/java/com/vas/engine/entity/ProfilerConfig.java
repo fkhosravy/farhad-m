@@ -9,7 +9,6 @@ public class ProfilerConfig
     String url;
     String userName;
     String password;
-    String phone;
     String status;
     String serviceName;
 
@@ -43,15 +42,7 @@ public class ProfilerConfig
         this.password = password;
     }
 
-    public String getPhone()
-    {
-        return phone;
-    }
 
-    public void setPhone(String phone)
-    {
-        this.phone = phone;
-    }
 
     public String getStatus()
     {

@@ -892,7 +892,7 @@ public class GameEngineManager implements Runnable, GameEngineIF
             }
             else
             {
-                logger.fatal("Player already registered" + player.getId().longValue());
+                logger.fatal("Player already registered, id: " + player.getId().longValue());
                 message = ConfigLoader.getValue("game.message.alreadyMember");
                 sendCurrentStatus(incomingMessage, gameDefinition, player, message);
                 return;

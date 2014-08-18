@@ -18,6 +18,9 @@ import java.util.*;
 public class ScheduleTask extends TimerTask {
     private static Logger logger = Logger.getLogger(ScheduleTask.class);
 
+    private final static String ACTION_REMINDER = "reminder";
+    private final static String ACTION_DEACTIVATION = "deactivation";
+    private final static String ACTION_INVITE = "invite";
     private final static long ONCE_PER_DAY = 1000 * 60 * 60 * 24;
     private final static long ONCE_PER_WEEK = 1000 * 60 * 60 * 24 * 7;
     private final static long ONCE_PER_2WEEK = 1000 * 60 * 60 * 24 * 14;
@@ -107,7 +110,7 @@ public class ScheduleTask extends TimerTask {
         {
             List<Player> playerList = null;
 
-            if (reminder.getAction().compareToIgnoreCase("reminder") == 0)
+            if (reminder.getAction().compareToIgnoreCase(ACTION_REMINDER) == 0)
             {
                 playerList = _playerService.
                         findPlayerByGameIdAndLastChargeDateLessThanAndGameStateGreaterThan(game.getId(), chargeDate.getTime(), -1);
@@ -115,7 +118,7 @@ public class ScheduleTask extends TimerTask {
                 if (playerList != null)
                     sendReminder(playerList);
             }
-            else if (reminder.getAction().compareToIgnoreCase("deactivation") == 0)
+            else if (reminder.getAction().compareToIgnoreCase(ACTION_DEACTIVATION) == 0)
             {
                 playerList = _playerService.findActivePlayerByGameId(game.getId());
                 if (playerList != null)
@@ -131,7 +134,7 @@ public class ScheduleTask extends TimerTask {
                     }
                 }
             }
-            else if (reminder.getAction().compareToIgnoreCase("invite") == 0)
+            else if (reminder.getAction().compareToIgnoreCase(ACTION_INVITE) == 0)
             {
                 String message = reminder.getMessage();
                 if (reminder.getHeader() != null && !reminder.getHeader().isEmpty())

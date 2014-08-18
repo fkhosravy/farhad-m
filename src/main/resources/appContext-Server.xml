@@ -69,7 +69,6 @@
         <property name="url" value="${game.profiler.url}"/>
         <property name="userName" value="${game.profiler.username}"/>
         <property name="password" value="${game.profiler.password}"/>
-        <property name="phone" value="${game.profiler.phone}"/>
         <property name="status" value="${game.profiler.status}"/>
         <property name="serviceName" value="${game.profiler.service}"/>
     </bean>

@@ -68,10 +68,10 @@ public class PardisMessageSender implements MessageSender {
         URIBuilder builder = null;
         try
         {
-            builder = new URIBuilder(_profilerConfig.getUrl());
-
-            if (!_profilerConfig.getPhone().isEmpty())
-                builder = builder.addParameter(_profilerConfig.getPhone(), phone);
+            if (_profilerConfig.getUrl().endsWith("/"))
+                builder = new URIBuilder(_profilerConfig.getUrl().concat(phone));
+            else
+                builder = new URIBuilder(_profilerConfig.getUrl().concat("/").concat(phone));
 
             if (!_profilerConfig.getStatus().isEmpty())
                 builder = builder.addParameter(_profilerConfig.getStatus(), status);
