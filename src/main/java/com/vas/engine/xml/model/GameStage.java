@@ -29,12 +29,19 @@ public class GameStage {
     public GameStage() {
     }
 
-    public GameStage(String id, String name, String desc, String header, String footer, int score, boolean question, String nextStageCode) {
+    public GameStage(String id, String name, String desc, String header, String footer,
+                     boolean startStage, String welcomeMessage, boolean finalStage, String goodByMessage,
+                     int price, int score, boolean question, String nextStageCode) {
         this.id = id;
         this.name = name;
         this.desc = desc;
         this.header = header;
         this.footer = footer;
+        this.startStage = startStage;
+        this.welcomeMessage = welcomeMessage;
+        this.finalStage = finalStage;
+        this.goodByMessage = goodByMessage;
+        this.price = price;
         this.score = score;
         this.question = question;
         this.nextStageCode = nextStageCode;
