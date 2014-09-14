@@ -7,11 +7,16 @@ import com.vas.game.service.GameService;
 import com.vas.game.service.PlayerService;
 import com.vas.server.scheduler.ScheduleTask;
 import com.vas.server.sender.MessageSender;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created with IntelliJ IDEA.
@@ -22,6 +27,7 @@ import java.util.Map;
  */
 public class ScheduleTaskManager
 {
+    private static Logger logger = Logger.getLogger(ScheduleTaskManager.class);
     MessageSender messageSender;
 
     PlayerService playerService;
@@ -33,6 +39,7 @@ public class ScheduleTaskManager
     List<Game> gameList;
 
     Map<String, GameDefinition> gameListMap;
+    ScheduledExecutorService scheduledThreadPool;
 
     public List<ScheduleTask> getScheduleTaskList() {
         return scheduleTaskList;
@@ -55,16 +62,42 @@ public class ScheduleTaskManager
     public void initTaskManager()
     {
         int i = 0;
+        int poolSize = 0;
 
         for (Game game : gameList)
         {
             GameDefinition gameDefinition = gameListMap.get(game.getPrefix());
-            for (Reminder reminder : gameDefinition.getReminderList())
+            if (gameDefinition != null)
             {
-                ScheduleTask scheduleTask = new ScheduleTask();
-                scheduleTask.initScheduleTask(gameDefinition, game, reminder, playerService, gameService, messageSender);
-                scheduleTaskList.add(scheduleTask);
+                if (gameDefinition.getReminderList() != null && !gameDefinition.getReminderList().isEmpty())
+                    poolSize += gameDefinition.getReminderList().size();
             }
         }
+        if (poolSize > 0)
+        {
+            scheduledThreadPool = Executors.newScheduledThreadPool(poolSize);
+            for (Game game : gameList)
+            {
+                GameDefinition gameDefinition = gameListMap.get(game.getPrefix());
+                if (gameDefinition != null)
+                {
+                    if (gameDefinition.getReminderList() != null && !gameDefinition.getReminderList().isEmpty())
+                    {
+                        for (Reminder reminder : gameDefinition.getReminderList())
+                        {
+                            ScheduleTask scheduleTask = new ScheduleTask();
+                            scheduleTask.initScheduleTask(gameDefinition, game, reminder, playerService, gameService, messageSender);
+                            scheduledThreadPool.scheduleAtFixedRate(scheduleTask, scheduleTask.getDelay(), scheduleTask.getPeriod(), TimeUnit.SECONDS);
+                            scheduleTaskList.add(scheduleTask);
+                            logger.warn("Set Schedule Reminder: " + reminder.getAction() + " ,run time: " + reminder.getHour());
+                        }
+                    }
+                }
+                else
+                    logger.warn("No Definition found for game: " + game.getPrefix());
+            }
+        }
+        else
+            logger.error("No Definition Found For Any Reminder");
     }
 }

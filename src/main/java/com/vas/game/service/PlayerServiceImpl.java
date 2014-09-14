@@ -111,7 +111,8 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
     @Override
-    public List<Player> findInActivePlayerByGameId(Long gameId) {
+    public List<Player> findInActivePlayerByGameId(Long gameId)
+    {
         List<Player> playerList = playerRepository.findInActivePlayerByGameId(gameId);
         if (playerList.isEmpty())
             return null;

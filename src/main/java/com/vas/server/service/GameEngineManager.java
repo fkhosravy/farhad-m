@@ -858,7 +858,7 @@ public class GameEngineManager implements Runnable, GameEngineIF
         //todo send game good bye...
         if (notifyPlayer)
         {
-            _messageSender.sendMessage(incomingMessage.getSourceAddr(), message, relatedGame.getServiceID());
+            _messageSender.sendMessage(incomingMessage.getSourceAddr(), message, relatedGame.getServiceID(), relatedGame.getZeroChargePrice());
             logger.info("Send Message goodby message To Receiver " + incomingMessage.getSourceAddr() +
                     " With ServiceId " + relatedGame.getServiceID());
         }
@@ -952,7 +952,7 @@ public class GameEngineManager implements Runnable, GameEngineIF
         sb.append(ConfigLoader.getValue("game.message.invalidInput1").replaceAll("#", mustBe));
         sb.append("\n").append(ConfigLoader.getValue("game.message.invalidInput2"));
 
-        _messageSender.sendMessage(incomingMessage.getSourceAddr(), sb.toString(), null, 0);
+        _messageSender.sendMessage(incomingMessage.getSourceAddr(), sb.toString(), null, gameListMap.values().iterator().next().getZeroChargePrice());
         logger.info("Send Message " + sb.toString() + " To Receiver " + incomingMessage.getSourceAddr());
     }
 
@@ -961,7 +961,7 @@ public class GameEngineManager implements Runnable, GameEngineIF
         logger.info("entered into sendDoesNotAnyGame");
         String msg = ConfigLoader.getValue("game.message.doesNotExistAnyGame");
 
-        _messageSender.sendMessage(incomingMessage.getSourceAddr(), msg, null, 0);
+        _messageSender.sendMessage(incomingMessage.getSourceAddr(), msg, null, gameListMap.values().iterator().next().getZeroChargePrice());
         logger.info("Send Message " + msg + " To Receiver " + incomingMessage.getSourceAddr());
     }
 
@@ -993,7 +993,7 @@ public class GameEngineManager implements Runnable, GameEngineIF
             sb.append(ConfigLoader.getValue("game.message.invalidInput2")).append("\n");
         }
 
-        _messageSender.sendMessage(incomingMessage.getSourceAddr(), sb.toString(), null);
+        _messageSender.sendMessage(incomingMessage.getSourceAddr(), sb.toString(), null, gameListMap.values().iterator().next().getZeroChargePrice());
         logger.info("Send Message " + sb.toString() + " To Receiver " + incomingMessage.getSourceAddr());
     }
 
@@ -1061,7 +1061,7 @@ public class GameEngineManager implements Runnable, GameEngineIF
         if (!foundThisPlayer)
             sb.append(ConfigLoader.getValue("game.message.yourScore").replace("#", player.getScore().toString()));
 
-        _messageSender.sendMessage(incomingMessage.getSourceAddr(), sb.toString(), game.getServiceID(), 0);
+        _messageSender.sendMessage(incomingMessage.getSourceAddr(), sb.toString(), game.getServiceID(), game.getZeroChargePrice());
         logger.info("Send Message " + sb.toString() + " To Receiver " + incomingMessage.getSourceAddr() +
                 " With ServiceId " + game.getServiceID());
     }
@@ -1073,7 +1073,7 @@ public class GameEngineManager implements Runnable, GameEngineIF
         String msg = ConfigLoader.getValue("game.message.playerScore").replaceFirst("#", player.getQuestionNo().toString());
         msg = msg.replace("#", player.getScore().toString());
 
-        _messageSender.sendMessage(incomingMessage.getSourceAddr(), msg, game.getServiceID(), 0);
+        _messageSender.sendMessage(incomingMessage.getSourceAddr(), msg, game.getServiceID(), game.getZeroChargePrice());
         logger.info("Send Message " + msg + " To Receiver " + incomingMessage.getSourceAddr() +
                 " With ServiceId " + game.getServiceID());
     }
@@ -1088,7 +1088,7 @@ public class GameEngineManager implements Runnable, GameEngineIF
         else
             sb.append(ConfigLoader.getValue("game.message.error"));
 
-        _messageSender.sendMessage(incomingMessage.getSourceAddr(), sb.toString(), null, 0);
+        _messageSender.sendMessage(incomingMessage.getSourceAddr(), sb.toString(), null, gameListMap.values().iterator().next().getZeroChargePrice());
         logger.info("Send Message " + sb.toString() + " To Receiver " + incomingMessage.getSourceAddr());
     }
 
@@ -1122,7 +1122,7 @@ public class GameEngineManager implements Runnable, GameEngineIF
             }
         }
 
-        _messageSender.sendMessage(incomingMessage.getSourceAddr(), sb.toString(), null, 0);
+        _messageSender.sendMessage(incomingMessage.getSourceAddr(), sb.toString(), null, gameListMap.values().iterator().next().getZeroChargePrice());
         logger.info("Send Message " + sb.toString() + " To Receiver " + incomingMessage.getSourceAddr());
     }
 

@@ -9,10 +9,11 @@
     <series>musician</series>
     <replaceable>true</replaceable>
     <price-per-day>50</price-per-day>
+    <zero-charge-price>10</zero-charge-price>
     <start-range>40</start-range>
     <end-range>60</end-range>
     <reminder>
-        <hour>11</hour> <!-- 0 - 23 -->
+        <hour>22</hour> <!-- 0 - 23 -->
 		 <header>قهرمان سینمایی ما کجایی؟
 امروز بازی نکردی. کلی سوالهای جذاب داریم که هنوز بهشون جواب ندادی.
 آخرین سوالت این بود که:
@@ -22,7 +23,7 @@
         <action>reminder</action> <!-- deactivation , invite , reminder -->
     </reminder>
     <reminder>
-        <hour>11</hour> <!-- 0 - 23 -->
+        <hour>22</hour> <!-- 0 - 23 -->
         <header>Hi</header>
         <message></message>
         <period>ONCE_PER_2WEEK</period> <!-- ONCE_PER_DAY , ONCE_PER_WEEK , ONCE_PER_2WEEK , ONCE_PER_MONTH -->

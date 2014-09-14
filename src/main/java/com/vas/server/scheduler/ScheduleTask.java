@@ -13,9 +13,12 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
-public class ScheduleTask extends TimerTask {
+//public class ScheduleTask extends TimerTask {
+public class ScheduleTask implements Runnable {
     private static Logger logger = Logger.getLogger(ScheduleTask.class);
 
     private final static String ACTION_REMINDER = "reminder";
@@ -27,7 +30,9 @@ public class ScheduleTask extends TimerTask {
     private final static long ONCE_PER_MONTH = 1000 * 60 * 60 * 24 * 30;
 
     int price;
-    Timer timer;
+//    Timer timer;
+    long period;
+    long delay;
 
     Game game;
     GameDefinition gameDefinition;
@@ -71,6 +76,22 @@ public class ScheduleTask extends TimerTask {
         this._messageSender = _messageSender;
     }
 
+    public long getPeriod()
+    {
+        return period;
+    }
+    public void setPeriod(long period)
+    {
+        this.period = period;
+    }
+    public long getDelay()
+    {
+        return delay;
+    }
+    public void setDelay(long delay)
+    {
+        this.delay = delay;
+    }
     //    public void initScheduleTask(Map<String, GameDefinition> gameListMap, List<Game> gameList)
     public void initScheduleTask(GameDefinition gameDefinition, Game game, Reminder reminder, PlayerService playerService, GameService gameService, MessageSender messageSender)
     {
@@ -81,33 +102,63 @@ public class ScheduleTask extends TimerTask {
         this._gameService = gameService;
         this._messageSender = messageSender;
 
+        if (reminder.getPeriod().compareToIgnoreCase("ONCE_PER_DAY") == 0)
+            this.period = ONCE_PER_DAY;
+        else if (reminder.getPeriod().compareToIgnoreCase("ONCE_PER_WEEK") == 0)
+            this.period = ONCE_PER_WEEK;
+        else if (reminder.getPeriod().compareToIgnoreCase("ONCE_PER_2WEEK") == 0)
+            this.period = ONCE_PER_2WEEK;
+        else if (reminder.getPeriod().compareToIgnoreCase("ONCE_PER_MONTH") == 0)
+            this.period = ONCE_PER_MONTH;
         Calendar runTime = Calendar.getInstance();
         runTime.set(Calendar.HOUR_OF_DAY, reminder.getHour());
         runTime.set(Calendar.MINUTE, 0);
         runTime.set(Calendar.SECOND, 0);
 
-        timer = new Timer();
-        if (reminder.getPeriod().compareToIgnoreCase("ONCE_PER_DAY") == 0)
-            timer.scheduleAtFixedRate(this, runTime.getTime(), ONCE_PER_DAY);
-        else if (reminder.getPeriod().compareToIgnoreCase("ONCE_PER_WEEK") == 0)
-            timer.scheduleAtFixedRate(this, runTime.getTime(), ONCE_PER_WEEK);
-        else if (reminder.getPeriod().compareToIgnoreCase("ONCE_PER_2WEEK") == 0)
-            timer.scheduleAtFixedRate(this, runTime.getTime(), ONCE_PER_2WEEK);
-        else if (reminder.getPeriod().compareToIgnoreCase("ONCE_PER_MONTH") == 0)
-            timer.scheduleAtFixedRate(this, runTime.getTime(), ONCE_PER_MONTH);
+        Date d1 = new Date();
+        Date d2 = runTime.getTime();
+        long diff = d2.getTime() - d1.getTime();
+        if (diff > 0)
+            this.delay = diff / 1000;
+        else if (diff > -3600000)
+            this.delay = 30;
+        else
+        {
+            runTime.set(Calendar.HOUR_OF_DAY, 23);
+            runTime.set(Calendar.MINUTE, 59);
+            runTime.set(Calendar.SECOND, 59);
+
+            d2 = runTime.getTime();
+            diff = (d2.getTime() - d1.getTime()) / 1000;
+            this.delay = diff + (reminder.getHour() * 60 * 60);
+        }
+//        if (reminder.getPeriod().compareToIgnoreCase("ONCE_PER_DAY") == 0)
+//            timer.scheduleAtFixedRate(this, runTime.getTime(), ONCE_PER_DAY);
+//        else if (reminder.getPeriod().compareToIgnoreCase("ONCE_PER_WEEK") == 0)
+//            timer.scheduleAtFixedRate(this, runTime.getTime(), ONCE_PER_WEEK);
+//        else if (reminder.getPeriod().compareToIgnoreCase("ONCE_PER_2WEEK") == 0)
+//            timer.scheduleAtFixedRate(this, runTime.getTime(), ONCE_PER_2WEEK);
+//        else if (reminder.getPeriod().compareToIgnoreCase("ONCE_PER_MONTH") == 0)
+//            timer.scheduleAtFixedRate(this, runTime.getTime(), ONCE_PER_MONTH);
     }
 
     @Override
-    public void run() {
-        logger.error("======================Schedule Task==================");
-
-        Calendar chargeDate = Calendar.getInstance();
-        chargeDate.set(Calendar.HOUR_OF_DAY, 0);
-        chargeDate.set(Calendar.MINUTE, 0);
-        chargeDate.set(Calendar.SECOND, 0);
-
+    public void run()
+    {
         if (game != null && reminder != null)
         {
+            Calendar chargeDate = Calendar.getInstance();
+            chargeDate.set(Calendar.HOUR, 0);
+            chargeDate.set(Calendar.MINUTE, 0);
+            chargeDate.set(Calendar.SECOND, 0);
+            chargeDate.set(Calendar.AM_PM, Calendar.AM);
+
+//            long milliseconds = Calendar.getInstance().getTimeInMillis();
+//            int hour = (int)TimeUnit.MILLISECONDS.toHours(milliseconds) % 24;
+
+//            if (reminder.getHour() == hour)
+//            {
+            logger.error("====================== Schedule Task ================== ");
             List<Player> playerList = null;
 
             if (reminder.getAction().compareToIgnoreCase(ACTION_REMINDER) == 0)
@@ -129,7 +180,7 @@ public class ScheduleTask extends TimerTask {
 
                     for (Player player : playerList)
                     {
-                        _messageSender.sendMessage(player.getMobile(), message, game.getServiceID());
+                        _messageSender.sendMessage(player.getMobile(), message, game.getServiceID(), gameDefinition.getZeroChargePrice());
                         logger.info("Send DeActivation Message " + message + " To Receiver " + player.getMobile());
                     }
                 }
@@ -143,7 +194,7 @@ public class ScheduleTask extends TimerTask {
                 playerList = _playerService.findInActivePlayerByGameId(game.getId());
                 for (Player player : playerList)
                 {
-                    _messageSender.sendMessage(player.getMobile(), message, game.getServiceID());
+                        _messageSender.sendMessage(player.getMobile(), message, game.getServiceID(), gameDefinition.getZeroChargePrice());
                     logger.info("Send Invite Message " + message + " To Receiver " + player.getMobile());
                 }
             }
@@ -221,4 +272,19 @@ public class ScheduleTask extends TimerTask {
 //        return null;
     }
 
+    private int messagePrice(GameDefinition relatedGame, Player player, GameStage gameStage)
+    {
+        Calendar calendar = new GregorianCalendar();
+        calendar.set(Calendar.HOUR, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        if (player.getChargeNo() == 0)
+            return relatedGame.getPricePerDay();
+        else if (player.getLastChargeDate().before(calendar.getTime()))
+            return relatedGame.getPricePerDay();
+        else if (gameStage != null)
+            return gameStage.getPrice();
+        else
+            return relatedGame.getZeroChargePrice();
+    }
 }

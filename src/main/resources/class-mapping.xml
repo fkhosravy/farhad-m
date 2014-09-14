@@ -92,6 +92,7 @@
         <field name="desc" type="string"/>
         <field name="serviceID" type="string"/>
         <field name="pricePerDay" type="int"/>
+        <field name="zeroChargePrice" type="int"/>
         <field name="startRange" type="int"/>
         <field name="endRange" type="int"/>
         <field name="replaceable" type="boolean"/>

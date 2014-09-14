@@ -24,7 +24,7 @@ public class Reminder {
 
     public String getMessage() {
         if (message == null)
-            return "";
+            return new String("");
         else
             return message;
     }
@@ -51,7 +51,7 @@ public class Reminder {
 
     public String getHeader() {
         if (header == null)
-            return "";
+            return new String("");
         else
             return header;
     }

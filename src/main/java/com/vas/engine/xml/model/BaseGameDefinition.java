@@ -15,6 +15,7 @@ public class BaseGameDefinition {
 
     private boolean _replaceable;
     private int _pricePerDay;
+    private int _zeroChargePrice;
     private String _series;
 
     private int startRange;
@@ -92,6 +93,14 @@ public class BaseGameDefinition {
         _pricePerDay = pricePerDay;
     }
 
+    public int getZeroChargePrice()
+    {
+        return _zeroChargePrice;
+    }
+    public void setZeroChargePrice(int zeroChargePrice)
+    {
+        this._zeroChargePrice = zeroChargePrice;
+    }
     public String getSeries() {
         return _series;
     }
