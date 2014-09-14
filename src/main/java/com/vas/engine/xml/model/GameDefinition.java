@@ -6,6 +6,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Author: M.Mohseni Email:mohseni.mehdi@gmail.com
+ * Date: 1/25/13 1:53 AM
+ */
 public class GameDefinition extends BaseGameDefinition {
 
     private String enDesc;

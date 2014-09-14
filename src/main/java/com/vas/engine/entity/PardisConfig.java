@@ -2,6 +2,10 @@ package com.vas.engine.entity;
 
 import org.apache.log4j.Logger;
 
+/**
+ * Author: M.Mohseni Email:mohseni.mehdi@gmail.com
+ * Date: 1/16/13 1:21 AM
+ */
 public class PardisConfig {
     private static Logger logger = Logger.getLogger(PardisConfig.class);
 

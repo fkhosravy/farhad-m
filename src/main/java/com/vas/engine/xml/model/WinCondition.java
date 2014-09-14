@@ -4,6 +4,10 @@ package com.vas.engine.xml.model;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Author: M.Mohseni Email:mohseni.mehdi@gmail.com
+ * Date: 1/26/13 1:41 AM
+ */
 public class WinCondition {
 
     private String desc;

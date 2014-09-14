@@ -21,6 +21,10 @@ import java.io.IOException;
 import java.net.URLDecoder;
 import java.util.List;
 
+/**
+ * Author: M.Mohseni Email:mohseni.mehdi@gmail.com
+ * Date: 1/16/13 1:43 AM
+ */
 @Component("receiverServlet")
 public class ReceiverServlet extends HttpServlet {
 

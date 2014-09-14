@@ -16,6 +16,11 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 
+/**
+ * Author: M.Mohseni Email:mohseni.mehdi@gmail.com
+ * Date: 1/16/13 1:18 AM
+ */
+
 public class StrategicalGameEngine implements Runnable, GameEngineIF {
     private static Logger logger = Logger.getLogger(StrategicalGameEngine.class);
 
