@@ -8,6 +8,7 @@
 
     <series>musician</series>
     <replaceable>true</replaceable>
+    <send-next-question-by-score>true</send-next-question-by-score>
     <price-per-day>50</price-per-day>
     <zero-charge-price>10</zero-charge-price>
     <start-range>40</start-range>
@@ -241,7 +242,7 @@
       <price>0</price>
       <score>0</score>
       <question>true</question>
-      <nextStageCode />
+      <nextStageCode>32</nextStageCode>
       <desc>
 سوال 3)
 میدونید سازنده های سریال پایتخت 3 اسم راسکولنیکوف، حریف روس چغر بد بدن نقی معمولی رو از روی کدم یکی از شاهکارهای جهان ادبیات برداشتن؟

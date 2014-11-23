@@ -95,6 +95,7 @@
         <field name="zeroChargePrice" type="int"/>
         <field name="startRange" type="int"/>
         <field name="endRange" type="int"/>
+        <field name="sendNextQuestionByScore" type="boolean"/>
         <field name="replaceable" type="boolean"/>
         <field name="parameters" type="com.vas.engine.xml.model.GameParameter" collection="arraylist">
             <bind-xml name="parameter"/>

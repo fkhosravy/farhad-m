@@ -18,6 +18,7 @@ public class BaseGameDefinition {
     private String serviceID;
 
     private boolean _replaceable;
+    private boolean _sendNextQuestionByScore;
     private int _pricePerDay;
     private int _zeroChargePrice;
     private String _series;
@@ -95,6 +96,16 @@ public class BaseGameDefinition {
 
     public void setPricePerDay(int pricePerDay) {
         _pricePerDay = pricePerDay;
+    }
+
+    public boolean getSendNextQuestionByScore()
+    {
+        return _sendNextQuestionByScore;
+    }
+
+    public void setSendNextQuestionByScore(boolean sendNextQuestionByScore)
+    {
+        _sendNextQuestionByScore = sendNextQuestionByScore;
     }
 
     public int getZeroChargePrice()

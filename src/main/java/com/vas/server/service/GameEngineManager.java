@@ -1078,6 +1078,32 @@ public class GameEngineManager implements Runnable, GameEngineIF
         String msg = ConfigLoader.getValue("game.message.playerScore").replaceFirst("#", player.getQuestionNo().toString());
         msg = msg.replace("#", player.getScore().toString());
 
+        String nextStageMessage = "";
+        if (game.getSendNextQuestionByScore())
+        {
+            GameStage gameStage = findGameStage(game, player.getLastStageId());
+            if (gameStage != null)
+            {
+                if (gameStage.isFinalStage())
+                {
+                    nextStageMessage = (gameStage.getGoodByMessage() == null ? "" : gameStage.getGoodByMessage());
+                }
+                else
+                {
+//                    if (gameStage.getHeader() != null)
+//                        nextStageMessage = gameStage.getHeader() + "\n";
+
+                    if (gameStage.getDesc() != null)
+                        nextStageMessage = nextStageMessage + " " + gameStage.getDesc();
+
+//                    if (gameStage.getFooter() != null)
+//                        nextStageMessage = nextStageMessage + " " + gameStage.getFooter();
+                }
+            }
+        }
+
+        msg = msg + "\n" + nextStageMessage;
+
         _messageSender.sendMessage(incomingMessage.getSourceAddr(), msg, game.getServiceID(), game.getZeroChargePrice());
         logger.info("Send Message " + msg + " To Receiver " + incomingMessage.getSourceAddr() +
                 " With ServiceId " + game.getServiceID());
@@ -1134,13 +1160,6 @@ public class GameEngineManager implements Runnable, GameEngineIF
     private GameStage findGameStage(GameDefinition gameDefinition, String stageId)
     {
         return gameDefinition.getStageListMap().get(stageId);
-//        for (GameStage nextGameStage : gameDefinition.getStages())
-//        {
-//            if (nextGameStage.getId().equalsIgnoreCase(stageId))
-//                return nextGameStage;
-//        }
-//
-//        return null;
     }
 
     private boolean existInBlackList(String playerMobileNo, String firstToken)
@@ -1276,4 +1295,5 @@ public class GameEngineManager implements Runnable, GameEngineIF
         logger.info(game);
         logger.info(game.getWinCondition());
     }
+
 }
