@@ -40,6 +40,9 @@
         <field name="hour" type="int">
             <bind-xml name="hour" node="element"/>
         </field>
+        <field name="price" type="int">
+            <bind-xml name="price" node="element"/>
+        </field>
         <field name="message" type="string"/>
         <field name="period" type="string"/>
         <field name="action" type="string"/>
@@ -57,6 +60,7 @@
         <field name="startStage" type="boolean"/>
         <field name="welcomeMessage" type="string"/>
         <field name="finalStage" type="boolean"/>
+        <field name="showScore" type="boolean"/>
         <field name="goodByMessage" type="string"/>
         <field name="nextStageCode" type="string"/>
         <field name="question" type="boolean"/>
@@ -95,6 +99,7 @@
         <field name="zeroChargePrice" type="int"/>
         <field name="startRange" type="int"/>
         <field name="endRange" type="int"/>
+        <field name="questionPerDay" type="int"/>
         <field name="sendNextQuestionByScore" type="boolean"/>
         <field name="replaceable" type="boolean"/>
         <field name="parameters" type="com.vas.engine.xml.model.GameParameter" collection="arraylist">

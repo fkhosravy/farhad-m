@@ -28,6 +28,7 @@ import java.util.concurrent.TimeUnit;
 public class ScheduleTaskManager
 {
     private static Logger logger = Logger.getLogger(ScheduleTaskManager.class);
+
     MessageSender messageSender;
 
     PlayerService playerService;
@@ -39,6 +40,7 @@ public class ScheduleTaskManager
     List<Game> gameList;
 
     Map<String, GameDefinition> gameListMap;
+
     ScheduledExecutorService scheduledThreadPool;
 
     public List<ScheduleTask> getScheduleTaskList() {
@@ -87,6 +89,7 @@ public class ScheduleTaskManager
                         {
                             ScheduleTask scheduleTask = new ScheduleTask();
                             scheduleTask.initScheduleTask(gameDefinition, game, reminder, playerService, gameService, messageSender);
+//                            scheduledThreadPool.scheduleWithFixedDelay(scheduleTask, scheduleTask.getDelay(), scheduleTask.getPeriod(), TimeUnit.SECONDS);
                             scheduledThreadPool.scheduleAtFixedRate(scheduleTask, scheduleTask.getDelay(), scheduleTask.getPeriod(), TimeUnit.SECONDS);
                             scheduleTaskList.add(scheduleTask);
                             logger.warn("Set Schedule Reminder: " + reminder.getAction() + " ,run time: " + reminder.getHour());

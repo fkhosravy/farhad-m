@@ -9,6 +9,7 @@ package com.vas.engine.xml.model;
  */
 public class Reminder {
     public int hour;
+    public int price;
     public String message;
     public String period;
     public String action;
@@ -20,6 +21,16 @@ public class Reminder {
 
     public void setHour(int hour) {
         this.hour = hour;
+    }
+
+    public int getPrice()
+    {
+        return price;
+    }
+
+    public void setPrice(int price)
+    {
+        this.price = price;
     }
 
     public String getMessage() {
@@ -60,12 +71,13 @@ public class Reminder {
         this.header = header;
     }
 
-    public Reminder(int hour, String message, String period, String action, String header) {
+    public Reminder(int hour, String message, String period, String action, String header, int price) {
         this.hour = hour;
         this.message = message;
         this.period = period;
         this.action = action;
         this.header = header;
+        this.price = price;
     }
 
     public Reminder() {

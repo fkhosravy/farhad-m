@@ -19,6 +19,7 @@ public class GameStage {
 
     private String welcomeMessage;
     private boolean finalStage = false;
+    private boolean showScore = false;
 
     private String goodByMessage = "";
     private int price = 0;
@@ -85,6 +86,16 @@ public class GameStage {
 
     public boolean getFinalStage() {
         return finalStage;
+    }
+
+    public boolean isShowScore()
+    {
+        return showScore;
+    }
+
+    public void setShowScore(boolean showScore)
+    {
+        this.showScore = showScore;
     }
 
     public List<StageCondition> getConditionList() {

@@ -1,3 +1,10 @@
+Release 1.5.0
+--------------------------------------------------------------------------------
+Release Date: 2014/12/02
+Change log:
+- new feature: sending next question by score (new tag <send-next-question-by-score>)
+- new feature: sending user score on each stage (new tag <showScore>)
+--------------------------------------------------------------------------------
 Release 1.4.0
 --------------------------------------------------------------------------------
 Release Date: 2014/11/23

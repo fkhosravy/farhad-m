@@ -54,6 +54,9 @@ public class Player {
     @NotNull
     private Integer chargeNo;
 
+    @NotNull
+    private Integer dailyAskCounter;
+
     @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(style = "M-")
     private Date lastRequestDate;
@@ -121,6 +124,21 @@ public class Player {
 
     public void addScore(Integer score) {
         this.score += score;
+    }
+
+    public Integer getDailyAskCounter()
+    {
+        return dailyAskCounter;
+    }
+
+    public void setDailyAskCounter(Integer dailyAskCounter)
+    {
+        this.dailyAskCounter = dailyAskCounter;
+    }
+
+    public void incDailyAskCounter()
+    {
+        this.dailyAskCounter++;
     }
 
     public Game getGame() {
@@ -246,13 +264,13 @@ public class Player {
                 append(gameState, rhs.gameState).append(id, rhs.id).append(lastRequestDate, rhs.lastRequestDate).
                 append(lastChargeDate, rhs.lastChargeDate).append(lastStageId, rhs.lastStageId).append(mobile, rhs.mobile).
                 append(registerDate, rhs.registerDate).append(reserved1, rhs.reserved1).append(reserved2, rhs.reserved2).
-                append(reserved3, rhs.reserved3).append(chargeNo, rhs.chargeNo).isEquals();
+                append(reserved3, rhs.reserved3).append(chargeNo, rhs.chargeNo).append(dailyAskCounter, rhs.dailyAskCounter).isEquals();
     }
 
     public int hashCode() {
         return new HashCodeBuilder().append(gameId).append(score).append(gameState).append(id).append(lastRequestDate).
                 append(lastChargeDate).append(lastStageId).append(mobile).append(questionNo).append(chargeNo).
-                append(registerDate).append(reserved1).append(reserved2).append(reserved3).toHashCode();
+                append(dailyAskCounter).append(registerDate).append(reserved1).append(reserved2).append(reserved3).toHashCode();
     }
 
 }

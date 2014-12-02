@@ -25,6 +25,7 @@ public class BaseGameDefinition {
 
     private int startRange;
     private int endRange;
+    private int questionPerDay;
 
     private List<GameParameter> errorMsg = new ArrayList<GameParameter>();
 
@@ -138,5 +139,15 @@ public class BaseGameDefinition {
 
     public void setEndRange(int endRange) {
         this.endRange = endRange;
+    }
+
+    public int getQuestionPerDay()
+    {
+        return questionPerDay;
+    }
+
+    public void setQuestionPerDay(int questionPerDay)
+    {
+        this.questionPerDay = questionPerDay;
     }
 }

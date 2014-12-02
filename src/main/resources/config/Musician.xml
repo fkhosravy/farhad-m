@@ -9,13 +9,16 @@
     <series>musician</series>
     <replaceable>true</replaceable>
     <send-next-question-by-score>true</send-next-question-by-score>
-    <price-per-day>50</price-per-day>
+    <price-per-day>-1</price-per-day>
     <zero-charge-price>10</zero-charge-price>
     <start-range>40</start-range>
     <end-range>60</end-range>
+    <question-per-day>4</question-per-day>
+
     <reminder>
-        <hour>22</hour> <!-- 0 - 23 -->
-		 <header>قهرمان سینمایی ما کجایی؟
+        <hour>21</hour> <!-- 0 - 23 -->
+        <price>20</price>
+        <header>قهرمان سینمایی ما کجایی؟
 امروز بازی نکردی. کلی سوالهای جذاب داریم که هنوز بهشون جواب ندادی.
 آخرین سوالت این بود که:
 </header>
@@ -25,6 +28,7 @@
     </reminder>
     <reminder>
         <hour>22</hour> <!-- 0 - 23 -->
+        <price>10</price>
         <header>Hi</header>
         <message></message>
         <period>ONCE_PER_2WEEK</period> <!-- ONCE_PER_DAY , ONCE_PER_WEEK , ONCE_PER_2WEEK , ONCE_PER_MONTH -->
@@ -92,6 +96,7 @@
          <targetStage />
       </condition>
       <finalStage>false</finalStage>
+      <showScore>false</showScore>
    </stage>
    <stage id="2">
       <start-stage>false</start-stage>
@@ -137,6 +142,7 @@
          <targetStage />
       </condition>
       <finalStage>false</finalStage>
+      <showScore>true</showScore>
    </stage>
    <stage id="10">
       <start-stage>false</start-stage>
@@ -183,6 +189,7 @@
          <targetStage>13</targetStage>
       </condition>
       <finalStage>false</finalStage>
+      <showScore>true</showScore>
    </stage>
    <stage id="20">
       <start-stage>FALSE</start-stage>

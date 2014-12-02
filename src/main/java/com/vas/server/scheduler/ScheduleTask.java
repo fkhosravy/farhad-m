@@ -24,10 +24,10 @@ public class ScheduleTask implements Runnable {
     private final static String ACTION_REMINDER = "reminder";
     private final static String ACTION_DEACTIVATION = "deactivation";
     private final static String ACTION_INVITE = "invite";
-    private final static long ONCE_PER_DAY = 1000 * 60 * 60 * 24;
-    private final static long ONCE_PER_WEEK = 1000 * 60 * 60 * 24 * 7;
-    private final static long ONCE_PER_2WEEK = 1000 * 60 * 60 * 24 * 14;
-    private final static long ONCE_PER_MONTH = 1000 * 60 * 60 * 24 * 30;
+    private final static long ONCE_PER_DAY = 60 * 60 * 24;
+    private final static long ONCE_PER_WEEK = 60 * 60 * 24 * 7;
+    private final static long ONCE_PER_2WEEK = 60 * 60 * 24 * 14;
+    private final static long ONCE_PER_MONTH = 60 * 60 * 24 * 30;
 
     int price;
 //    Timer timer;
@@ -80,24 +80,28 @@ public class ScheduleTask implements Runnable {
     {
         return period;
     }
+
     public void setPeriod(long period)
     {
         this.period = period;
     }
+
     public long getDelay()
     {
         return delay;
     }
+
     public void setDelay(long delay)
     {
         this.delay = delay;
     }
+
     //    public void initScheduleTask(Map<String, GameDefinition> gameListMap, List<Game> gameList)
     public void initScheduleTask(GameDefinition gameDefinition, Game game, Reminder reminder, PlayerService playerService, GameService gameService, MessageSender messageSender)
     {
         this.game = game;
         this.gameDefinition = gameDefinition;
-        this.reminder = new Reminder(reminder.hour, reminder.message, reminder.period, reminder.action, reminder.header);
+        this.reminder = new Reminder(reminder.hour, reminder.message, reminder.period, reminder.action, reminder.header, reminder.price);
         this._playerService = playerService;
         this._gameService = gameService;
         this._messageSender = messageSender;
@@ -110,7 +114,9 @@ public class ScheduleTask implements Runnable {
             this.period = ONCE_PER_2WEEK;
         else if (reminder.getPeriod().compareToIgnoreCase("ONCE_PER_MONTH") == 0)
             this.period = ONCE_PER_MONTH;
+
         Calendar runTime = Calendar.getInstance();
+
         runTime.set(Calendar.HOUR_OF_DAY, reminder.getHour());
         runTime.set(Calendar.MINUTE, 0);
         runTime.set(Calendar.SECOND, 0);
@@ -118,6 +124,7 @@ public class ScheduleTask implements Runnable {
         Date d1 = new Date();
         Date d2 = runTime.getTime();
         long diff = d2.getTime() - d1.getTime();
+
         if (diff > 0)
             this.delay = diff / 1000;
         else if (diff > -3600000)
@@ -253,7 +260,7 @@ public class ScheduleTask implements Runnable {
                 player.setLastChargeDate(new Date());
                 _playerService.updatePlayer(player);
 
-                _messageSender.sendMessage(player.getMobile(), message, game.getServiceID(), game.getChargePerDay());
+                _messageSender.sendMessage(player.getMobile(), message, game.getServiceID(), price);
                 logger.info("Send Reminder Message " + message + " To Receiver " + player.getMobile() + " With ServiceId " + game.getServiceID() + " With Price " + price);
             }
         }

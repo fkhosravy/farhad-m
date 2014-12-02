@@ -25,11 +25,6 @@ import java.util.*;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
-/**
- * Author: M.Mohseni Email:mohseni.mehdi@gmail.com
- * Date: 1/16/13 1:18 AM
- */
-
 public class GameEngineManager implements Runnable, GameEngineIF
 {
 
@@ -113,7 +108,6 @@ public class GameEngineManager implements Runnable, GameEngineIF
         {
             gameListMap.put(nextGameDefinition.getGameCode().toLowerCase().trim(), nextGameDefinition);
             gameListMap.put(nextGameDefinition.getGameCode().toUpperCase().trim(), nextGameDefinition);
-
             nextGameDefinition.initStageListMap(nextGameDefinition.getStages());
         }
         logger.info("gameList.size() = " + gameList.size());
@@ -648,9 +642,19 @@ public class GameEngineManager implements Runnable, GameEngineIF
         calendar.set(Calendar.SECOND, 0);
 
         if (player.getChargeNo() == 0)
-            return relatedGame.getPricePerDay();
+        {
+            if (relatedGame.getPricePerDay() == -1)
+                return gameStage.getPrice();
+            else
+                return relatedGame.getPricePerDay();
+        }
         else if (player.getLastChargeDate().before(calendar.getTime()))
-            return relatedGame.getPricePerDay();
+        {
+            if (relatedGame.getPricePerDay() == -1)
+                return gameStage.getPrice();
+            else
+                return relatedGame.getPricePerDay();
+        }
         else
             return gameStage.getPrice();
     }
@@ -680,6 +684,8 @@ public class GameEngineManager implements Runnable, GameEngineIF
                 GameStage nextGameStage = findGameStage(relatedGame, targetStageId);
 
                 customer.addScore(nextGameStage.getScore());
+                customer.incDailyAskCounter();
+
                 if (nextGameStage.getQuestion())
                     customer.incQuestionNo();
 
@@ -731,6 +737,12 @@ public class GameEngineManager implements Runnable, GameEngineIF
                     (targetGameStage.getGoodByMessage() == null ? "" : targetGameStage.getGoodByMessage());
 
             updateFlag = true;
+        }
+
+        if (targetGameStage.isShowScore())
+        {
+            customerMessage = customerMessage + "\n " +
+                    ConfigLoader.getValue("game.message.currentScore").replace("#", customer.getScore().toString());
         }
 
         int price = messagePrice(relatedGame, customer, targetGameStage);
