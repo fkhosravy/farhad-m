@@ -54,6 +54,8 @@ public class Player {
     @NotNull
     private Integer chargeNo;
 
+    private Integer reminderNo;
+
     @NotNull
     private Integer dailyAskCounter;
 
@@ -248,6 +250,21 @@ public class Player {
         this.chargeNo++;
     }
 
+    public Integer getReminderNo()
+    {
+        return reminderNo;
+    }
+
+    public void setReminderNo(Integer reminderNo)
+    {
+        this.reminderNo = reminderNo;
+    }
+
+    public void incReminderNo()
+    {
+        this.reminderNo++;
+    }
+
     public String toString() {
         return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
@@ -261,7 +278,7 @@ public class Player {
         }
         Player rhs = (Player) obj;
         return new EqualsBuilder().append(gameId, rhs.gameId).append(score, rhs.score).append(questionNo, rhs.questionNo).
-                append(gameState, rhs.gameState).append(id, rhs.id).append(lastRequestDate, rhs.lastRequestDate).
+                append(gameState, rhs.gameState).append(id, rhs.id).append(lastRequestDate, rhs.lastRequestDate).append(reminderNo, rhs.reminderNo).
                 append(lastChargeDate, rhs.lastChargeDate).append(lastStageId, rhs.lastStageId).append(mobile, rhs.mobile).
                 append(registerDate, rhs.registerDate).append(reserved1, rhs.reserved1).append(reserved2, rhs.reserved2).
                 append(reserved3, rhs.reserved3).append(chargeNo, rhs.chargeNo).append(dailyAskCounter, rhs.dailyAskCounter).isEquals();
@@ -269,7 +286,7 @@ public class Player {
 
     public int hashCode() {
         return new HashCodeBuilder().append(gameId).append(score).append(gameState).append(id).append(lastRequestDate).
-                append(lastChargeDate).append(lastStageId).append(mobile).append(questionNo).append(chargeNo).
+                append(lastChargeDate).append(lastStageId).append(mobile).append(questionNo).append(chargeNo).append(reminderNo).
                 append(dailyAskCounter).append(registerDate).append(reserved1).append(reserved2).append(reserved3).toHashCode();
     }
 

@@ -16,6 +16,14 @@
     <question-per-day>4</question-per-day>
 
     <reminder>
+        <hour>12</hour> <!-- 0 - 23 -->
+        <price>10</price>
+        <header>next stage</header>
+        <message>next stage msg</message>
+        <period>ONCE_PER_DAY</period> <!-- ONCE_PER_DAY , ONCE_PER_WEEK , ONCE_PER_2WEEK , ONCE_PER_MONTH -->
+        <action>nextstage</action> <!-- deactivation , invite , reminder , nextstage -->
+    </reminder>
+    <reminder>
         <hour>21</hour> <!-- 0 - 23 -->
         <price>20</price>
         <header>قهرمان سینمایی ما کجایی؟

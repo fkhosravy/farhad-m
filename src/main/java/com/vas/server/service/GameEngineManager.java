@@ -558,6 +558,7 @@ public class GameEngineManager implements Runnable, GameEngineIF
 
                 player.setLastStageId(startStage.getId());
                 player.setLastRequestDate(new Date());
+                player.setReminderNo(0);
                 player = _playerService.updatePlayer(player);
 
                 if (startStage.getHeader() != null)

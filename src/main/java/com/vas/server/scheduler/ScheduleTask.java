@@ -24,10 +24,12 @@ public class ScheduleTask implements Runnable {
     private final static String ACTION_REMINDER = "reminder";
     private final static String ACTION_DEACTIVATION = "deactivation";
     private final static String ACTION_INVITE = "invite";
+    private final static String ACTION_NEXT_STAGE = "nextstage";
     private final static long ONCE_PER_DAY = 60 * 60 * 24;
     private final static long ONCE_PER_WEEK = 60 * 60 * 24 * 7;
     private final static long ONCE_PER_2WEEK = 60 * 60 * 24 * 14;
     private final static long ONCE_PER_MONTH = 60 * 60 * 24 * 30;
+    private final static int REMINDER_NO = 4;
 
     int price;
 //    Timer timer;
@@ -205,6 +207,14 @@ public class ScheduleTask implements Runnable {
                     logger.info("Send Invite Message " + message + " To Receiver " + player.getMobile());
                 }
             }
+            else if (reminder.getAction().compareToIgnoreCase(ACTION_NEXT_STAGE) == 0)
+            {
+                playerList = _playerService.
+                        findPlayerByGameIdAndLastChargeDateLessThanAndGameStateGreaterThan(game.getId(), chargeDate.getTime(), -1);
+
+                if (playerList != null)
+                    sendNextStageReminder(playerList);
+            }
         }
     }
 
@@ -260,6 +270,77 @@ public class ScheduleTask implements Runnable {
                 player.setLastChargeDate(new Date());
                 _playerService.updatePlayer(player);
 
+                _messageSender.sendMessage(player.getMobile(), message, game.getServiceID(), price);
+                logger.info("Send Reminder Message " + message + " To Receiver " + player.getMobile() + " With ServiceId " + game.getServiceID() + " With Price " + price);
+            }
+        }
+    }
+
+    private void sendNextStageReminder(List<Player> playerList)
+    {
+        String reminderMsg = reminder.getMessage();
+        boolean reminderHasMsg = true;
+
+        if (reminder.getMessage().isEmpty())
+            reminderHasMsg = false;
+
+        for (Player player : playerList)
+        {
+            String message = "";
+
+            if (!reminderHasMsg)
+            {
+                if (player.getGameState() == GameEngineManager.GAME_END_STATE)
+                {
+                    GameStage gameStage = gameDefinition.getStartStage();
+                    if (gameStage != null)
+                        message = gameStage.getDesc();
+                }
+                else
+                {
+                    player.incReminderNo();
+                    GameStage gameStage = findGameStage(gameDefinition, player.getLastStageId());
+
+                    if (player.getReminderNo() >= REMINDER_NO)
+                    {
+                        player.setLastStageId(gameStage.getNextStageCode());
+                        player.setReminderNo(1);
+
+                        gameStage = findGameStage(gameDefinition, gameStage.getNextStageCode());
+                    }
+
+                    if (gameStage != null)
+                    {
+                        message = gameStage.getDesc();
+
+                        if (reminder.getHeader().isEmpty())
+                        {
+                            if (gameStage.getHeader() != null)
+                                message = gameStage.getHeader() + " " + message;
+                        }
+                        else
+                            message = reminder.getHeader() + " " + message;
+
+                        if (gameStage.getFooter() != null)
+                            message = message + " " + gameStage.getFooter();
+                    }
+                }
+            }
+            else
+            {
+                message = reminder.getHeader() + " " + reminderMsg;
+            }
+
+            if (!message.isEmpty())
+            {
+                player.incChargeNo();
+                player.setLastChargeDate(new Date());
+            }
+
+            _playerService.updatePlayer(player);
+
+            if (!message.isEmpty())
+            {
                 _messageSender.sendMessage(player.getMobile(), message, game.getServiceID(), price);
                 logger.info("Send Reminder Message " + message + " To Receiver " + player.getMobile() + " With ServiceId " + game.getServiceID() + " With Price " + price);
             }
