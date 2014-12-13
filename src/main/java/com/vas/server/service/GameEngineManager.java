@@ -590,40 +590,52 @@ public class GameEngineManager implements Runnable, GameEngineIF
                 {
                     if (secondToken != null && secondToken.equals(gameNextCode))
                     {
-                        GameStage targetGameStage = findGameStage(relatedGame, relatedGameStageToPlayer.getNextStageCode());
-
-                        savePlayerStateLog(incomingMessage, player);
-
-                        if (targetGameStage != null)
-                            nextStage(relatedGame, incomingMessage, player, targetGameStage);
+                        if (player.getDailyAskCounter() >= relatedGame.getQuestionPerDay())
+                        {
+                            String customerMessage = ConfigLoader.getValue("game.message.maxQuestionPerDay");
+                            _messageSender.sendMessage(incomingMessage.getSourceAddr(), customerMessage, relatedGame.getServiceID());
+                            logger.info("Send Message " + customerMessage + " To Receiver " + incomingMessage.getSourceAddr() +
+                                    " With ServiceId " + relatedGame.getServiceID());
+                        }
                         else
                         {
-                            int price = messagePrice(relatedGame, player, targetGameStage);
+                            GameStage targetGameStage = findGameStage(relatedGame, relatedGameStageToPlayer.getNextStageCode());
 
-                            String customerMessage = "";
-                            if (relatedGameStageToPlayer.isStartStage())
-                                customerMessage += ConfigLoader.getValue("game.message.firstStage");
+                            savePlayerStateLog(incomingMessage, player);
+
+                            if (targetGameStage != null)
+                                nextStage(relatedGame, incomingMessage, player, targetGameStage);
                             else
-                                customerMessage += ConfigLoader.getValue("game.message.lastStage");
-
-                            if (relatedGameStageToPlayer.getDesc() != null)
-                                customerMessage = customerMessage + "\n" + relatedGameStageToPlayer.getDesc();
-
-                            if (relatedGameStageToPlayer.getFooter() != null)
-                                customerMessage = customerMessage + " " + relatedGameStageToPlayer.getFooter();
-
-                            _messageSender.sendMessage(incomingMessage.getSourceAddr(), customerMessage, relatedGame.getServiceID(), price);
-                            logger.info("Send Message " + customerMessage + " To Receiver " + incomingMessage.getSourceAddr() +
-                                    " With ServiceId " + relatedGame.getServiceID() + " With Price " + price);
-
-                            if (price > 0)
                             {
-                                player.incChargeNo();
-                                player.setLastChargeDate(new Date());
-                            }
+                                int price = messagePrice(relatedGame, player, targetGameStage);
 
-                            player.setLastStageId(relatedGameStageToPlayer.getName());
-                            player = _playerService.updatePlayer(player);
+                                String customerMessage = "";
+                                if (relatedGameStageToPlayer.isStartStage())
+                                    customerMessage += ConfigLoader.getValue("game.message.firstStage");
+                                else
+                                    customerMessage += ConfigLoader.getValue("game.message.lastStage");
+
+                                if (relatedGameStageToPlayer.getDesc() != null)
+                                    customerMessage = customerMessage + "\n" + relatedGameStageToPlayer.getDesc();
+
+                                if (relatedGameStageToPlayer.getFooter() != null)
+                                    customerMessage = customerMessage + " " + relatedGameStageToPlayer.getFooter();
+
+                                _messageSender.sendMessage(incomingMessage.getSourceAddr(), customerMessage, relatedGame.getServiceID(), price);
+                                logger.info("Send Message " + customerMessage + " To Receiver " + incomingMessage.getSourceAddr() +
+                                        " With ServiceId " + relatedGame.getServiceID() + " With Price " + price);
+
+                                if (price > 0)
+                                {
+                                    player.incChargeNo();
+                                    player.setLastChargeDate(new Date());
+                                }
+
+                                player.setLastStageId(relatedGameStageToPlayer.getName());
+                                player.setReminderNo(0);
+                                player.incDailyAskCounter();
+                                player = _playerService.updatePlayer(player);
+                            }
                         }
                     }
                     else
@@ -663,55 +675,68 @@ public class GameEngineManager implements Runnable, GameEngineIF
     private void processInputForStage(GameDefinition relatedGame, GameStage currentPlayerStage,
                                       String previousStageId, String inputValue, IncomingMessage incomingMessage)
     {
-        logger.warn("********************************");
+        boolean inputIsValid = false;
+        logger.info("********************************");
         logger.info("entered into processInputForStage");
         String customerMobileNo = incomingMessage.getSourceAddr();
-        boolean inputIsValid = false;
 
-        List<Player> customerList = _playerService.findPlayer(customerMobileNo);
-        Player customer = customerList.get(customerList.size() - 1);
+//        List<Player> customerList = _playerService.findPlayer(customerMobileNo);
+//        Player customer = customerList.get(customerList.size() - 1);
+        Player customer = _playerService.findLastActivePlayByMobileAndGameSeries(customerMobileNo, relatedGame.getGameCode());
 
         savePlayerStateLog(incomingMessage, customer);
 
-        //apply all stage condition functions to customer state
-        for (StageCondition nextStageCondition : currentPlayerStage.getConditionList())
+        if (customer.getDailyAskCounter() <= relatedGame.getQuestionPerDay())
         {
-            if (nextStageCondition.getInputCode().equalsIgnoreCase(inputValue))
+            //apply all stage condition functions to customer state
+            for (StageCondition nextStageCondition : currentPlayerStage.getConditionList())
             {
-                inputIsValid = true;
-
-                //change customer stage
-                String targetStageId = nextStageCondition.getTargetStageId();
-                GameStage nextGameStage = findGameStage(relatedGame, targetStageId);
-
-                customer.addScore(nextGameStage.getScore());
-                customer.incDailyAskCounter();
-
-                if (nextGameStage.getQuestion())
-                    customer.incQuestionNo();
-
-                customer.setLastStageId(targetStageId);
-                customer.setLastRequestDate(new Date());
-
-                logger.info("CurrentStateId: [" + previousStageId + "] TargetStageId: [" + targetStageId + "]");
-                customer = _playerService.updatePlayer(customer);
-
-                GameStage targetGameStage = findGameStage(relatedGame, targetStageId);
-
-                if (targetGameStage == null)
+                if (nextStageCondition.getInputCode().equalsIgnoreCase(inputValue))
                 {
-                    //TODO check this condition
-                    logger.fatal("targetGameStage with id " + targetStageId + " not found in system .....");
+                    inputIsValid = true;
+
+                    //change customer stage
+                    String targetStageId = nextStageCondition.getTargetStageId();
+                    GameStage nextGameStage = findGameStage(relatedGame, targetStageId);
+
+                    customer.addScore(nextGameStage.getScore());
+                    customer.incDailyAskCounter();
+
+                    if (nextGameStage.getQuestion())
+                        customer.incQuestionNo();
+
+                    customer.setLastStageId(targetStageId);
+                    customer.setLastRequestDate(new Date());
+                    customer.setReminderNo(0);
+                    customer.incDailyAskCounter();
+
+                    logger.info("CurrentStateId: [" + previousStageId + "] TargetStageId: [" + targetStageId + "]");
+                    customer = _playerService.updatePlayer(customer);
+
+                    GameStage targetGameStage = findGameStage(relatedGame, targetStageId);
+
+                    if (targetGameStage == null)
+                    {
+                        //TODO check this condition
+                        logger.fatal("targetGameStage with id " + targetStageId + " not found in system .....");
+                    }
+                    else
+                        nextStage(relatedGame, incomingMessage, customer, targetGameStage);
+
+                    break;
                 }
-                else
-                    nextStage(relatedGame, incomingMessage, customer, targetGameStage);
-
-                break;
             }
-        }
 
-        if (!inputIsValid)
-            sendError(incomingMessage, currentPlayerStage, incomingMessage.getMsgItems().get(0));
+            if (!inputIsValid)
+                sendError(incomingMessage, currentPlayerStage, incomingMessage.getMsgItems().get(0));
+        }
+        else
+        {
+            String message = ConfigLoader.getValue("game.message.maxQuestionPerDay").replace("#", String.valueOf(relatedGame.getQuestionPerDay()));
+            _messageSender.sendMessage(incomingMessage.getSourceAddr(), message, relatedGame.getServiceID());
+            logger.info("Send Message " + message + " To Receiver " + incomingMessage.getSourceAddr() +
+                    " With ServiceId " + relatedGame.getServiceID());
+        }
     }
 
     private void nextStage(GameDefinition relatedGame, IncomingMessage incomingMessage, Player customer, GameStage targetGameStage)
@@ -756,13 +781,12 @@ public class GameEngineManager implements Runnable, GameEngineIF
         {
             customer.incChargeNo();
             customer.setLastChargeDate(new Date());
-            updateFlag = true;
         }
 
 //        customer.setLastStageId(targetGameStage.getName());
-
-        if (updateFlag)
-            _playerService.updatePlayer(customer);
+        customer.setReminderNo(0);
+        customer.incDailyAskCounter();
+        _playerService.updatePlayer(customer);
     }
 
     private void sendStartStatus(IncomingMessage incomingMessage, Player player, Game game)
@@ -930,6 +954,8 @@ public class GameEngineManager implements Runnable, GameEngineIF
             player.setVersion(0);
             player.setQuestionNo(0);
             player.setChargeNo(0);
+            player.setReminderNo(0);
+            player.setDailyAskCounter(0);
 
             _playerService.savePlayer(player);
 
@@ -1220,32 +1246,37 @@ public class GameEngineManager implements Runnable, GameEngineIF
 
             logger.info(">>nextXmlDirFile.getName() = " + nextXmlDirFile.getName());
 
-            GameDefinition game = (GameDefinition) converter.convertFromXMLToObject(nextXmlDirFile.getAbsolutePath());
+            GameDefinition gameDefinition = (GameDefinition) converter.convertFromXMLToObject(nextXmlDirFile.getAbsolutePath());
 
-            List<Game> foundGame = _gameService.findGame(game.getGameCode(), game.getSeries());
+            List<Game> foundGame = _gameService.findGame(gameDefinition.getGameCode(), gameDefinition.getSeries());
 
-            Game nextGame;
+            Game game;
             if (foundGame.size() > 0)
-                nextGame = foundGame.get(0);
+                game = foundGame.get(0);
             else
-                nextGame = new Game();
+                game = new Game();
 
-            nextGame.setPrefix(game.getGameCode());
-            nextGame.setParentPrefix(game.getSeries());
-            nextGame.setReplacable(false);
-            nextGame.setServiceID(game.getServiceID());
-            nextGame.setFileName(nextXmlDirFile.getName());
-            nextGame.setReplacable(game.isReplaceable());
-            nextGame.setChargePerDay(game.getPricePerDay());
+            game.setPrefix(gameDefinition.getGameCode());
+            game.setParentPrefix(gameDefinition.getSeries());
+            game.setReplacable(false);
+            game.setServiceID(gameDefinition.getServiceID());
+            game.setFileName(nextXmlDirFile.getName());
+            game.setReplacable(gameDefinition.isReplaceable());
+            game.setChargePerDay(gameDefinition.getPricePerDay());
 
-            _gameService.saveGame(nextGame);
+            try {
+            _gameService.saveGame(game);
+            }
+            catch (Exception ex)
+            {
+                logger.fatal(ex.getMessage());
+            }
+            if (!gameSeriesList.contains(game.getParentPrefix().toLowerCase()))
+                gameSeriesList.add(game.getParentPrefix().toLowerCase());
 
-            if (!gameSeriesList.contains(nextGame.getParentPrefix().toLowerCase()))
-                gameSeriesList.add(nextGame.getParentPrefix().toLowerCase());
+            returnList.add(gameDefinition);
 
-            returnList.add(game);
-
-            printGameInfo(game);
+            printGameInfo(gameDefinition);
         }
 
         logger.info("process xml files done...");

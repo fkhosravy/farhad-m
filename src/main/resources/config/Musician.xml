@@ -9,19 +9,27 @@
     <series>musician</series>
     <replaceable>true</replaceable>
     <send-next-question-by-score>true</send-next-question-by-score>
-    <price-per-day>-1</price-per-day>
+    <price-per-day>0</price-per-day>
     <zero-charge-price>10</zero-charge-price>
     <start-range>40</start-range>
     <end-range>60</end-range>
     <question-per-day>4</question-per-day>
 
     <reminder>
+        <hour>17</hour> <!-- 0 - 23 -->
+        <price>0</price>
+        <header></header>
+        <message></message>
+        <period>ONCE_PER_DAY</period> <!-- ONCE_PER_DAY , ONCE_PER_WEEK , ONCE_PER_2WEEK , ONCE_PER_MONTH -->
+        <action>dailyreset</action> <!-- deactivation , invite , reminder , nextstage , dailyreset -->
+    </reminder>
+    <reminder>
         <hour>12</hour> <!-- 0 - 23 -->
         <price>10</price>
         <header>next stage</header>
         <message>next stage msg</message>
         <period>ONCE_PER_DAY</period> <!-- ONCE_PER_DAY , ONCE_PER_WEEK , ONCE_PER_2WEEK , ONCE_PER_MONTH -->
-        <action>nextstage</action> <!-- deactivation , invite , reminder , nextstage -->
+        <action>nextstage</action> <!-- deactivation , invite , reminder , nextstage , dailyreset -->
     </reminder>
     <reminder>
         <hour>21</hour> <!-- 0 - 23 -->
@@ -32,7 +40,7 @@
 </header>
         <message></message>
         <period>ONCE_PER_DAY</period> <!-- ONCE_PER_DAY , ONCE_PER_WEEK , ONCE_PER_2WEEK , ONCE_PER_MONTH -->
-        <action>reminder</action> <!-- deactivation , invite , reminder -->
+        <action>reminder</action> <!-- deactivation , invite , reminder , nextstage , dailyreset -->
     </reminder>
     <reminder>
         <hour>22</hour> <!-- 0 - 23 -->
@@ -40,7 +48,7 @@
         <header>Hi</header>
         <message></message>
         <period>ONCE_PER_2WEEK</period> <!-- ONCE_PER_DAY , ONCE_PER_WEEK , ONCE_PER_2WEEK , ONCE_PER_MONTH -->
-        <action>deactivation</action> <!-- deactivation , invite , reminder -->
+        <action>deactivation</action> <!-- deactivation , invite , reminder , nextstage , dailyreset  -->
     </reminder>
 	<!--<errorMsg>-->
 		<!--<message>msg1</message>-->

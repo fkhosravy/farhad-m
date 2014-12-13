@@ -1,3 +1,13 @@
+Release 1.6.0
+--------------------------------------------------------------------------------
+Release Date: 2014/12/13
+Change log:
+- new feature: add daily ask counter (new tag <question-per-day>) 
+- new feature: add dailyreset reminder to reset "daily ask counter" every day
+- new feature: add price tag to reminder
+- bug fixed: multiple xml files loading bug fixed
+- bug fixed: reminder timer scheduler bug fixed
+--------------------------------------------------------------------------------
 Release 1.5.0
 --------------------------------------------------------------------------------
 Release Date: 2014/12/02

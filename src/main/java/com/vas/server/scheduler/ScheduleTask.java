@@ -25,6 +25,7 @@ public class ScheduleTask implements Runnable {
     private final static String ACTION_DEACTIVATION = "deactivation";
     private final static String ACTION_INVITE = "invite";
     private final static String ACTION_NEXT_STAGE = "nextstage";
+    private final static String ACTION_RESET_COUNTER = "dailyreset";
     private final static long ONCE_PER_DAY = 60 * 60 * 24;
     private final static long ONCE_PER_WEEK = 60 * 60 * 24 * 7;
     private final static long ONCE_PER_2WEEK = 60 * 60 * 24 * 14;
@@ -167,7 +168,7 @@ public class ScheduleTask implements Runnable {
 
 //            if (reminder.getHour() == hour)
 //            {
-            logger.error("====================== Schedule Task ================== ");
+            logger.info("====================== Schedule Task ================== ");
             List<Player> playerList = null;
 
             if (reminder.getAction().compareToIgnoreCase(ACTION_REMINDER) == 0)
@@ -183,15 +184,7 @@ public class ScheduleTask implements Runnable {
                 playerList = _playerService.findActivePlayerByGameId(game.getId());
                 if (playerList != null)
                 {
-                    String message = reminder.getMessage();
-                    if (reminder.getHeader() != null && !reminder.getHeader().isEmpty())
-                        message = reminder.getHeader() + " " + message;
-
-                    for (Player player : playerList)
-                    {
-                        _messageSender.sendMessage(player.getMobile(), message, game.getServiceID(), gameDefinition.getZeroChargePrice());
-                        logger.info("Send DeActivation Message " + message + " To Receiver " + player.getMobile());
-                    }
+                    sendDeActivation(playerList);
                 }
             }
             else if (reminder.getAction().compareToIgnoreCase(ACTION_INVITE) == 0)
@@ -215,6 +208,34 @@ public class ScheduleTask implements Runnable {
                 if (playerList != null)
                     sendNextStageReminder(playerList);
             }
+            else if (reminder.getAction().compareToIgnoreCase(ACTION_RESET_COUNTER) == 0)
+            {
+                playerList = _playerService.findActivePlayerByGameId(game.getId());
+                if (playerList != null)
+                    resetCounter(playerList);
+            }
+        }
+    }
+
+    private void sendDeActivation(List<Player> playerList)
+    {
+        String message = reminder.getMessage();
+        if (reminder.getHeader() != null && !reminder.getHeader().isEmpty())
+            message = reminder.getHeader() + " " + message;
+
+        for (Player player : playerList)
+        {
+            _messageSender.sendMessage(player.getMobile(), message, game.getServiceID(), gameDefinition.getZeroChargePrice());
+            logger.info("Send DeActivation Message " + message + " To Receiver " + player.getMobile());
+        }
+    }
+
+    private void resetCounter(List<Player> playerList)
+    {
+        for (Player player : playerList)
+        {
+            player.setDailyAskCounter(0);
+            _playerService.savePlayer(player);
         }
     }
 
@@ -228,6 +249,7 @@ public class ScheduleTask implements Runnable {
 
         for (Player player : playerList)
         {
+            int msgPrice = price;
             String message = "";
 
             if (!reminderHasMsg)
@@ -237,6 +259,9 @@ public class ScheduleTask implements Runnable {
                     GameStage gameStage = gameDefinition.getStartStage();
                     if (gameStage != null)
                         message = gameStage.getDesc();
+
+                    if (msgPrice == -1)
+                        msgPrice = gameStage.getPrice();
                 }
                 else
                 {
@@ -256,12 +281,17 @@ public class ScheduleTask implements Runnable {
 
                         if (gameStage.getFooter() != null)
                             message = message + " " + gameStage.getFooter();
+
+                        if (msgPrice == -1)
+                            msgPrice = gameStage.getPrice();
                     }
                 }
             }
             else
             {
                 message = reminder.getHeader() + " " + reminderMsg;
+                if (msgPrice == -1)
+                    msgPrice = gameDefinition.getZeroChargePrice();
             }
 
             if (!message.isEmpty())
@@ -270,8 +300,8 @@ public class ScheduleTask implements Runnable {
                 player.setLastChargeDate(new Date());
                 _playerService.updatePlayer(player);
 
-                _messageSender.sendMessage(player.getMobile(), message, game.getServiceID(), price);
-                logger.info("Send Reminder Message " + message + " To Receiver " + player.getMobile() + " With ServiceId " + game.getServiceID() + " With Price " + price);
+                _messageSender.sendMessage(player.getMobile(), message, game.getServiceID(), msgPrice);
+                logger.info("Send Reminder Message " + message + " To Receiver " + player.getMobile() + " With ServiceId " + game.getServiceID() + " With Price " + msgPrice);
             }
         }
     }
@@ -279,56 +309,45 @@ public class ScheduleTask implements Runnable {
     private void sendNextStageReminder(List<Player> playerList)
     {
         String reminderMsg = reminder.getMessage();
-        boolean reminderHasMsg = true;
-
-        if (reminder.getMessage().isEmpty())
-            reminderHasMsg = false;
 
         for (Player player : playerList)
         {
             String message = "";
+            player.incReminderNo();
 
-            if (!reminderHasMsg)
+            if (player.getGameState() == GameEngineManager.GAME_END_STATE)
             {
-                if (player.getGameState() == GameEngineManager.GAME_END_STATE)
-                {
-                    GameStage gameStage = gameDefinition.getStartStage();
-                    if (gameStage != null)
-                        message = gameStage.getDesc();
-                }
-                else
-                {
-                    player.incReminderNo();
-                    GameStage gameStage = findGameStage(gameDefinition, player.getLastStageId());
-
-                    if (player.getReminderNo() >= REMINDER_NO)
-                    {
-                        player.setLastStageId(gameStage.getNextStageCode());
-                        player.setReminderNo(1);
-
-                        gameStage = findGameStage(gameDefinition, gameStage.getNextStageCode());
-                    }
-
-                    if (gameStage != null)
-                    {
-                        message = gameStage.getDesc();
-
-                        if (reminder.getHeader().isEmpty())
-                        {
-                            if (gameStage.getHeader() != null)
-                                message = gameStage.getHeader() + " " + message;
-                        }
-                        else
-                            message = reminder.getHeader() + " " + message;
-
-                        if (gameStage.getFooter() != null)
-                            message = message + " " + gameStage.getFooter();
-                    }
-                }
+                GameStage gameStage = gameDefinition.getStartStage();
+                if (gameStage != null)
+                    message = gameStage.getDesc();
             }
             else
             {
-                message = reminder.getHeader() + " " + reminderMsg;
+                GameStage gameStage = findGameStage(gameDefinition, player.getLastStageId());
+
+                if (player.getReminderNo() >= REMINDER_NO)
+                {
+                    player.setLastStageId(gameStage.getNextStageCode());
+                    player.setReminderNo(1);
+
+                    gameStage = findGameStage(gameDefinition, gameStage.getNextStageCode());
+                }
+
+                if (gameStage != null)
+                {
+                    message = gameStage.getDesc();
+
+                    if (reminder.getHeader().isEmpty())
+                    {
+                        if (gameStage.getHeader() != null)
+                            message = gameStage.getHeader() + " " + message;
+                    }
+                    else
+                        message = reminder.getHeader() + " " + message;
+
+                    if (gameStage.getFooter() != null)
+                        message = message + " " + gameStage.getFooter();
+                }
             }
 
             if (!message.isEmpty())

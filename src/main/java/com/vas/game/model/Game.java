@@ -38,7 +38,6 @@ public class Game {
     private Boolean replacable;
 //    private Boolean replaceable;
 
-    @Min(0L)
     private Integer chargePerDay;
 
     @Min(0L)
